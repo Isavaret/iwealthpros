@@ -27,8 +27,7 @@ const socialLinks = [
   {
     icon: Share2,
     label: "Facebook",
-    href: "https://facebook.com/iwealth",
-    placeholder: true,
+    href: "https://www.facebook.com/profile.php?id=61589894085994",
   },
   {
     icon: Camera,

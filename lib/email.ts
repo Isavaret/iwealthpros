@@ -37,8 +37,12 @@ function sectionTitle(text: string): string {
 }
 
 export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
-  const adminEmail = process.env.ADMIN_EMAIL;
-  if (!adminEmail || !process.env.RESEND_API_KEY) return;
+  // ADMIN_EMAIL รับได้หลายอีเมล คั่นด้วย comma
+  const recipients = (process.env.ADMIN_EMAIL ?? "")
+    .split(",")
+    .map((e) => e.trim())
+    .filter(Boolean);
+  if (recipients.length === 0 || !process.env.RESEND_API_KEY) return;
 
   const resend = new Resend(process.env.RESEND_API_KEY);
   const appUrl =
@@ -64,7 +68,7 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
 
   await resend.emails.send({
     from: "I Wealth Pros <noreply@iwealthpros.com>",
-    to: adminEmail,
+    to: recipients,
     replyTo: lead.email,
     subject: `ขอข้อเสนอ PVD: ${lead.company_name} — I Wealth Pros`,
     html: `
