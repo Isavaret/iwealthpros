@@ -4,6 +4,7 @@ import PainPointSection from "@/components/PainPointSection";
 import SolutionSection from "@/components/SolutionSection";
 import LeadForm from "@/components/LeadForm";
 import CorpSolutionsSection from "@/components/CorpSolutionsSection";
+import ArticlesSection from "@/components/ArticlesSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <SolutionSection />
       <LeadForm />
       <CorpSolutionsSection />
+      <ArticlesSection />
       <Footer />
     </main>
   );
