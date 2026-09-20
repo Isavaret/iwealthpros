@@ -43,22 +43,43 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer id="footer" className="bg-[#0A192C] text-white">
+    <footer
+      id="footer"
+      className="relative overflow-hidden bg-navy-gradient text-white"
+    >
+      {/* โลโก้ลายน้ำขนาดใหญ่ */}
+      <div
+        className="pointer-events-none absolute -bottom-28 left-1/2 w-[min(90vw,34rem)] -translate-x-1/2 opacity-[0.16] mix-blend-screen [mask-image:radial-gradient(circle_at_center,black_30%,transparent_70%)] [-webkit-mask-image:radial-gradient(circle_at_center,black_30%,transparent_70%)]"
+        aria-hidden="true"
+      >
+        <div className="aspect-[3/2] w-full overflow-hidden">
+          <Image
+            src="/logo-iwealthpros.jpg"
+            alt=""
+            width={680}
+            height={722}
+            sizes="(max-width: 640px) 90vw, 34rem"
+            className="h-full w-full object-cover object-top"
+          />
+        </div>
+      </div>
+
       {/* Main footer */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
-        <div className="grid md:grid-cols-3 gap-10">
+      <div className="container-page relative py-14 sm:py-16">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="mb-5 flex items-center gap-4">
               <Image
                 src="/logo-iwealthpros.jpg"
-                alt="I Wealth Pros"
-                width={120}
-                height={128}
-                className="w-14 h-14 object-cover rounded-xl ring-1 ring-[#CBAE6B]/40"
+                alt="โลโก้ I Wealth Pros"
+                width={256}
+                height={272}
+                sizes="(max-width: 640px) 80px, 96px"
+                className="logo-glow h-20 w-20 rounded-2xl border border-[#CBAE6B]/40 object-cover sm:h-24 sm:w-24"
               />
               <span className="leading-none">
-                <span className="block text-2xl font-bold tracking-[0.12em] text-gold-metallic">
+                <span className="block text-2xl font-bold tracking-[0.12em] text-gold-metallic sm:text-3xl">
                   I WEALTH
                 </span>
                 <span className="block text-[11px] font-semibold tracking-[0.35em] text-[#CBAE6B]/70">
@@ -129,7 +150,7 @@ export default function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="w-10 h-10 rounded-lg bg-white/5 hover:bg-[#CBAE6B]/20 flex items-center justify-center transition-all hover:scale-110"
+                  className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 transition-colors hover:bg-[#CBAE6B]/20"
                 >
                   <s.icon size={18} className="text-[#CBAE6B]" />
                 </a>
@@ -151,7 +172,7 @@ export default function Footer() {
               </p>
               <Link
                 href="/#contact-form"
-                className="block text-center py-2 px-4 rounded-lg bg-gold-metallic text-[#0A192C] font-semibold text-sm transition-colors"
+                className="btn btn-gold w-full text-sm"
               >
                 ขอข้อเสนอ PVD
               </Link>
@@ -161,8 +182,8 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/5">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div className="relative border-t border-white/10">
+        <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-center sm:flex-row sm:text-left">
           <p className="text-white/30 text-xs">
             © 2569 I Wealth Pros. All rights reserved.
           </p>

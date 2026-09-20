@@ -2,7 +2,7 @@
 
 @theme inline {
   /* Brand colors — I Wealth Pros
-     สุ่มสีจากโลโก้จริง (Logo-I-Wealth-Pros.jpg): navy ไล่เฉด + ทองเมทัลลิก */
+     สุ่มสีจากโลโก้จริง (logo-iwealthpros.jpg): navy ไล่เฉด + ทองเมทัลลิก */
   --color-navy-950:   #061020;
   --color-navy-900:   #0A192C;
   --color-navy-800:   #132845;
@@ -27,14 +27,159 @@
   --font-serif: var(--font-prompt), "Prompt", Arial, sans-serif;
 }
 
-* {
+:root {
+  /* ขนาดตัวอักษรแบบ fluid — ปรับตามความกว้างจอต่อเนื่อง ไม่กระโดดตาม breakpoint */
+  --step-h1: clamp(2.125rem, 1.35rem + 3.4vw, 4rem);
+  --step-h2: clamp(1.625rem, 1.15rem + 2.1vw, 2.75rem);
+  --step-h3: clamp(1.125rem, 0.98rem + 0.6vw, 1.375rem);
+  --step-lead: clamp(1rem, 0.95rem + 0.35vw, 1.175rem);
+
+  /* จังหวะระยะห่างของ section */
+  --section-y: clamp(3.5rem, 2rem + 6vw, 7rem);
+  --gutter: clamp(1.25rem, 0.9rem + 1.4vw, 2rem);
+
+  --shadow-card: 0 1px 2px rgb(10 25 44 / 0.04), 0 12px 32px -12px rgb(10 25 44 / 0.15);
+  --shadow-card-hover: 0 2px 4px rgb(10 25 44 / 0.06), 0 24px 48px -16px rgb(10 25 44 / 0.25);
+  --shadow-gold: 0 10px 30px -10px rgb(203 174 107 / 0.55);
+}
+
+html {
   scroll-behavior: smooth;
+  /* กันไม่ให้หัวข้อถูกนาวบาร์ลอยทับตอนกดลิงก์ #anchor */
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+  /* กันเนื้อหาล้นแนวนอนในทุกความกว้างจอ */
+  overflow-x: hidden;
+}
+
+/* โฟกัสมองเห็นชัดสำหรับคีย์บอร์ด */
+:focus-visible {
+  outline: 2px solid #CBAE6B;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@layer components {
+  /* คอนเทนเนอร์และระยะห่างมาตรฐาน — ใช้ทุก section ให้ความกว้างเท่ากัน */
+  .container-page {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section-y {
+    padding-block: var(--section-y);
+  }
+
+  .h1-fluid {
+    font-size: var(--step-h1);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+
+  .h2-fluid {
+    font-size: var(--step-h2);
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+  }
+
+  .h3-fluid {
+    font-size: var(--step-h3);
+    line-height: 1.35;
+  }
+
+  .lead {
+    font-size: var(--step-lead);
+    line-height: 1.75;
+  }
+
+  /* ป้ายกำกับหัวข้อ section */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  /* ปุ่ม — สูงอย่างน้อย 48px ทุกตัว ให้กดง่ายบนมือถือ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease,
+      box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease;
+  }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #E4CC83 0%, #CBAE6B 50%, #A1834C 100%);
+    color: #0A192C;
+    box-shadow: var(--shadow-gold);
+  }
+
+  .btn-gold:hover {
+    background: linear-gradient(135deg, #F0DA8F 0%, #D9BE7A 50%, #B89656 100%);
+    box-shadow: 0 14px 36px -10px rgb(203 174 107 / 0.7);
+  }
+
+  .btn-ghost-light {
+    border: 1px solid rgb(255 255 255 / 0.22);
+    color: #fff;
+    background: rgb(255 255 255 / 0.03);
+  }
+
+  .btn-ghost-light:hover {
+    border-color: #CBAE6B;
+    color: #F0DA8F;
+    background: rgb(203 174 107 / 0.08);
+  }
+
+  /* การ์ด */
+  .card-light {
+    background: #fff;
+    border: 1px solid rgb(10 25 44 / 0.08);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-dark {
+    background: linear-gradient(160deg, rgb(19 40 69 / 0.9), rgb(10 25 44 / 0.9));
+    border: 1px solid rgb(255 255 255 / 0.08);
+    border-radius: 1.25rem;
+  }
+
+  /* ยกการ์ดขึ้นตอน hover ด้วย transform — ไม่ทำให้เลย์เอาต์ขยับ */
+  .hover-lift {
+    transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* กรอบทองบาง ๆ รอบการ์ดเด่น */
+  .ring-gold {
+    border-color: rgb(203 174 107 / 0.35);
+    box-shadow: inset 0 1px 0 rgb(240 218 143 / 0.15),
+      0 20px 50px -24px rgb(203 174 107 / 0.45);
+  }
 }
 
 /* ทองเมทัลลิกแบบเดียวกับตัวอักษรในโลโก้ */
@@ -57,4 +202,49 @@ body {
 .rule-gold {
   height: 1px;
   background: linear-gradient(90deg, transparent, #CBAE6B 20%, #F0DA8F 50%, #CBAE6B 80%, transparent);
+}
+
+/* พื้นหลังตกแต่ง */
+.bg-grid-gold {
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, #CBAE6B 39px, #CBAE6B 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, #CBAE6B 39px, #CBAE6B 40px);
+  opacity: 0.03;
+}
+
+.bg-navy-gradient {
+  background:
+    radial-gradient(90rem 40rem at 50% -10%, rgb(27 53 87 / 0.65), transparent 60%),
+    linear-gradient(180deg, #0A192C 0%, #081525 100%);
+}
+
+.bg-light-gradient {
+  background:
+    radial-gradient(60rem 30rem at 85% 0%, rgb(203 174 107 / 0.1), transparent 60%),
+    linear-gradient(180deg, #FFFFFF 0%, #F6F8FB 100%);
+}
+
+/* แสงทองนวลรอบโลโก้ขนาดใหญ่ */
+.logo-glow {
+  box-shadow: 0 0 0 1px rgb(203 174 107 / 0.35),
+    0 24px 70px -28px rgb(203 174 107 / 0.75);
+}
+
+/* เคารพการตั้งค่า "ลดการเคลื่อนไหว" ของผู้ใช้ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .hover-lift:hover {
+    transform: none;
+  }
 }

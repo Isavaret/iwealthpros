@@ -50,28 +50,28 @@ const products = [
 
 export default function CorpSolutionsSection() {
   return (
-    <section id="services" className="bg-white py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
-          <p className="text-[#856A2E] font-semibold text-sm uppercase tracking-widest mb-3">
+    <section id="services" className="scroll-mt-28 bg-light-gradient section-y">
+      <div className="container-page">
+        <div className="text-center mb-12 sm:mb-16">
+          <p className="mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-[#856A2E]">
             Corporate Solutions
           </p>
-          <h2 className="font-sans text-3xl sm:text-4xl font-bold text-[#0A192C] mb-4">
+          <h2 className="h2-fluid font-bold text-[#0A192C] mb-4 text-balance">
             โซลูชันครบวงจร
             <br />
             สำหรับองค์กรของคุณ
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="lead text-gray-600 max-w-2xl mx-auto text-pretty">
             ค่าใช้จ่ายด้านประกันและสวัสดิการพนักงาน นำมาหักเป็นค่าใช้จ่ายบริษัทได้
             100% ตามที่สรรพากรยอมรับ
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {products.map((product) => (
             <div
               key={product.title}
-              className="rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:shadow-gray-100 transition-all duration-300 hover:-translate-y-1 group"
+              className="card-light hover-lift group flex h-full flex-col overflow-hidden"
             >
               {/* Card header */}
               <div
@@ -90,11 +90,11 @@ export default function CorpSolutionsSection() {
               </div>
 
               {/* Card body */}
-              <div className="p-6 bg-white">
+              <div className="flex flex-1 flex-col p-6">
                 <p className="text-gray-600 text-sm leading-relaxed mb-5">
                   {product.description}
                 </p>
-                <ul className="space-y-2">
+                <ul className="space-y-2.5">
                   {product.highlights.map((h) => (
                     <li key={h} className="flex items-center gap-2.5">
                       <div className="w-5 h-5 rounded-full bg-[#CBAE6B]/10 flex items-center justify-center flex-shrink-0">
@@ -106,7 +106,7 @@ export default function CorpSolutionsSection() {
                 </ul>
                 <a
                   href="#contact-form"
-                  className="mt-6 block text-center py-2.5 px-4 rounded-xl border border-[#0A192C] text-[#0A192C] text-sm font-semibold hover:bg-[#0A192C] hover:text-white transition-all"
+                  className="btn mt-auto w-full border border-[#0A192C] pt-3 text-sm text-[#0A192C] hover:bg-[#0A192C] hover:text-white"
                 >
                   สอบถามข้อมูล
                 </a>

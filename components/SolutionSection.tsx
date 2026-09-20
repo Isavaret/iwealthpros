@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CheckCircle2, XCircle, Sparkles } from "lucide-react";
 
 const pvdBenefits = [
@@ -18,28 +19,26 @@ const welfareDrawbacks = [
 
 export default function SolutionSection() {
   return (
-    <section className="bg-[#0A192C] py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#CBAE6B]/10 border border-[#CBAE6B]/30 mb-6">
-            <Sparkles size={16} className="text-[#CBAE6B]" />
-            <span className="text-[#CBAE6B] text-sm font-medium">
-              ทางเลือกที่ดีกว่า
-            </span>
+    <section className="relative overflow-hidden bg-navy-gradient section-y">
+      <div className="container-page relative">
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="eyebrow mb-6 border border-[#CBAE6B]/30 bg-[#CBAE6B]/10 text-[#F0DA8F]">
+            <Sparkles size={16} className="shrink-0 text-[#CBAE6B]" />
+            ทางเลือกที่ดีกว่า
           </div>
-          <h2 className="font-sans text-3xl sm:text-4xl font-bold text-white mb-4">
+          <h2 className="h2-fluid font-bold text-white mb-4 text-balance">
             PVD คุ้มกว่า
-            <span className="text-[#CBAE6B]"> ทุกมิติ</span>
+            <span className="text-gold-metallic"> ทุกมิติ</span>
           </h2>
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+          <p className="lead text-white/60 max-w-2xl mx-auto text-pretty">
             กองทุนสำรองเลี้ยงชีพ (PVD) ไม่ใช่แค่การปฏิบัติตามกฎหมาย
             แต่คือเครื่องมือวางแผนการเงินที่ให้ผลดีกับทั้งองค์กรและพนักงาน
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6 mb-12">
+        <div className="grid gap-5 sm:gap-6 lg:grid-cols-2 mb-10 sm:mb-12">
           {/* PVD card */}
-          <div className="bg-[#132845] rounded-2xl p-8 border border-[#CBAE6B]/30 relative overflow-hidden">
+          <div className="card-dark ring-gold hover-lift relative overflow-hidden border p-6 sm:p-8">
             <div className="absolute top-0 right-0 w-40 h-40 bg-[#CBAE6B]/5 rounded-full blur-2xl" />
             <div className="relative">
               <div className="flex items-center gap-3 mb-6">
@@ -70,7 +69,7 @@ export default function SolutionSection() {
           </div>
 
           {/* Welfare fund card */}
-          <div className="bg-[#132845]/50 rounded-2xl p-8 border border-white/10">
+          <div className="card-dark hover-lift border p-6 sm:p-8 opacity-90">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
                 <XCircle size={20} className="text-white/40" />
@@ -99,27 +98,32 @@ export default function SolutionSection() {
         </div>
 
         {/* Key message banner */}
-        <div className="bg-gradient-to-r from-[#CBAE6B]/20 to-[#F0DA8F]/10 border border-[#CBAE6B]/30 rounded-2xl p-6 sm:p-8 text-center">
-          <p className="text-white text-lg sm:text-xl font-medium leading-relaxed">
-            บริษัทที่{" "}
-            <span className="text-[#CBAE6B] font-bold">
-              จัดตั้ง PVD ก่อน 1 ต.ค. 2569
-            </span>{" "}
-            จะได้รับการ
-            <span className="text-[#CBAE6B] font-bold">
-              {" "}
-              ยกเว้นโดยอัตโนมัติ
-            </span>{" "}
-            จากกองทุนสงเคราะห์ลูกจ้าง
-            <br className="hidden sm:block" />
-            พร้อมได้ประโยชน์ด้านภาษีและสวัสดิการที่ดีกว่า
-          </p>
-          <a
-            href="#contact-form"
-            className="inline-flex items-center justify-center mt-6 px-8 py-3 rounded-full bg-[#CBAE6B] hover:bg-[#F0DA8F] text-[#0A192C] font-bold transition-all hover:scale-105 shadow-lg shadow-[#CBAE6B]/30"
-          >
-            เริ่มต้นวางแผน PVD ตอนนี้
-          </a>
+        <div className="relative overflow-hidden rounded-3xl border border-[#CBAE6B]/30 bg-gradient-to-br from-[#CBAE6B]/20 via-[#132845]/60 to-[#F0DA8F]/10 p-6 sm:p-9">
+          <div className="relative flex flex-col items-center gap-6 text-center lg:flex-row lg:items-center lg:gap-9 lg:text-left">
+            <Image
+              src="/logo-iwealthpros.jpg"
+              alt="โลโก้ I Wealth Pros"
+              width={288}
+              height={306}
+              sizes="(max-width: 1024px) 7rem, 9rem"
+              className="logo-glow w-28 shrink-0 rounded-2xl border border-[#CBAE6B]/40 object-cover lg:w-36"
+            />
+
+            <div className="flex-1">
+              <p className="text-lg font-medium leading-relaxed text-white sm:text-xl">
+                บริษัทที่{" "}
+                <span className="font-bold text-gold-metallic">
+                  จัดตั้ง PVD ก่อน 1 ต.ค. 2569
+                </span>{" "}
+                จะได้รับการ
+                <span className="font-bold text-gold-metallic"> ยกเว้นโดยอัตโนมัติ</span>{" "}
+                จากกองทุนสงเคราะห์ลูกจ้าง พร้อมได้ประโยชน์ด้านภาษีและสวัสดิการที่ดีกว่า
+              </p>
+              <a href="#contact-form" className="btn btn-gold mt-6 w-full sm:w-auto">
+                เริ่มต้นวางแผน PVD ตอนนี้
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

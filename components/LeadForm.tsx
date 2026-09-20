@@ -136,20 +136,21 @@ export default function LeadForm() {
   }
 
   return (
-    <section id="contact-form" className="bg-gray-50 py-20">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+    <section
+      id="contact-form"
+      className="scroll-mt-28 section-y bg-gradient-to-b from-[#F6F8FB] to-white"
+    >
+      <div className="container-page max-w-3xl">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0A192C] mb-6">
-            <FileText size={15} className="text-[#F0DA8F]" />
-            <span className="text-[#F0DA8F] text-sm font-medium">
-              ขอข้อเสนอกองทุนสำรองเลี้ยงชีพ
-            </span>
+          <div className="eyebrow mb-6 bg-[#0A192C] text-[#F0DA8F]">
+            <FileText size={15} className="shrink-0" />
+            ขอข้อเสนอกองทุนสำรองเลี้ยงชีพ
           </div>
-          <h2 className="font-sans text-3xl sm:text-4xl font-bold text-[#0A192C] mb-4">
+          <h2 className="h2-fluid font-bold text-[#0A192C] mb-4 text-balance">
             รับข้อเสนอ<span className="text-[#856A2E]">ฟรี</span> ไม่มีค่าใช้จ่าย
           </h2>
-          <p className="text-gray-600 max-w-xl mx-auto leading-relaxed">
+          <p className="lead text-gray-600 max-w-xl mx-auto text-pretty">
             กรอกรายละเอียดบริษัทตามแบบฟอร์มด้านล่าง
             ทีมงานจะจัดทำข้อเสนอกองทุนสำรองเลี้ยงชีพให้เหมาะกับองค์กรของคุณ
           </p>
@@ -160,7 +161,7 @@ export default function LeadForm() {
         </div>
 
         {submitted ? (
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-10 text-center">
+          <div className="card-light p-8 text-center sm:p-10">
             <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-5">
               <CheckCircle2 size={32} className="text-green-600" />
             </div>
@@ -182,7 +183,7 @@ export default function LeadForm() {
         ) : (
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8 space-y-7"
+            className="card-light space-y-7 p-5 sm:p-8"
           >
             {/* honeypot — ซ่อนจากผู้ใช้จริง */}
             <input
@@ -497,7 +498,7 @@ export default function LeadForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-4 rounded-xl bg-gold-metallic text-[#0A192C] font-bold text-base transition-all hover:shadow-lg hover:shadow-[#CBAE6B]/30 disabled:opacity-60 flex items-center justify-center gap-2"
+              className="btn btn-gold w-full !rounded-2xl text-base disabled:opacity-60"
             >
               {isSubmitting && <Loader2 size={18} className="animate-spin" />}
               ส่งข้อมูลเพื่อขอข้อเสนอ

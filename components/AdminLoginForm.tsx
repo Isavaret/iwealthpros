@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useActionState } from "react";
 import { Loader2 } from "lucide-react";
 import { signInWithEmail } from "@/app/admin/login/actions";
@@ -13,9 +14,20 @@ export default function AdminLoginForm({ denied }: { denied?: boolean }) {
   return (
     <div className="min-h-screen bg-[#0A192C] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <p className="font-sans text-3xl font-bold text-gold-metallic tracking-[0.12em]">I WEALTH PROS</p>
-          <p className="text-white/50 text-sm mt-1">Admin Dashboard</p>
+        <div className="mb-8 flex flex-col items-center text-center">
+          <Image
+            src="/logo-iwealthpros.jpg"
+            alt="โลโก้ I Wealth Pros"
+            width={224}
+            height={238}
+            priority
+            sizes="112px"
+            className="logo-glow mb-5 h-28 w-28 rounded-2xl border border-[#CBAE6B]/40 object-cover"
+          />
+          <p className="font-sans text-2xl font-bold tracking-[0.12em] text-gold-metallic sm:text-3xl">
+            I WEALTH PROS
+          </p>
+          <p className="mt-1 text-sm text-white/50">Admin Dashboard</p>
         </div>
         <form
           action={formAction}
@@ -57,7 +69,7 @@ export default function AdminLoginForm({ denied }: { denied?: boolean }) {
           <button
             type="submit"
             disabled={isPending}
-            className="mt-6 w-full py-3 rounded-xl bg-[#CBAE6B] hover:bg-[#F0DA8F] text-[#0A192C] font-bold transition disabled:opacity-60 flex items-center justify-center gap-2"
+            className="btn btn-gold mt-6 w-full !rounded-xl disabled:opacity-60"
           >
             {isPending ? <Loader2 size={18} className="animate-spin" /> : null}
             เข้าสู่ระบบ

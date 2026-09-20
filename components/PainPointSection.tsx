@@ -2,30 +2,28 @@ import { AlertTriangle, Calendar, Building2, Users } from "lucide-react";
 
 export default function PainPointSection() {
   return (
-    <section id="pvd" className="bg-white py-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section id="pvd" className="scroll-mt-28 bg-light-gradient section-y">
+      <div className="container-page">
         {/* Section header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 mb-6">
-            <AlertTriangle size={16} className="text-amber-600" />
-            <span className="text-amber-700 text-sm font-medium">
-              กฎหมายใหม่ที่นายจ้างต้องรู้
-            </span>
+        <div className="text-center mb-12 sm:mb-16">
+          <div className="eyebrow mb-6 border border-amber-200 bg-amber-50 text-amber-700">
+            <AlertTriangle size={16} className="shrink-0 text-amber-600" />
+            กฎหมายใหม่ที่นายจ้างต้องรู้
           </div>
-          <h2 className="font-sans text-3xl sm:text-4xl font-bold text-[#0A192C] mb-4">
+          <h2 className="h2-fluid font-bold text-[#0A192C] mb-4 text-balance">
             กองทุนสงเคราะห์ลูกจ้าง
             <br />
-            <span className="text-[#CBAE6B]">เริ่ม 1 ตุลาคม 2569</span>
+            <span className="text-[#856A2E]">เริ่ม 1 ตุลาคม 2569</span>
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="lead text-gray-600 max-w-2xl mx-auto text-pretty">
             ครม. อนุมัติแล้ว — บริษัทที่ยังไม่เตรียมพร้อมอาจต้องแบกรับภาระที่
             ไม่จำเป็น ในขณะที่มีทางเลือกที่ดีกว่าอยู่แล้ว
           </p>
         </div>
 
         {/* Timeline */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-[#0A192C] rounded-2xl p-8 text-white">
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+          <div className="rounded-3xl bg-navy-gradient p-6 sm:p-8 text-white shadow-[var(--shadow-card)] ring-1 ring-[#CBAE6B]/20">
             <h3 className="text-[#CBAE6B] font-semibold text-sm uppercase tracking-wider mb-6">
               ไทม์ไลน์บังคับใช้
             </h3>
@@ -97,10 +95,10 @@ export default function PainPointSection() {
             ].map((item) => (
               <div
                 key={item.title}
-                className={`flex gap-4 p-5 rounded-xl border ${
+                className={`hover-lift flex gap-4 rounded-2xl border p-5 ${
                   item.warning
-                    ? "border-amber-200 bg-amber-50"
-                    : "border-gray-100 bg-gray-50"
+                    ? "border-amber-200 bg-amber-50/80"
+                    : "border-gray-200 bg-white"
                 }`}
               >
                 <div

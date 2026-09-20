@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import BrandStrip from "@/components/BrandStrip";
 import PainPointSection from "@/components/PainPointSection";
 import SolutionSection from "@/components/SolutionSection";
 import LeadForm from "@/components/LeadForm";
@@ -12,6 +13,7 @@ export default function Home() {
     <main>
       <Navbar />
       <HeroSection />
+      <BrandStrip />
       <PainPointSection />
       <SolutionSection />
       <LeadForm />

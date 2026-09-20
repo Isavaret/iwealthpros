@@ -40,11 +40,11 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <>
       <Navbar />
-      <main className="pt-18">
+      <main>
         {/* Article header */}
-        <header className="bg-[#0A192C] py-14 sm:py-16 relative overflow-hidden">
+        <header className="relative overflow-hidden bg-navy-gradient pt-28 pb-12 sm:pt-36 sm:pb-16">
           <div className="absolute bottom-0 left-0 w-[420px] h-[420px] bg-[#CBAE6B]/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
-          <div className="relative max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="container-page relative max-w-3xl">
             <Link
               href="/articles"
               className="inline-flex items-center gap-1.5 text-white/50 hover:text-[#CBAE6B] text-sm transition-colors mb-8"
@@ -56,7 +56,7 @@ export default async function ArticlePage({ params }: Props) {
             <p className="text-[#CBAE6B] text-xs font-semibold uppercase tracking-widest mb-4">
               บทความที่ {article.order} · {article.category}
             </p>
-            <h1 className="font-sans text-3xl sm:text-4xl font-bold text-white leading-snug mb-5">
+            <h1 className="h2-fluid font-bold text-white mb-5 text-balance">
               {article.title}
             </h1>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-white/40 text-sm">

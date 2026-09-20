@@ -16,23 +16,21 @@ export default function ArticlesPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-18">
+      <main>
         {/* Header */}
-        <section className="bg-[#0A192C] py-16 sm:py-20 relative overflow-hidden">
+        <section className="relative overflow-hidden bg-navy-gradient pt-28 pb-14 sm:pt-36 sm:pb-20">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#CBAE6B]/5 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none" />
-          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#CBAE6B]/10 border border-[#CBAE6B]/30 mb-6">
-              <BookOpen size={16} className="text-[#CBAE6B]" />
-              <span className="text-[#CBAE6B] text-sm font-medium">
-                ชุดบทความให้ความรู้
-              </span>
+          <div className="container-page relative text-center">
+            <div className="eyebrow mb-6 border border-[#CBAE6B]/30 bg-[#CBAE6B]/10 text-[#F0DA8F]">
+              <BookOpen size={16} className="shrink-0 text-[#CBAE6B]" />
+              ชุดบทความให้ความรู้
             </div>
-            <h1 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-5">
+            <h1 className="h1-fluid font-bold text-white mb-5 text-balance">
               กองทุนสำรองเลี้ยงชีพ (PVD)
               <br />
               <span className="text-gold-metallic">เพื่อธุรกิจยุคใหม่</span>
             </h1>
-            <p className="text-white/60 max-w-2xl mx-auto leading-relaxed">
+            <p className="lead text-white/60 max-w-2xl mx-auto text-pretty">
               รวมบทความที่เจ้าของกิจการและฝ่าย HR ควรรู้ ก่อนตัดสินใจจัดตั้งกองทุนสำรองเลี้ยงชีพ
               พร้อมอัปเดตกฎหมายที่จะมีผลบังคับใช้ 1 ตุลาคม 2569
             </p>
@@ -44,15 +42,15 @@ export default function ArticlesPage() {
         </section>
 
         {/* Article grid */}
-        <section className="bg-gray-50 py-16 sm:py-20">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="grid sm:grid-cols-2 gap-6">
+        <section className="bg-light-gradient section-y">
+          <div className="container-page">
+            <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
               {articles.map((article) => (
                 <ArticleCard key={article.slug} article={article} />
               ))}
             </div>
 
-            <div className="mt-12 bg-[#0A192C] rounded-2xl p-8 sm:p-10 text-center">
+            <div className="mt-12 rounded-3xl bg-navy-gradient p-8 text-center ring-1 ring-[#CBAE6B]/20 sm:p-10">
               <h2 className="text-white text-xl sm:text-2xl font-bold mb-3">
                 อยากรู้ว่าแบบไหนเหมาะกับบริษัทคุณ?
               </h2>
