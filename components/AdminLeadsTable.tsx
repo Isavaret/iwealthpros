@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import type { Lead, LeadStatus } from "@/types/lead";
-import { createClient } from "@/lib/supabase-browser";
 
 const statusLabels: Record<LeadStatus, string> = {
   new: "ใหม่",
@@ -88,18 +87,17 @@ export default function AdminLeadsTable({
   async function updateStatus(id: string, status: LeadStatus) {
     setUpdating(id);
     setUpdateError(null);
-    const supabase = createClient();
-    const { error } = await supabase
-      .from("leads")
-      .update({ status })
-      .eq("id", id);
-    if (error) {
-      console.error("Status update error:", error);
-      setUpdateError("อัปเดตสถานะไม่สำเร็จ — ตรวจสอบ RLS policy ของตาราง leads");
-    } else {
-      setLeads((prev) =>
-        prev.map((l) => (l.id === id ? { ...l, status } : l))
-      );
+    try {
+      const res = await fetch(`/api/leads/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setLeads((prev) => prev.map((l) => (l.id === id ? { ...l, status } : l)));
+    } catch (err) {
+      console.error("Status update error:", err);
+      setUpdateError("อัปเดตสถานะไม่สำเร็จ — ลองใหม่อีกครั้ง");
     }
     setUpdating(null);
   }

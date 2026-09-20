@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Next.js 16** (App Router, Turbopack) — see `AGENTS.md`: read `node_modules/next/dist/docs/` before relying on older Next.js conventions
 - **Tailwind CSS v4** (theme tokens live in `app/globals.css`, no `tailwind.config`)
-- **Supabase** — `leads` table + Auth (admin)
+- **Neon** — serverless Postgres (`leads` table) via `@neondatabase/serverless`, plus Neon Auth (Managed Better Auth) for the admin login
 - **Resend** — email notifications for new leads
 - **Vercel** — deployment target
 
@@ -46,28 +46,28 @@ Landing page (`app/page.tsx`) composed of section components:
 
 Other routes:
 - `/articles` — article index; `/articles/[slug]` — statically generated article pages. Content lives in `lib/articles.ts` as typed blocks (`paragraph` / `list` / `steps`), not MDX.
-- `/admin` — leads dashboard (status updates + CSV export); `/admin/login` — Supabase Auth sign-in.
+- `/admin` — leads dashboard (status updates + CSV export); `/admin/login` — Neon Auth sign-in (server action in `app/admin/login/actions.ts`).
 
-Route protection lives in **`proxy.ts`** (Next.js 16 renamed middleware to proxy) — matcher `/admin/:path*`, redirects anonymous users to `/admin/login` and logged-in users away from the login page.
+Route protection lives in **`proxy.ts`** (Next.js 16 renamed middleware to proxy) — `auth.middleware({ loginUrl: "/admin/login" })` with matcher `["/admin", "/admin/((?!login).*)"]`. The login page must stay outside the matcher or the redirect loops.
 
 API routes:
-- `POST /api/leads` — validates the payload with zod (plus a `website` honeypot field), inserts into Supabase using the service-role key, then sends the notification email via `lib/email.ts`
-- `POST /api/auth/signout` — signs out and redirects to `/admin/login`
+- `POST /api/leads` — validates the payload with zod (plus a `website` honeypot field), inserts into Neon, then sends the notification email via `lib/email.ts`
+- `PATCH /api/leads/[id]` — updates a lead's status; requires a session, called from `AdminLeadsTable`
+- `GET|POST /api/auth/[...path]` — Neon Auth handler (`auth.handler()`), proxies every auth call
 
-`lib/supabase-server.ts` exports `createClient()` (cookie-based, respects RLS) and `createServiceClient()` (service-role, bypasses RLS — server only).
+`lib/db.ts` exports `sql`, the Neon HTTP client (server only). `lib/auth/server.ts` exports `auth` (handler, middleware, `getSession`, `signIn`); `lib/auth/client.ts` exports `authClient` for client components such as `SignOutButton`.
 
 ## Database
 
-`supabase/schema.sql` is the source of truth; `supabase/migrations/0002_requisition_fields.sql` upgrades databases created from the older schema. RLS is on: `service_role` has full access, `authenticated` can select/update. Anonymous inserts are deliberately **not** allowed — the public form writes through `/api/leads` with the service-role key.
-
-Both have been applied to the live project (`jzfegdghcdavncayeybf`). The `leads` table has 26 columns matching `types/lead.ts`.
+`db/schema.sql` is the source of truth — a plain Postgres schema with no RLS, because the app connects as the database owner and the public form only ever writes through `/api/leads`. Admin users live in the `neon_auth` schema that Neon Auth manages.
 
 ## Known Configuration
 
-- Supabase project: `jzfegdghcdavncayeybf` (region ap-south-1) — no admin user exists yet; create one under Authentication → Users before `/admin` can be used.
+- Neon project: `falling-water-96379656`, branch `br-quiet-shadow-b3ionqe2`. Migrated off Supabase (project `jzfegdghcdavncayeybf`) — nothing was carried over, the old `leads` table was empty.
+- `@neondatabase/auth` is currently a beta release (0.5.0-beta); pin deliberately when upgrading.
 - Vercel project: `iwealthpros` under team `iw-ealth-pros-projects`.
 - GitHub: `Isavaret/iwealthpros` — the local machine authenticates to GitHub as `oboberon`, which does not have write access to that repo.
-- The Neon MCP server is disabled (`.claude/settings.local.json`). Do not suggest Neon.
+- `.claude/settings.local.json` disables the project-level `neon` MCP server; Neon tooling in this session comes from the separately configured Neon MCP instead.
 - Contact details in `Footer.tsx` (Line, phone, email, social links) are placeholders, flagged with `placeholder: true` — owner will fill in later.
 - `public/profile.png` is a placeholder image — owner will provide the real one later.
 - `gh` CLI in this environment is an x86 binary and cannot run on this machine.

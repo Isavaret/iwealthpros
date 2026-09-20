@@ -1,56 +1,14 @@
-import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
+import { auth } from "@/lib/auth/server";
 
-export async function proxy(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
-      },
-    }
-  );
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // Protect /admin (but not /admin/login)
-  if (
-    request.nextUrl.pathname.startsWith("/admin") &&
-    !request.nextUrl.pathname.startsWith("/admin/login")
-  ) {
-    if (!user) {
-      const loginUrl = request.nextUrl.clone();
-      loginUrl.pathname = "/admin/login";
-      return NextResponse.redirect(loginUrl);
-    }
-  }
-
-  // Redirect logged-in users away from login page
-  if (request.nextUrl.pathname === "/admin/login" && user) {
-    const adminUrl = request.nextUrl.clone();
-    adminUrl.pathname = "/admin";
-    return NextResponse.redirect(adminUrl);
-  }
-
-  return supabaseResponse;
-}
+/**
+ * ป้องกันหน้า /admin — ผู้ที่ยังไม่ล็อกอินจะถูกส่งไปหน้า login
+ * (Next.js 16 เปลี่ยนชื่อ middleware.ts เป็น proxy.ts)
+ */
+export default auth.middleware({
+  loginUrl: "/admin/login",
+});
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  // จับทุกหน้าใต้ /admin ยกเว้น /admin/login เอง — ไม่งั้น redirect วนลูป
+  matcher: ["/admin", "/admin/((?!login).*)"],
 };

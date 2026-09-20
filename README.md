@@ -5,7 +5,7 @@
 
 ## Stack
 
-Next.js 16 (App Router) · Tailwind CSS v4 · Supabase (Postgres + Auth) · Resend · Vercel
+Next.js 16 (App Router) · Tailwind CSS v4 · Neon (Postgres + Neon Auth) · Resend · Vercel
 
 ## เริ่มต้นใช้งาน
 
@@ -19,16 +19,16 @@ npm run dev                        # http://localhost:3000
 
 | ตัวแปร | ใช้ทำอะไร | หาได้จาก |
 |---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | เชื่อมต่อ Supabase | Dashboard → Project Settings → API |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | client-side auth (หน้า `/admin/login`) | ที่เดียวกัน |
-| `SUPABASE_SERVICE_ROLE_KEY` | เขียน lead จาก `/api/leads` (ข้าม RLS) | ที่เดียวกัน — **ห้าม** ให้หลุดไปฝั่ง client |
+| `DATABASE_URL` | เชื่อมต่อ Neon Postgres (ใช้ connection string แบบ pooled) | Neon Console → Project → Connect |
+| `NEON_AUTH_BASE_URL` | Neon Auth endpoint สำหรับหน้า `/admin` | Neon Console → Branch → Auth → Configuration |
+| `NEON_AUTH_COOKIE_SECRET` | เข้ารหัส session cookie (≥32 ตัวอักษร) | สร้างเอง: `openssl rand -base64 32` |
 | `RESEND_API_KEY` | ส่งอีเมลแจ้งเตือน lead ใหม่ | resend.com/api-keys |
 | `ADMIN_EMAIL` | ปลายทางอีเมลแจ้งเตือน | — |
 | `NEXT_PUBLIC_APP_URL` | ใช้ทำ absolute URL ตอน redirect | — |
 
 ### ตั้งค่าฐานข้อมูล
 
-รัน `supabase/schema.sql` ใน SQL Editor ของ Supabase (ถ้าฐานข้อมูลเดิมสร้างจาก schema เวอร์ชันก่อน ให้รัน `supabase/migrations/0002_requisition_fields.sql` แทน) จากนั้นสร้างผู้ใช้ admin ที่ Authentication → Users เพื่อเข้าหน้า `/admin`
+รัน `db/schema.sql` ใน SQL Editor ของ Neon เพื่อสร้างตาราง `leads` จากนั้นเปิด Auth ที่ Neon Console (Project → Branch → Auth → Enable Auth) แล้วสร้างผู้ใช้ admin คนแรกเพื่อเข้าหน้า `/admin`
 
 ## โครงสร้าง
 
@@ -37,11 +37,11 @@ app/
   page.tsx              หน้า landing (ประกอบจาก components/)
   articles/             หน้ารวมบทความ + บทความรายชิ้น (SSG)
   admin/                ตาราง leads + หน้า login
-  api/leads/            รับข้อมูลฟอร์ม → Supabase → อีเมลแจ้งเตือน
-  api/auth/signout/     ออกจากระบบ
+  api/leads/            รับข้อมูลฟอร์ม → Neon → อีเมลแจ้งเตือน (+ PATCH [id] อัปเดตสถานะ)
+  api/auth/[...path]/   Neon Auth handler (login / logout / session)
 components/             section components ของหน้า landing + ฟอร์ม + ตาราง admin
-lib/                    articles content, email template, supabase clients
-supabase/               schema.sql + migrations
+lib/                    articles content, email template, Neon db + auth clients
+db/                     schema.sql
 proxy.ts                ป้องกันเส้นทาง /admin (Next.js 16 middleware)
 ```
 

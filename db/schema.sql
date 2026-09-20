@@ -1,9 +1,11 @@
--- I Wealth Pros — Supabase Schema
--- รันใน SQL Editor ใน Supabase Dashboard
+-- I Wealth Pros — Neon Postgres schema
+-- รันใน Neon SQL Editor (Console → Project → SQL Editor) หรือผ่าน psql
 -- โครงสร้างตรงตามแบบฟอร์ม "รายละเอียดลูกค้าสำหรับการออกข้อเสนอกองทุนสำรองเลี้ยงชีพ"
 -- (Requisition for Provident Fund Proposal)
+--
+-- ผู้ใช้ admin เก็บอยู่ใน schema neon_auth ซึ่ง Neon Auth สร้างให้อัตโนมัติ
+-- แอปเชื่อมต่อด้วย role เจ้าของฐานข้อมูล จึงไม่ต้องใช้ RLS policy แบบ Supabase
 
--- 1. สร้าง leads table
 CREATE TABLE IF NOT EXISTS leads (
   id                       UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
@@ -46,34 +48,3 @@ CREATE TABLE IF NOT EXISTS leads (
 
 CREATE INDEX IF NOT EXISTS leads_created_at_idx ON leads (created_at DESC);
 CREATE INDEX IF NOT EXISTS leads_status_idx ON leads (status);
-
--- 2. Enable Row Level Security
-ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
-
--- 3. Policy: service_role อ่าน/เขียนได้ทุกอย่าง (ใช้ใน API route และ admin dashboard)
-DROP POLICY IF EXISTS "service_role_full_access" ON leads;
-CREATE POLICY "service_role_full_access" ON leads
-  FOR ALL
-  TO service_role
-  USING (true)
-  WITH CHECK (true);
-
--- 4. Policy: ผู้ใช้ที่ล็อกอินแล้ว (admin) อ่านและอัปเดตสถานะ lead ได้
---    จำเป็นสำหรับปุ่มเปลี่ยนสถานะในหน้า /admin ซึ่งเรียกผ่าน browser client
-DROP POLICY IF EXISTS "authenticated_can_read" ON leads;
-CREATE POLICY "authenticated_can_read" ON leads
-  FOR SELECT
-  TO authenticated
-  USING (true);
-
-DROP POLICY IF EXISTS "authenticated_can_update" ON leads;
-CREATE POLICY "authenticated_can_update" ON leads
-  FOR UPDATE
-  TO authenticated
-  USING (true)
-  WITH CHECK (true);
-
--- หมายเหตุ: ฟอร์มหน้าเว็บส่งข้อมูลผ่าน POST /api/leads ซึ่งใช้ service_role key
--- จึงไม่ต้องเปิด policy ให้ anon INSERT (ลดความเสี่ยงการยิงข้อมูลขยะเข้าตารางโดยตรง)
-
--- 5. สร้าง admin user ได้ที่ Authentication > Users ใน Supabase Dashboard

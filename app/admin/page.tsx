@@ -1,24 +1,25 @@
 import { redirect } from "next/navigation";
-import { createClient, createServiceClient } from "@/lib/supabase-server";
+import { auth } from "@/lib/auth/server";
+import { sql } from "@/lib/db";
 import AdminLeadsTable from "@/components/AdminLeadsTable";
+import SignOutButton from "@/components/SignOutButton";
 import type { Lead } from "@/types/lead";
-import { LogOut } from "lucide-react";
+
+// ใช้ session + query ฐานข้อมูล จึงต้อง render แบบ dynamic
+export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: session } = await auth.getSession();
+  if (!session?.user) redirect("/admin/login");
 
-  if (!user) redirect("/admin/login");
-
-  const serviceClient = createServiceClient();
-  const { data: leads, error } = await serviceClient
-    .from("leads")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) console.error("Leads fetch error:", error);
+  let leads: Lead[] = [];
+  try {
+    leads = (await sql`
+      SELECT * FROM leads ORDER BY created_at DESC
+    `) as Lead[];
+  } catch (err) {
+    console.error("Leads fetch error:", err);
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -29,19 +30,14 @@ export default async function AdminPage() {
             I Wealth Pros <span className="text-white/40 text-sm font-normal ml-1">Admin</span>
           </p>
           <div className="flex items-center gap-4">
-            <span className="text-white/50 text-sm">{user.email}</span>
-            <form action="/api/auth/signout" method="POST">
-              <button className="flex items-center gap-1.5 text-white/50 hover:text-white text-sm transition-colors">
-                <LogOut size={14} />
-                ออกจากระบบ
-              </button>
-            </form>
+            <span className="text-white/50 text-sm">{session.user.email}</span>
+            <SignOutButton />
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <AdminLeadsTable initialLeads={(leads as Lead[]) ?? []} />
+        <AdminLeadsTable initialLeads={leads} />
       </main>
     </div>
   );

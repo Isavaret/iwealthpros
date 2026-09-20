@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { sql } from "@/lib/db";
 import { z } from "zod";
 import { sendLeadNotification } from "@/lib/email";
 
@@ -80,38 +80,41 @@ export async function POST(req: NextRequest) {
       ...(lead.has_group_insurance ? {} : { group_insurance_company: undefined }),
     };
 
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
-
-    const { data, error } = await supabase
-      .from("leads")
-      .insert(
-        Object.fromEntries(
-          Object.entries(record).map(([k, v]) => [k, v === undefined ? null : v])
-        )
+    const [inserted] = await sql`
+      INSERT INTO leads (
+        proposal_language, company_name, contact_person, position,
+        company_address, phone, business_type, employees_count,
+        total_basic_salary, email,
+        has_existing_pvd, pvd_data_as_of, pvd_fund_size,
+        pvd_monthly_contribution, pvd_members_count, pvd_current_manager,
+        pvd_investment_policy, pvd_management_fee, pvd_ytd_yield,
+        has_group_insurance, group_insurance_company, message
+      ) VALUES (
+        ${record.proposal_language}, ${record.company_name},
+        ${record.contact_person}, ${record.position ?? null},
+        ${record.company_address ?? null}, ${record.phone},
+        ${record.business_type ?? null}, ${record.employees_count ?? null},
+        ${record.total_basic_salary ?? null}, ${record.email},
+        ${record.has_existing_pvd}, ${record.pvd_data_as_of ?? null},
+        ${record.pvd_fund_size ?? null}, ${record.pvd_monthly_contribution ?? null},
+        ${record.pvd_members_count ?? null}, ${record.pvd_current_manager ?? null},
+        ${record.pvd_investment_policy ?? null}, ${record.pvd_management_fee ?? null},
+        ${record.pvd_ytd_yield ?? null}, ${record.has_group_insurance},
+        ${record.group_insurance_company ?? null}, ${record.message ?? null}
       )
-      .select("id")
-      .single();
-
-    if (error) {
-      console.error("Supabase insert error:", error);
-      return NextResponse.json(
-        { error: "ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่" },
-        { status: 500 }
-      );
-    }
+      RETURNING id
+    `;
 
     // แจ้งเตือนอีเมล — ไม่ให้อีเมลล้มเหลวมาทำให้ลูกค้าเห็น error
     try {
-      await sendLeadNotification({ ...record, id: data.id });
+      await sendLeadNotification({ ...record, id: inserted.id });
     } catch (err) {
       console.error("Notification error:", err);
     }
 
-    return NextResponse.json({ success: true, id: data.id }, { status: 200 });
-  } catch {
+    return NextResponse.json({ success: true, id: inserted.id }, { status: 200 });
+  } catch (err) {
+    console.error("Lead insert error:", err);
     return NextResponse.json(
       { error: "เกิดข้อผิดพลาด กรุณาลองใหม่" },
       { status: 500 }
