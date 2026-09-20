@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/lib/auth/server";
+import { isAdminEmail } from "@/lib/auth/admins";
 import { sql } from "@/lib/db";
 
 const patchSchema = z.object({
@@ -13,7 +14,7 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { data: session } = await auth.getSession();
-  if (!session?.user) {
+  if (!session?.user || !isAdminEmail(session.user.email)) {
     return NextResponse.json({ error: "ไม่ได้รับอนุญาต" }, { status: 401 });
   }
 

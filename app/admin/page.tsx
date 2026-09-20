@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth/server";
+import { isAdminEmail } from "@/lib/auth/admins";
 import { sql } from "@/lib/db";
 import AdminLeadsTable from "@/components/AdminLeadsTable";
 import SignOutButton from "@/components/SignOutButton";
@@ -11,6 +12,8 @@ export const dynamic = "force-dynamic";
 export default async function AdminPage() {
   const { data: session } = await auth.getSession();
   if (!session?.user) redirect("/admin/login");
+  // มี session แต่ไม่ได้อยู่ใน allowlist = ไม่ใช่แอดมิน
+  if (!isAdminEmail(session.user.email)) redirect("/admin/login?denied=1");
 
   let leads: Lead[] = [];
   try {

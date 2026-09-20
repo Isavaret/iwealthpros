@@ -61,9 +61,15 @@ API routes:
 
 `db/schema.sql` is the source of truth — a plain Postgres schema with no RLS, because the app connects as the database owner and the public form only ever writes through `/api/leads`. Admin users live in the `neon_auth` schema that Neon Auth manages.
 
+## Admin access
+
+Neon Auth allows public sign-up (`allow_sign_up: true`, plus shared Google OAuth), so **a session alone does not mean admin**. `lib/auth/admins.ts` gates `/admin` and `PATCH /api/leads/[id]` against the `ADMIN_EMAILS` allowlist; a signed-in address outside it is bounced to `/admin/login?denied=1`. Keep that check in place on any new admin surface, and add the address to `ADMIN_EMAILS` when onboarding someone.
+
+Create an admin account with `node --env-file=.env.local scripts/create-admin.mjs` (prompts for email/password, no secrets on screen). The Neon Auth endpoints reject requests without an `Origin` header.
+
 ## Known Configuration
 
-- Neon project: `falling-water-96379656`, branch `br-quiet-shadow-b3ionqe2`. Migrated off Supabase (project `jzfegdghcdavncayeybf`) — nothing was carried over, the old `leads` table was empty.
+- Neon project: `iwealthpros` / `green-band-83884962`, branch `main` (`br-withered-heart-azb7u5r5`), region ap-southeast-1. Migrated off Supabase (`jzfegdghcdavncayeybf`) — nothing was carried over, the old `leads` table was empty.
 - `@neondatabase/auth` is currently a beta release (0.5.0-beta); pin deliberately when upgrading.
 - Vercel project: `iwealthpros` under team `iw-ealth-pros-projects`.
 - GitHub: `Isavaret/iwealthpros` — the local machine authenticates to GitHub as `oboberon`, which does not have write access to that repo.
