@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Build artifacts ของ Vercel CLI — ไม่ใช่ซอร์สโค้ดของเรา
+    ".vercel/**",
   ]),
 ]);
 
