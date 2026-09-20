@@ -1,16 +1,26 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Brand colors — I Wealth (reference: royal navy + warm gold) */
-  --color-navy-dark:  #0D1E45;
-  --color-navy:       #122050;
-  --color-navy-light: #1C3070;
-  --color-gold:       #C9A84C;
-  --color-gold-light: #E0C070;
-  --color-gold-pale:  #F2E4B8;
+  /* Brand colors — I Wealth Pros
+     สุ่มสีจากโลโก้จริง (Logo-I-Wealth-Pros.jpg): navy ไล่เฉด + ทองเมทัลลิก */
+  --color-navy-950:   #061020;
+  --color-navy-900:   #0A192C;
+  --color-navy-800:   #132845;
+  --color-navy-700:   #1B3557;
+  --color-navy-600:   #24446C;
+
+  --color-gold:       #CBAE6B;  /* ทองหลัก (ค่าเฉลี่ยจากตัวอักษรในโลโก้) */
+  --color-gold-light: #F0DA8F;  /* ไฮไลต์ทอง */
+  --color-gold-deep:  #856A2E;  /* ทองเข้ม — ใช้กับตัวอักษรบนพื้นสว่าง */
+  --color-gold-pale:  #F7EBC6;
+
+  /* alias เดิม เพื่อความเข้ากันได้ */
+  --color-navy-dark:  #0A192C;
+  --color-navy:       #132845;
+  --color-navy-light: #1B3557;
 
   --color-background: #ffffff;
-  --color-foreground: #1a1a1a;
+  --color-foreground: #16202E;
 
   /* Prompt is the only font — Thai sans-serif, professional */
   --font-sans: var(--font-prompt), "Prompt", "Noto Sans Thai", Arial, sans-serif;
@@ -25,4 +35,26 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
+}
+
+/* ทองเมทัลลิกแบบเดียวกับตัวอักษรในโลโก้ */
+.text-gold-metallic {
+  background: linear-gradient(180deg, #F0DA8F 0%, #CBAE6B 45%, #A1834C 70%, #EBD589 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-gold-metallic {
+  background: linear-gradient(135deg, #E4CC83 0%, #CBAE6B 50%, #A1834C 100%);
+}
+
+.bg-gold-metallic:hover {
+  background: linear-gradient(135deg, #F0DA8F 0%, #D9BE7A 50%, #B89656 100%);
+}
+
+/* เส้นคั่นทองบาง ๆ แบบในโลโก้ */
+.rule-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #CBAE6B 20%, #F0DA8F 50%, #CBAE6B 80%, transparent);
 }

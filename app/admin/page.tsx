@@ -23,10 +23,10 @@ export default async function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top bar */}
-      <header className="bg-[#0D1E45] border-b border-white/10">
+      <header className="bg-[#0A192C] border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <p className="font-sans text-xl font-bold text-[#C9A84C]">
-            I Wealth <span className="text-white/40 text-sm font-normal ml-1">Admin</span>
+          <p className="font-sans text-xl font-bold text-[#CBAE6B]">
+            I Wealth Pros <span className="text-white/40 text-sm font-normal ml-1">Admin</span>
           </p>
           <div className="flex items-center gap-4">
             <span className="text-white/50 text-sm">{user.email}</span>

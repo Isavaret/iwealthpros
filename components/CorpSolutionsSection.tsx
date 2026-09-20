@@ -13,8 +13,8 @@ const products = [
       "สรรพากรยอมรับ",
       "เฉพาะแบบ Non-Unit Linked",
     ],
-    accentColor: "from-[#0D1E45] to-[#122050]",
-    badgeColor: "bg-[#C9A84C]/10 text-[#C9A84C] border-[#C9A84C]/30",
+    accentColor: "from-[#0A192C] to-[#132845]",
+    badgeColor: "bg-[#CBAE6B]/10 text-[#CBAE6B] border-[#CBAE6B]/30",
   },
   {
     icon: Users,
@@ -28,8 +28,8 @@ const products = [
       "แบ่งกลุ่มตามระดับพนักงาน",
       "เบี้ยเป็นค่าใช้จ่ายบริษัท",
     ],
-    accentColor: "from-[#1A3070] to-[#122050]",
-    badgeColor: "bg-[#C9A84C]/10 text-[#C9A84C] border-[#C9A84C]/30",
+    accentColor: "from-[#1B3557] to-[#132845]",
+    badgeColor: "bg-[#CBAE6B]/10 text-[#CBAE6B] border-[#CBAE6B]/30",
   },
   {
     icon: PiggyBank,
@@ -43,8 +43,8 @@ const products = [
       "ยกเว้นกองทุนสงเคราะห์อัตโนมัติ",
       "เงินเติบโตพร้อมการลงทุน",
     ],
-    accentColor: "from-[#0D2255] to-[#122050]",
-    badgeColor: "bg-[#C9A84C]/10 text-[#C9A84C] border-[#C9A84C]/30",
+    accentColor: "from-[#1B3557] to-[#132845]",
+    badgeColor: "bg-[#CBAE6B]/10 text-[#CBAE6B] border-[#CBAE6B]/30",
   },
 ];
 
@@ -53,10 +53,10 @@ export default function CorpSolutionsSection() {
     <section id="services" className="bg-white py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-16">
-          <p className="text-[#C9A84C] font-semibold text-sm uppercase tracking-widest mb-3">
+          <p className="text-[#856A2E] font-semibold text-sm uppercase tracking-widest mb-3">
             Corporate Solutions
           </p>
-          <h2 className="font-sans text-3xl sm:text-4xl font-bold text-[#0D1E45] mb-4">
+          <h2 className="font-sans text-3xl sm:text-4xl font-bold text-[#0A192C] mb-4">
             โซลูชันครบวงจร
             <br />
             สำหรับองค์กรของคุณ
@@ -77,15 +77,15 @@ export default function CorpSolutionsSection() {
               <div
                 className={`bg-gradient-to-br ${product.accentColor} p-6 relative overflow-hidden`}
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#C9A84C]/5 rounded-full blur-2xl" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#CBAE6B]/5 rounded-full blur-2xl" />
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl bg-[#C9A84C]/20 flex items-center justify-center mb-4">
-                    <product.icon size={24} className="text-[#C9A84C]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#CBAE6B]/20 flex items-center justify-center mb-4">
+                    <product.icon size={24} className="text-[#CBAE6B]" />
                   </div>
                   <h3 className="text-white font-bold text-lg mb-0.5">
                     {product.title}
                   </h3>
-                  <p className="text-[#C9A84C] text-sm">{product.subtitle}</p>
+                  <p className="text-[#CBAE6B] text-sm">{product.subtitle}</p>
                 </div>
               </div>
 
@@ -97,8 +97,8 @@ export default function CorpSolutionsSection() {
                 <ul className="space-y-2">
                   {product.highlights.map((h) => (
                     <li key={h} className="flex items-center gap-2.5">
-                      <div className="w-5 h-5 rounded-full bg-[#C9A84C]/10 flex items-center justify-center flex-shrink-0">
-                        <Check size={12} className="text-[#C9A84C]" />
+                      <div className="w-5 h-5 rounded-full bg-[#CBAE6B]/10 flex items-center justify-center flex-shrink-0">
+                        <Check size={12} className="text-[#856A2E]" />
                       </div>
                       <span className="text-gray-700 text-sm">{h}</span>
                     </li>
@@ -106,7 +106,7 @@ export default function CorpSolutionsSection() {
                 </ul>
                 <a
                   href="#contact-form"
-                  className="mt-6 block text-center py-2.5 px-4 rounded-xl border border-[#0D1E45] text-[#0D1E45] text-sm font-semibold hover:bg-[#0D1E45] hover:text-white transition-all"
+                  className="mt-6 block text-center py-2.5 px-4 rounded-xl border border-[#0A192C] text-[#0A192C] text-sm font-semibold hover:bg-[#0A192C] hover:text-white transition-all"
                 >
                   สอบถามข้อมูล
                 </a>
@@ -116,13 +116,13 @@ export default function CorpSolutionsSection() {
         </div>
 
         {/* Tax benefit banner */}
-        <div className="mt-12 bg-[#F2E4B8]/40 border border-[#C9A84C]/30 rounded-2xl p-6 sm:p-8">
+        <div className="mt-12 bg-[#F7EBC6]/40 border border-[#CBAE6B]/30 rounded-2xl p-6 sm:p-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-[#C9A84C]/20 flex items-center justify-center flex-shrink-0">
-              <Shield size={24} className="text-[#C9A84C]" />
+            <div className="w-12 h-12 rounded-xl bg-[#CBAE6B]/20 flex items-center justify-center flex-shrink-0">
+              <Shield size={24} className="text-[#856A2E]" />
             </div>
             <div>
-              <h4 className="font-bold text-[#0D1E45] mb-1">
+              <h4 className="font-bold text-[#0A192C] mb-1">
                 ประโยชน์ด้านภาษีสำหรับองค์กร
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">

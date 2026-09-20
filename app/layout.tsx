@@ -10,11 +10,11 @@ const prompt = Prompt({
 });
 
 export const metadata: Metadata = {
-  title: "I Wealth | ที่ปรึกษาการเงินและการลงทุน",
+  title: "I Wealth Pros | ที่ปรึกษาการเงินและกองทุนสำรองเลี้ยงชีพ",
   description:
-    "I Wealth — ที่ปรึกษาด้านการเงินและการลงทุน ผู้เชี่ยวชาญกองทุนสำรองเลี้ยงชีพ รางวัล Provident Fund Of the Year 2022 & 2025",
+    "I Wealth Pros — ที่ปรึกษาด้านการเงินและการลงทุน ผู้เชี่ยวชาญกองทุนสำรองเลี้ยงชีพ (PVD) รางวัล Provident Fund Of the Year 2022 & 2025",
   openGraph: {
-    title: "I Wealth | ที่ปรึกษาการเงินและการลงทุน",
+    title: "I Wealth Pros | ที่ปรึกษาการเงินและกองทุนสำรองเลี้ยงชีพ",
     description: "รับคำปรึกษาฟรี ทีมงานติดต่อกลับภายใน 24 ชั่วโมง",
     locale: "th_TH",
     type: "website",

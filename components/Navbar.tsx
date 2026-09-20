@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
+
+const links = [
+  { label: "กองทุนสำรองเลี้ยงชีพ", href: "/#pvd" },
+  { label: "บริการของเรา", href: "/#services" },
+  { label: "บทความ", href: "/articles" },
+  { label: "ติดต่อ", href: "/#contact-form" },
+];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -13,42 +22,51 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const links = [
-    { label: "กองทุนสำรองเลี้ยงชีพ", href: "#pvd" },
-    { label: "บริการของเรา", href: "#services" },
-    { label: "ติดต่อ", href: "#contact-form" },
-  ];
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-[#0D1E45]/95 backdrop-blur shadow-lg" : "bg-[#0D1E45]"
+        scrolled
+          ? "bg-[#0A192C]/95 backdrop-blur shadow-lg shadow-black/30"
+          : "bg-[#0A192C]"
       }`}
     >
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-        <a href="#" className="flex items-center gap-2">
-          <span className="text-2xl font-bold text-[#C9A84C] tracking-wide">
-            I Wealth
+      <nav className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-18 py-2">
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src="/logo-iwealthpros.jpg"
+            alt="I Wealth Pros"
+            width={96}
+            height={102}
+            priority
+            className="w-10 h-10 object-cover rounded-lg ring-1 ring-[#CBAE6B]/40"
+          />
+          <span className="leading-none">
+            <span className="block text-xl font-bold tracking-[0.12em] text-gold-metallic">
+              I WEALTH
+            </span>
+            <span className="block text-[11px] font-semibold tracking-[0.35em] text-[#CBAE6B]/70">
+              PROS
+            </span>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-white/80 hover:text-[#C9A84C] transition-colors"
+              className="text-sm text-white/80 hover:text-[#CBAE6B] transition-colors"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
-          <a
-            href="#contact-form"
-            className="px-5 py-2 rounded-full bg-[#C9A84C] hover:bg-[#E0C070] text-[#0D1E45] font-semibold text-sm transition-colors"
+          <Link
+            href="/#contact-form"
+            className="px-5 py-2 rounded-full bg-gold-metallic text-[#0A192C] font-semibold text-sm transition-all hover:shadow-lg hover:shadow-[#CBAE6B]/25"
           >
-            ปรึกษาฟรี
-          </a>
+            ขอข้อเสนอ PVD
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -63,24 +81,24 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-[#0D1E45] border-t border-white/10 px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden bg-[#0A192C] border-t border-white/10 px-6 py-4 flex flex-col gap-4">
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="text-white/80 hover:text-[#C9A84C] transition-colors py-1"
+              className="text-white/80 hover:text-[#CBAE6B] transition-colors py-1"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
-          <a
-            href="#contact-form"
+          <Link
+            href="/#contact-form"
             onClick={() => setOpen(false)}
-            className="mt-2 px-5 py-2 rounded-full bg-[#C9A84C] hover:bg-[#E0C070] text-[#0D1E45] font-semibold text-sm text-center transition-colors"
+            className="mt-2 px-5 py-2 rounded-full bg-gold-metallic text-[#0A192C] font-semibold text-sm text-center transition-colors"
           >
-            ปรึกษาฟรี
-          </a>
+            ขอข้อเสนอ PVD
+          </Link>
         </div>
       )}
     </header>

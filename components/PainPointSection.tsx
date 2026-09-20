@@ -12,10 +12,10 @@ export default function PainPointSection() {
               กฎหมายใหม่ที่นายจ้างต้องรู้
             </span>
           </div>
-          <h2 className="font-sans text-3xl sm:text-4xl font-bold text-[#0D1E45] mb-4">
+          <h2 className="font-sans text-3xl sm:text-4xl font-bold text-[#0A192C] mb-4">
             กองทุนสงเคราะห์ลูกจ้าง
             <br />
-            <span className="text-[#C9A84C]">เริ่ม 1 ตุลาคม 2569</span>
+            <span className="text-[#CBAE6B]">เริ่ม 1 ตุลาคม 2569</span>
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             ครม. อนุมัติแล้ว — บริษัทที่ยังไม่เตรียมพร้อมอาจต้องแบกรับภาระที่
@@ -25,8 +25,8 @@ export default function PainPointSection() {
 
         {/* Timeline */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-[#0D1E45] rounded-2xl p-8 text-white">
-            <h3 className="text-[#C9A84C] font-semibold text-sm uppercase tracking-wider mb-6">
+          <div className="bg-[#0A192C] rounded-2xl p-8 text-white">
+            <h3 className="text-[#CBAE6B] font-semibold text-sm uppercase tracking-wider mb-6">
               ไทม์ไลน์บังคับใช้
             </h3>
             <div className="space-y-6">
@@ -48,17 +48,17 @@ export default function PainPointSection() {
                   <div className="flex flex-col items-center">
                     <div
                       className={`w-3 h-3 rounded-full mt-1 flex-shrink-0 ${
-                        item.highlight ? "bg-[#C9A84C]" : "bg-white/30"
+                        item.highlight ? "bg-[#CBAE6B]" : "bg-white/30"
                       }`}
                     />
                     <div className="w-px flex-1 bg-white/10 mt-2" />
                   </div>
                   <div className="pb-6">
                     <div className="flex items-center gap-2 mb-1">
-                      <Calendar size={14} className="text-[#C9A84C]" />
+                      <Calendar size={14} className="text-[#CBAE6B]" />
                       <span
                         className={`font-bold text-sm ${
-                          item.highlight ? "text-[#C9A84C]" : "text-white/60"
+                          item.highlight ? "text-[#CBAE6B]" : "text-white/60"
                         }`}
                       >
                         {item.date}
@@ -74,7 +74,7 @@ export default function PainPointSection() {
 
           {/* Who must join */}
           <div className="space-y-4">
-            <h3 className="text-[#0D1E45] font-semibold text-sm uppercase tracking-wider text-[#C9A84C]">
+            <h3 className="text-[#856A2E] font-semibold text-sm uppercase tracking-wider">
               บริษัทไหนบ้างที่ต้องเข้าร่วม?
             </h3>
             {[
@@ -105,18 +105,18 @@ export default function PainPointSection() {
               >
                 <div
                   className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                    item.warning ? "bg-amber-100" : "bg-[#0D1E45]/5"
+                    item.warning ? "bg-amber-100" : "bg-[#0A192C]/5"
                   }`}
                 >
                   <item.icon
                     size={20}
-                    className={item.warning ? "text-amber-600" : "text-[#0D1E45]"}
+                    className={item.warning ? "text-amber-600" : "text-[#0A192C]"}
                   />
                 </div>
                 <div>
                   <p
                     className={`font-semibold mb-1 ${
-                      item.warning ? "text-amber-800" : "text-[#0D1E45]"
+                      item.warning ? "text-amber-800" : "text-[#0A192C]"
                     }`}
                   >
                     {item.title}
