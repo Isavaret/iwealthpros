@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# I Wealth Pros
 
-## Getting Started
+เว็บไซต์การตลาดของ **I Wealth Pros** — ที่ปรึกษาการเงินและการลงทุน ผู้เชี่ยวชาญกองทุนสำรองเลี้ยงชีพ (PVD)
+มีหน้า Landing page สำหรับขาย, บทความให้ความรู้ และฟอร์มขอข้อเสนอกองทุนพร้อมหลังบ้านสำหรับดู leads
 
-First, run the development server:
+## Stack
+
+Next.js 16 (App Router) · Tailwind CSS v4 · Supabase (Postgres + Auth) · Resend · Vercel
+
+## เริ่มต้นใช้งาน
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.local.example .env.local   # แล้วเติมค่าให้ครบ
+npm run dev                        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| ตัวแปร | ใช้ทำอะไร | หาได้จาก |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | เชื่อมต่อ Supabase | Dashboard → Project Settings → API |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | client-side auth (หน้า `/admin/login`) | ที่เดียวกัน |
+| `SUPABASE_SERVICE_ROLE_KEY` | เขียน lead จาก `/api/leads` (ข้าม RLS) | ที่เดียวกัน — **ห้าม** ให้หลุดไปฝั่ง client |
+| `RESEND_API_KEY` | ส่งอีเมลแจ้งเตือน lead ใหม่ | resend.com/api-keys |
+| `ADMIN_EMAIL` | ปลายทางอีเมลแจ้งเตือน | — |
+| `NEXT_PUBLIC_APP_URL` | ใช้ทำ absolute URL ตอน redirect | — |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### ตั้งค่าฐานข้อมูล
 
-## Learn More
+รัน `supabase/schema.sql` ใน SQL Editor ของ Supabase (ถ้าฐานข้อมูลเดิมสร้างจาก schema เวอร์ชันก่อน ให้รัน `supabase/migrations/0002_requisition_fields.sql` แทน) จากนั้นสร้างผู้ใช้ admin ที่ Authentication → Users เพื่อเข้าหน้า `/admin`
 
-To learn more about Next.js, take a look at the following resources:
+## โครงสร้าง
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/
+  page.tsx              หน้า landing (ประกอบจาก components/)
+  articles/             หน้ารวมบทความ + บทความรายชิ้น (SSG)
+  admin/                ตาราง leads + หน้า login
+  api/leads/            รับข้อมูลฟอร์ม → Supabase → อีเมลแจ้งเตือน
+  api/auth/signout/     ออกจากระบบ
+components/             section components ของหน้า landing + ฟอร์ม + ตาราง admin
+lib/                    articles content, email template, supabase clients
+supabase/               schema.sql + migrations
+proxy.ts                ป้องกันเส้นทาง /admin (Next.js 16 middleware)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run dev     # dev server
+npm run build   # production build
+npm run lint    # ESLint
+```
