@@ -63,9 +63,19 @@ API routes:
 
 ## Admin access
 
-Neon Auth allows public sign-up (`allow_sign_up: true`, plus shared Google OAuth), so **a session alone does not mean admin**. `lib/auth/admins.ts` gates `/admin` and `PATCH /api/leads/[id]` against the `ADMIN_EMAILS` allowlist; a signed-in address outside it is bounced to `/admin/login?denied=1`. Keep that check in place on any new admin surface, and add the address to `ADMIN_EMAILS` when onboarding someone.
+Public email/password sign-up is off (`allow_sign_up: false`), but shared Google OAuth is still enabled, so **a session alone does not mean admin**. `lib/auth/admins.ts` gates `/admin` and `PATCH /api/leads/[id]` against the `ADMIN_EMAILS` allowlist; a signed-in address outside it is bounced to `/admin/login?denied=1`. Keep that check in place on any new admin surface, and add the address to `ADMIN_EMAILS` when onboarding someone.
 
-Create an admin account with `node --env-file=.env.local scripts/create-admin.mjs` (prompts for email/password, no secrets on screen). The Neon Auth endpoints reject requests without an `Origin` header.
+`scripts/create-admin.mjs` creates accounts through the sign-up endpoint, so it now needs sign-up temporarily re-enabled:
+
+```bash
+npx neon@latest neon-auth config email-password update --no-disable-sign-up \
+  --project-id green-band-83884962 --branch br-withered-heart-azb7u5r5
+node --env-file=.env.local scripts/create-admin.mjs        # or --email/--name + ADMIN_PASSWORD
+npx neon@latest neon-auth config email-password update --disable-sign-up \
+  --project-id green-band-83884962 --branch br-withered-heart-azb7u5r5
+```
+
+The Neon Auth endpoints reject requests without an `Origin` header, and the origin must be a trusted domain (`https://iwealthpros.com`, plus localhost).
 
 ## Known Configuration
 
