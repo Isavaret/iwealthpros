@@ -63,7 +63,7 @@ API routes:
 
 ## Admin access
 
-Public email/password sign-up is off (`allow_sign_up: false`), but shared Google OAuth is still enabled, so **a session alone does not mean admin**. `lib/auth/admins.ts` gates `/admin` and `PATCH /api/leads/[id]` against the `ADMIN_EMAILS` allowlist; a signed-in address outside it is bounced to `/admin/login?denied=1`. Keep that check in place on any new admin surface, and add the address to `ADMIN_EMAILS` when onboarding someone.
+Public email/password sign-up is off (`allow_sign_up: false`) and no OAuth provider is configured, so the only way in is an account created deliberately. The allowlist still stands as the second gate: **a session alone does not mean admin**. `lib/auth/admins.ts` gates `/admin` and `PATCH /api/leads/[id]` against the `ADMIN_EMAILS` allowlist; a signed-in address outside it is bounced to `/admin/login?denied=1`. Keep that check in place on any new admin surface, and add the address to `ADMIN_EMAILS` when onboarding someone.
 
 `scripts/create-admin.mjs` creates accounts through the sign-up endpoint, so it now needs sign-up temporarily re-enabled:
 
