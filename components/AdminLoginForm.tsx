@@ -43,7 +43,7 @@ export default function AdminLoginForm({ denied }: { denied?: boolean }) {
                 type="email"
                 required
                 className={inputClass}
-                placeholder="admin@iwealth.co.th"
+                placeholder="you@example.com"
               />
             </div>
             <div>

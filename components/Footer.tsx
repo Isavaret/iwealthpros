@@ -6,23 +6,20 @@ const contactLinks = [
   {
     icon: MessageCircle,
     label: "Line",
-    value: "@iwealth",
-    href: "https://line.me/ti/p/~@iwealth",
-    placeholder: true,
+    value: "@iwealthpros",
+    href: "https://line.me/R/ti/p/@iwealthpros",
   },
   {
     icon: Phone,
     label: "โทรศัพท์",
-    value: "0X-XXXX-XXXX",
-    href: "tel:+660XXXXXXXX",
-    placeholder: true,
+    value: "098-939-1466",
+    href: "tel:+66989391466",
   },
   {
     icon: Mail,
     label: "อีเมล",
-    value: "contact@iwealth.co.th",
-    href: "mailto:contact@iwealth.co.th",
-    placeholder: true,
+    value: "isavaret@gmail.com",
+    href: "mailto:isavaret@gmail.com",
   },
 ];
 
@@ -124,14 +121,7 @@ export default function Footer() {
                     </div>
                     <div>
                       <p className="text-xs text-white/40">{link.label}</p>
-                      <p className="text-sm">
-                        {link.value}
-                        {link.placeholder && (
-                          <span className="ml-1 text-xs text-white/20">
-                            [อัปเดต]
-                          </span>
-                        )}
-                      </p>
+                      <p className="text-sm">{link.value}</p>
                     </div>
                   </a>
                 </li>
