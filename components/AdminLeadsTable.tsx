@@ -323,7 +323,7 @@ function FragmentRow({
             aria-label={expanded ? "ซ่อนรายละเอียด" : "ดูรายละเอียด"}
             aria-expanded={expanded}
             aria-controls={detailId}
-            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-100 hover:text-[#856A2E]"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-100 hover:text-[#856A2E]"
           >
             {expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
           </button>
@@ -335,7 +335,7 @@ function FragmentRow({
             onClick={onToggle}
             aria-expanded={expanded}
             aria-controls={detailId}
-            className="cursor-pointer py-1.5 text-left font-medium text-[#0A192C] underline-offset-4 transition-colors hover:text-[#856A2E] hover:underline"
+            className="cursor-pointer py-2.5 text-left font-medium text-[#0A192C] underline-offset-4 transition-colors hover:text-[#856A2E] hover:underline"
           >
             {lead.company_name}
           </button>
@@ -349,7 +349,7 @@ function FragmentRow({
         <td className="px-4 py-3 whitespace-nowrap text-gray-700">
           <a
             href={`tel:${lead.phone}`}
-            className="inline-flex items-center py-1.5 hover:text-[#856A2E]"
+            className="inline-flex items-center py-2.5 hover:text-[#856A2E]"
           >
             {lead.phone}
           </a>
@@ -357,7 +357,7 @@ function FragmentRow({
         <td className="px-4 py-3 whitespace-nowrap text-gray-700">
           <a
             href={`mailto:${lead.email}`}
-            className="inline-flex items-center py-1.5 hover:text-[#856A2E]"
+            className="inline-flex items-center py-2.5 hover:text-[#856A2E]"
           >
             {lead.email}
           </a>
@@ -381,7 +381,7 @@ function FragmentRow({
             lead={lead}
             updating={updating}
             onStatusChange={onStatusChange}
-            className="px-2.5 py-1.5"
+            className="min-h-10 px-2.5"
           />
         </td>
         <td className="px-4 py-3 text-xs whitespace-nowrap text-gray-500">

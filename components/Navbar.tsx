@@ -59,7 +59,7 @@ export default function Navbar() {
               <span className="block text-lg sm:text-xl font-bold tracking-[0.12em] text-gold-metallic">
                 I WEALTH
               </span>
-              <span className="block text-[11px] font-semibold tracking-[0.3em] text-[#CBAE6B]/70 sm:text-xs">
+              <span className="block text-xs font-semibold tracking-[0.3em] text-[#CBAE6B]/70">
                 PROS
               </span>
             </span>
@@ -71,7 +71,7 @@ export default function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-sm text-white/75 hover:text-[#F0DA8F] transition-colors py-2"
+                className="flex min-h-11 items-center text-sm text-white/75 transition-colors hover:text-[#F0DA8F]"
               >
                 {l.label}
               </Link>
