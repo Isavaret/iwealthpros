@@ -209,20 +209,34 @@ function FragmentRow({
   updating: boolean;
   onStatusChange: (status: LeadStatus) => void;
 }) {
+  const detailId = `lead-detail-${lead.id}`;
+
   return (
     <>
       <tr className="hover:bg-gray-50/60 transition-colors">
         <td className="px-4 py-3">
           <button
+            type="button"
             onClick={onToggle}
-            aria-label="ดูรายละเอียด"
-            className="text-gray-400 hover:text-[#856A2E] transition-colors"
+            aria-label={expanded ? "ซ่อนรายละเอียด" : "ดูรายละเอียด"}
+            aria-expanded={expanded}
+            aria-controls={detailId}
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-100 hover:text-[#856A2E]"
           >
             {expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
           </button>
         </td>
-        <td className="px-4 py-3 font-medium text-[#0A192C] whitespace-nowrap">
-          {lead.company_name}
+        <td className="px-4 py-3 whitespace-nowrap">
+          {/* กดที่ชื่อบริษัทเพื่อกาง/ปิดรายละเอียดได้เหมือนปุ่มลูกศร */}
+          <button
+            type="button"
+            onClick={onToggle}
+            aria-expanded={expanded}
+            aria-controls={detailId}
+            className="cursor-pointer text-left font-medium text-[#0A192C] underline-offset-4 transition-colors hover:text-[#856A2E] hover:underline"
+          >
+            {lead.company_name}
+          </button>
         </td>
         <td className="px-4 py-3 text-gray-700 whitespace-nowrap">
           {lead.contact_person}
@@ -276,7 +290,7 @@ function FragmentRow({
       </tr>
 
       {expanded && (
-        <tr className="bg-gray-50/80">
+        <tr id={detailId} className="bg-gray-50/80">
           <td colSpan={9} className="px-6 py-5">
             <dl className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3">
               {fieldMap
