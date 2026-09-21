@@ -50,6 +50,18 @@ const fieldMap: { label: string; get: (l: Lead) => string }[] = [
   { label: "ข้อมูลเพิ่มเติม", get: (l) => l.message ?? "" },
 ];
 
+/**
+ * ระบุ timeZone ตายตัว — ถ้าปล่อยให้ใช้โซนเวลาของเครื่อง ฝั่ง server (UTC บน Vercel)
+ * กับ browser (ไทย) จะได้คนละค่า แล้ว React จะ hydration mismatch
+ */
+function formatThaiDateTime(value: string): string {
+  return new Date(value).toLocaleString("th-TH", {
+    dateStyle: "short",
+    timeStyle: "short",
+    timeZone: "Asia/Bangkok",
+  });
+}
+
 /** กันค่าที่ไม่ใช่ string (เช่น Date) ไม่ให้ถูกส่งเข้า JSX ตรง ๆ จนหน้าพังทั้งหน้า */
 function text(v: unknown): string {
   if (v === null || v === undefined) return "";
@@ -67,7 +79,7 @@ function downloadCSV(leads: Lead[]) {
   const rows = leads.map((l) => [
     ...fieldMap.map((f) => text(f.get(l))),
     statusLabels[l.status],
-    new Date(l.created_at).toLocaleString("th-TH"),
+    formatThaiDateTime(l.created_at),
   ]);
   const csv = [headers, ...rows]
     .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
@@ -259,10 +271,7 @@ function FragmentRow({
           </select>
         </td>
         <td className="px-4 py-3 text-gray-500 text-xs whitespace-nowrap">
-          {new Date(lead.created_at).toLocaleString("th-TH", {
-            dateStyle: "short",
-            timeStyle: "short",
-          })}
+          {formatThaiDateTime(lead.created_at)}
         </td>
       </tr>
 
