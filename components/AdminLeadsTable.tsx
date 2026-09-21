@@ -50,6 +50,13 @@ const fieldMap: { label: string; get: (l: Lead) => string }[] = [
   { label: "ข้อมูลเพิ่มเติม", get: (l) => l.message ?? "" },
 ];
 
+/** กันค่าที่ไม่ใช่ string (เช่น Date) ไม่ให้ถูกส่งเข้า JSX ตรง ๆ จนหน้าพังทั้งหน้า */
+function text(v: unknown): string {
+  if (v === null || v === undefined) return "";
+  if (v instanceof Date) return v.toLocaleDateString("th-TH");
+  return typeof v === "string" ? v : String(v);
+}
+
 function fmt(v: number | null | undefined): string {
   if (v === null || v === undefined) return "";
   return Number(v).toLocaleString("th-TH");
@@ -58,7 +65,7 @@ function fmt(v: number | null | undefined): string {
 function downloadCSV(leads: Lead[]) {
   const headers = [...fieldMap.map((f) => f.label), "สถานะ", "วันที่"];
   const rows = leads.map((l) => [
-    ...fieldMap.map((f) => f.get(l)),
+    ...fieldMap.map((f) => text(f.get(l))),
     statusLabels[l.status],
     new Date(l.created_at).toLocaleString("th-TH"),
   ]);
@@ -264,7 +271,7 @@ function FragmentRow({
           <td colSpan={9} className="px-6 py-5">
             <dl className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3">
               {fieldMap
-                .map((f) => ({ label: f.label, value: f.get(lead) }))
+                .map((f) => ({ label: f.label, value: text(f.get(lead)) }))
                 .filter((f) => f.value !== "")
                 .map((f) => (
                   <div key={f.label}>
