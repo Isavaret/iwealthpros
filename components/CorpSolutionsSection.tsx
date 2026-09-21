@@ -53,7 +53,7 @@ export default function CorpSolutionsSection() {
     <section id="services" className="scroll-mt-28 bg-light-gradient section-y">
       <div className="container-page">
         <div className="text-center mb-12 sm:mb-16">
-          <p className="mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-[#856A2E]">
+          <p className="mb-3 text-xs font-semibold tracking-[0.35em] text-[#856A2E] uppercase">
             Corporate Solutions
           </p>
           <h2 className="h2-fluid font-bold text-[#0A192C] mb-4 text-balance">

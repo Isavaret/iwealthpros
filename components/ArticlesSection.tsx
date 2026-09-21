@@ -32,7 +32,7 @@ export default function ArticlesSection() {
         <div className="text-center mt-10">
           <Link
             href="/articles"
-            className="inline-flex items-center gap-2 text-[#CBAE6B] hover:text-[#F0DA8F] font-semibold transition-colors"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full px-4 font-semibold text-[#CBAE6B] transition-colors hover:text-[#F0DA8F]"
           >
             ดูบทความทั้งหมด
             <ArrowRight size={16} />

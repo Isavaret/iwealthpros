@@ -26,12 +26,15 @@ export default async function AdminPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Top bar */}
       <header className="bg-[#0A192C] border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <p className="font-sans text-xl font-bold text-[#CBAE6B]">
-            I Wealth Pros <span className="text-white/40 text-sm font-normal ml-1">Admin</span>
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6">
+          <p className="font-sans text-base font-bold whitespace-nowrap text-[#CBAE6B] sm:text-xl">
+            I Wealth Pros{" "}
+            <span className="ml-1 text-sm font-normal text-white/40">Admin</span>
           </p>
-          <div className="flex items-center gap-4">
-            <span className="text-white/50 text-sm">{session.user.email}</span>
+          <div className="flex min-w-0 items-center gap-2 sm:gap-4">
+            <span className="hidden truncate text-sm text-white/50 sm:block">
+              {session.user.email}
+            </span>
             <SignOutButton />
           </div>
         </div>

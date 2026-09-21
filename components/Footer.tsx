@@ -78,7 +78,7 @@ export default function Footer() {
                 <span className="block text-2xl font-bold tracking-[0.12em] text-gold-metallic sm:text-3xl">
                   I WEALTH
                 </span>
-                <span className="block text-[11px] font-semibold tracking-[0.35em] text-[#CBAE6B]/70">
+                <span className="block text-xs font-semibold tracking-[0.3em] text-[#CBAE6B]/70">
                   PROS
                 </span>
               </span>
@@ -113,7 +113,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="flex items-center gap-3 text-white/70 hover:text-[#CBAE6B] transition-colors group"
+                    className="group flex min-h-11 items-center gap-3 rounded-xl text-white/70 transition-colors hover:text-[#CBAE6B]"
                   >
                     <div className="w-8 h-8 rounded-lg bg-white/5 group-hover:bg-[#CBAE6B]/10 flex items-center justify-center transition-colors">
                       <link.icon size={15} className="text-[#CBAE6B]" />
@@ -149,7 +149,7 @@ export default function Footer() {
             <div className="mb-8">
               <Link
                 href="/articles"
-                className="text-white/60 hover:text-[#CBAE6B] text-sm transition-colors"
+                className="inline-flex min-h-11 items-center text-sm text-white/60 transition-colors hover:text-[#CBAE6B]"
               >
                 บทความความรู้เรื่อง PVD →
               </Link>

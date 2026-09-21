@@ -32,7 +32,7 @@ export default function BrandStrip() {
           />
 
           <div className="flex-1">
-            <p className="text-[0.7rem] font-semibold uppercase tracking-[0.4em] text-[#CBAE6B]/70">
+            <p className="text-xs font-semibold tracking-[0.35em] text-[#CBAE6B]/70 uppercase">
               Wealth with Integrity
             </p>
             <h2 className="h2-fluid mt-3 font-bold text-white">

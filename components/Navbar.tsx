@@ -59,7 +59,7 @@ export default function Navbar() {
               <span className="block text-lg sm:text-xl font-bold tracking-[0.12em] text-gold-metallic">
                 I WEALTH
               </span>
-              <span className="block text-[10px] sm:text-[11px] font-semibold tracking-[0.35em] text-[#CBAE6B]/70">
+              <span className="block text-[11px] font-semibold tracking-[0.3em] text-[#CBAE6B]/70 sm:text-xs">
                 PROS
               </span>
             </span>

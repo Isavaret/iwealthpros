@@ -47,7 +47,7 @@ export default async function ArticlePage({ params }: Props) {
           <div className="container-page relative max-w-3xl">
             <Link
               href="/articles"
-              className="inline-flex items-center gap-1.5 text-white/50 hover:text-[#CBAE6B] text-sm transition-colors mb-8"
+              className="mb-6 inline-flex min-h-11 items-center gap-1.5 text-sm text-white/50 transition-colors hover:text-[#CBAE6B]"
             >
               <ArrowLeft size={15} />
               กลับไปหน้าบทความทั้งหมด

@@ -20,10 +20,11 @@ export default function SignOutButton() {
     <button
       onClick={handleSignOut}
       disabled={loading}
-      className="flex items-center gap-1.5 text-white/50 hover:text-white text-sm transition-colors disabled:opacity-50"
+      className="flex min-h-11 cursor-pointer items-center gap-1.5 rounded-xl px-3 text-sm whitespace-nowrap text-white/60 transition-colors hover:bg-white/10 hover:text-white disabled:opacity-50"
+      aria-label="ออกจากระบบ"
     >
-      <LogOut size={14} />
-      ออกจากระบบ
+      <LogOut size={16} />
+      <span className="hidden sm:inline">ออกจากระบบ</span>
     </button>
   );
 }
