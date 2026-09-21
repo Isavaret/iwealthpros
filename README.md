@@ -55,6 +55,11 @@ scripts/create-admin.mjs  สร้างบัญชีแอดมินใน
 proxy.ts                ป้องกันเส้นทาง /admin (Next.js 16 middleware)
 ```
 
+## Deploy
+
+`main` เชื่อมกับ Vercel ไว้แล้ว — push ขึ้น `main` จะ deploy production อัตโนมัติ ส่วน branch อื่นจะได้ preview URL
+ถ้าต้อง deploy ด้วยมือ ใช้ `npx vercel --prod` (ต้องล็อกอินเป็นบัญชีที่อยู่ในทีม `iw-ealth-pros-projects`)
+
 ## Scripts
 
 ```bash

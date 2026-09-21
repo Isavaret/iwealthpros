@@ -81,9 +81,9 @@ The Neon Auth endpoints reject requests without an `Origin` header, and the orig
 
 - Neon project: `iwealthpros` / `green-band-83884962`, branch `main` (`br-withered-heart-azb7u5r5`), region ap-southeast-1. Migrated off Supabase (`jzfegdghcdavncayeybf`) — nothing was carried over, the old `leads` table was empty.
 - `@neondatabase/auth` is currently a beta release (0.5.0-beta); pin deliberately when upgrading.
-- Vercel project: `iwealthpros` under team `iw-ealth-pros-projects`.
-- GitHub: `Isavaret/iwealthpros` — the local machine authenticates to GitHub as `oboberon`, which does not have write access to that repo.
+- Vercel project: `iwealthpros` under team `iw-ealth-pros-projects`, connected to the GitHub repo: pushing to `main` deploys to production on its own, so prefer pushing over running `vercel --prod` by hand. The CLI stays as a fallback and needs `vercel login` as `isavaret` — the account that owns the team.
+- GitHub: `Isavaret/iwealthpros`. The local machine authenticates as `oboberon`, now a collaborator, so pushes work; the credential helper in `~/.gitconfig` points at a `gh` binary that cannot run here, so pushing needs `git -c credential.https://github.com.helper=osxkeychain push`.
 - `.claude/settings.local.json` disables the project-level `neon` MCP server; Neon tooling in this session comes from the separately configured Neon MCP instead.
-- Contact details in `Footer.tsx` (Line, phone, email, social links) are placeholders, flagged with `placeholder: true` — owner will fill in later.
+- `Footer.tsx` carries the real Line, phone, email and Facebook link. Instagram is still a placeholder, flagged with `placeholder: true`.
 - `public/profile.png` is a placeholder image — owner will provide the real one later.
 - `gh` CLI in this environment is an x86 binary and cannot run on this machine.
