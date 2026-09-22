@@ -1,10 +1,6 @@
 import { Trophy, ChevronDown, ShieldCheck, Clock3 } from "lucide-react";
 import Image from "next/image";
-
-const awards = [
-  "Provident Fund Of the Year 2025",
-  "Provident Fund Of the Year 2022",
-];
+import AwardBadges from "@/components/AwardBadges";
 
 const trustPoints = [
   { icon: ShieldCheck, label: "ที่ปรึกษาที่ได้รับใบอนุญาต" },
@@ -39,17 +35,7 @@ export default function HeroSection() {
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* เนื้อหา */}
           <div className="order-2 lg:order-1">
-            <div className="flex flex-wrap gap-2 sm:gap-3 mb-7">
-              {awards.map((award) => (
-                <div
-                  key={award}
-                  className="eyebrow border border-[#CBAE6B]/40 bg-[#CBAE6B]/10 text-[#F0DA8F] !px-3 !text-xs"
-                >
-                  <Trophy size={14} className="text-[#CBAE6B] shrink-0" />
-                  <span>{award}</span>
-                </div>
-              ))}
-            </div>
+            <AwardBadges />
 
             <h1 className="h1-fluid font-bold text-white mb-6 text-balance">
               บริษัทคุณ

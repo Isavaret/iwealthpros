@@ -86,4 +86,5 @@ The Neon Auth endpoints reject requests without an `Origin` header, and the orig
 - `.claude/settings.local.json` disables the project-level `neon` MCP server; Neon tooling in this session comes from the separately configured Neon MCP instead.
 - `Footer.tsx` carries the real Line, phone and email contacts plus Facebook, TikTok and Line social buttons. lucide-react 1.x dropped brand icons, so those three are hand-drawn SVG components at the top of the file.
 - `public/profile.png` is a placeholder image — owner will provide the real one later.
+- `public/awards/` holds the award-ceremony photos (2.3 MB, 17 files) pulled from the owner's shared Drive folder and resized to a 1600px long edge. `lib/awards.ts` groups them into the two albums that `AwardBadges.tsx` opens from the Hero. The 2022 badge's photos are from the *AIA Annual Agency Awards Presentation 2020 & 2021* ceremony — the badge year is the ceremony year, the trophy reads 2021.
 - `gh` CLI in this environment is an x86 binary and cannot run on this machine.
