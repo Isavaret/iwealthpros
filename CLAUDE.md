@@ -84,6 +84,6 @@ The Neon Auth endpoints reject requests without an `Origin` header, and the orig
 - Vercel project: `iwealthpros` under team `iw-ealth-pros-projects`, connected to the GitHub repo: pushing to `main` deploys to production on its own, so prefer pushing over running `vercel --prod` by hand. The CLI stays as a fallback and needs `vercel login` as `isavaret` — the account that owns the team.
 - GitHub: `Isavaret/iwealthpros`. The local machine authenticates as `oboberon`, now a collaborator, so pushes work; the credential helper in `~/.gitconfig` points at a `gh` binary that cannot run here, so pushing needs `git -c credential.https://github.com.helper=osxkeychain push`.
 - `.claude/settings.local.json` disables the project-level `neon` MCP server; Neon tooling in this session comes from the separately configured Neon MCP instead.
-- `Footer.tsx` carries the real Line, phone, email and Facebook link. Instagram is still a placeholder, flagged with `placeholder: true`.
+- `Footer.tsx` carries the real Line, phone and email contacts plus Facebook, TikTok and Line social buttons. lucide-react 1.x dropped brand icons, so those three are hand-drawn SVG components at the top of the file.
 - `public/profile.png` is a placeholder image — owner will provide the real one later.
 - `gh` CLI in this environment is an x86 binary and cannot run on this machine.

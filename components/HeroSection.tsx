@@ -9,7 +9,7 @@ const awards = [
 const trustPoints = [
   { icon: ShieldCheck, label: "ที่ปรึกษาที่ได้รับใบอนุญาต" },
   { icon: Clock3, label: "ตอบกลับภายใน 24 ชม." },
-  { icon: Trophy, label: "รางวัลระดับประเทศ 2 ปี" },
+  { icon: Trophy, label: "รางวัลระดับประเทศ 2 ปี Provident Fund of the Year 2022 และ 2025" },
 ];
 
 export default function HeroSection() {
@@ -89,10 +89,13 @@ export default function HeroSection() {
               {trustPoints.map((point) => (
                 <li
                   key={point.label}
-                  className="flex items-center gap-2 text-sm text-white/55"
+                  className="flex items-start gap-2 text-sm text-white/55"
                 >
-                  <point.icon size={15} className="text-[#CBAE6B] shrink-0" />
-                  {point.label}
+                  <point.icon
+                    size={15}
+                    className="mt-0.5 text-[#CBAE6B] shrink-0"
+                  />
+                  <span>{point.label}</span>
                 </li>
               ))}
             </ul>
