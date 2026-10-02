@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import { articles, getArticle } from "@/lib/articles";
+import JsonLd from "@/components/JsonLd";
+import { articleSchema } from "@/lib/schema";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -18,14 +20,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = getArticle(slug);
   if (!article) return { title: "ไม่พบบทความ | I Wealth Pros" };
 
+  const url = `/articles/${article.slug}`;
+
   return {
-    title: `${article.title} | I Wealth Pros`,
+    title: article.title,
     description: article.excerpt,
+    alternates: { canonical: url },
     openGraph: {
       title: article.title,
       description: article.excerpt,
       type: "article",
+      url,
       locale: "th_TH",
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt,
+      section: article.category,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt,
     },
   };
 }
@@ -39,6 +53,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <>
+      <JsonLd data={articleSchema(article)} />
       <Navbar />
       <main>
         {/* Article header */}

@@ -57,6 +57,18 @@ API routes:
 
 `lib/db.ts` exports `sql`, the Neon HTTP client (server only). `lib/auth/server.ts` exports `auth` (handler, middleware, `getSession`, `signIn`); `lib/auth/client.ts` exports `authClient` for client components such as `SignOutButton`.
 
+## SEO / AEO / GEO
+
+`lib/site.ts` is the single source of truth for URL, contact details, social links and awards — `robots.ts`, `sitemap.ts`, the metadata in `app/layout.tsx` and every JSON-LD graph read from it. Change it there, not in the individual files.
+
+- `app/robots.ts` / `app/sitemap.ts` — generated at build. AI crawlers are deliberately **allowed**; the goal is being cited in AI answers. `/admin` and `/api` are disallowed, and `app/admin/layout.tsx` adds `noindex` on top.
+- `app/opengraph-image.jpg` — 1200×630 share card, regenerated with the sharp script in git history when the brand changes. Next wires the meta tags from the filename convention.
+- `lib/schema.ts` — every structured-data graph (FinancialService, WebSite, WebPage, FAQPage, Service, BlogPosting, BreadcrumbList), rendered through `components/JsonLd.tsx`. The organization is one `@id` that the other nodes reference.
+- `lib/faqs.ts` — one list feeding both the visible FAQ accordion (`FaqSection.tsx`) and the FAQPage schema. **Every answer must stay traceable to copy already on the site**; do not add claims here that appear nowhere else.
+- `public/llms.txt` — plain-text brief for AI crawlers. Keep the facts in sync with `lib/faqs.ts`.
+- Articles carry `publishedAt` / `updatedAt`; bump `updatedAt` when the content changes so the sitemap and `BlogPosting` stay honest.
+- `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` / `NEXT_PUBLIC_BING_SITE_VERIFICATION` are read by the layout when set — that is all Search Console verification needs.
+
 ## Database
 
 `db/schema.sql` is the source of truth — a plain Postgres schema with no RLS, because the app connects as the database owner and the public form only ever writes through `/api/leads`. Admin users live in the `neon_auth` schema that Neon Auth manages.

@@ -3,11 +3,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
 import { articles } from "@/lib/articles";
+import JsonLd from "@/components/JsonLd";
+import { articleListSchema } from "@/lib/schema";
 import Link from "next/link";
 import { BookOpen } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "บทความความรู้ PVD | I Wealth Pros",
+  title: "บทความความรู้ PVD",
+  alternates: { canonical: "/articles" },
   description:
     "ชุดบทความให้ความรู้ “กองทุนสำรองเลี้ยงชีพ (PVD) เพื่อธุรกิจยุคใหม่” โดยทีม I Wealth Pros — ข้อดีของ PVD, การเลือกผู้บริหารกองทุน, การรักษาพนักงาน และการวางแผนภาษีนิติบุคคล",
 };
@@ -15,6 +18,7 @@ export const metadata: Metadata = {
 export default function ArticlesPage() {
   return (
     <>
+      <JsonLd data={articleListSchema(articles)} />
       <Navbar />
       <main>
         {/* Header */}

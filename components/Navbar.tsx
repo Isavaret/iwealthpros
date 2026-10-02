@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 const links = [
   { label: "กองทุนสำรองเลี้ยงชีพ", href: "/#pvd" },
   { label: "บริการของเรา", href: "/#services" },
+  { label: "คำถามที่พบบ่อย", href: "/#faq" },
   { label: "บทความ", href: "/articles" },
   { label: "ติดต่อ", href: "/#contact-form" },
 ];

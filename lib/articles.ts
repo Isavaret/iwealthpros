@@ -12,6 +12,9 @@ export interface Article {
   title: string;
   excerpt: string;
   readMinutes: number;
+  /** วันที่เผยแพร่ / แก้ไขล่าสุด (ISO date) — ใช้ใน sitemap และ Article schema */
+  publishedAt: string;
+  updatedAt: string;
   blocks: ArticleBlock[];
   /** ย่อหน้าปิดท้าย — ชวนติดต่อทีมงาน */
   cta: string;
@@ -26,6 +29,8 @@ export const articles: Article[] = [
     excerpt:
       "ถ้าเป็นเจ้าของกิจการหรือฝ่าย HR แล้วยังลังเลว่า “จะจัดตั้ง PVD ดีไหม” บทความนี้สรุปให้ครบใน 5 นาที พร้อมอัปเดตกฎหมายล่าสุดที่กำลังจะมีผลบังคับใช้ในปี 2569",
     readMinutes: 5,
+    publishedAt: "2026-09-20",
+    updatedAt: "2026-09-20",
     blocks: [
       {
         type: "p",
@@ -75,6 +80,8 @@ export const articles: Article[] = [
     excerpt:
       "เมื่อตัดสินใจแล้วว่าจะจัดตั้ง PVD คำถามต่อมาคือ “จะเลือกบริษัทจัดการกองทุนเจ้าไหนดี” วันนี้เราพาไปดูเหตุผลที่หลายองค์กรเลือก AIA เป็นผู้บริหารกองทุนสำรองเลี้ยงชีพให้กับพนักงาน",
     readMinutes: 4,
+    publishedAt: "2026-09-20",
+    updatedAt: "2026-09-20",
     blocks: [
       {
         type: "p",
@@ -116,6 +123,8 @@ export const articles: Article[] = [
     excerpt:
       "ยุคที่คนเก่งเปลี่ยนงานกันบ่อยขึ้นทุกปี ต้นทุนการหาคนใหม่แพงกว่าที่คิด PVD คือหนึ่งในเครื่องมือ “ผูกใจ” ที่คุ้มค่าที่สุดที่หลายบริษัทมองข้าม",
     readMinutes: 5,
+    publishedAt: "2026-09-20",
+    updatedAt: "2026-09-20",
     blocks: [
       {
         type: "p",
@@ -159,6 +168,8 @@ export const articles: Article[] = [
     excerpt:
       "เจ้าของธุรกิจหลายคนมองหาวิธีบริหารภาษีนิติบุคคลอย่างถูกต้องตามกฎหมาย และในเวลาเดียวกันก็อยากดูแลพนักงานไปด้วย วันนี้เราสรุป 3 เครื่องมือที่ตอบโจทย์ทั้งสองเรื่องพร้อมกัน",
     readMinutes: 6,
+    publishedAt: "2026-09-20",
+    updatedAt: "2026-09-20",
     blocks: [
       {
         type: "p",
