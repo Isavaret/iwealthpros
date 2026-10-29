@@ -39,8 +39,14 @@ CREATE TABLE IF NOT EXISTS leads (
   has_group_insurance      BOOLEAN NOT NULL DEFAULT FALSE,
   group_insurance_company  TEXT,            -- ทำอยู่กับบริษัท
 
+  -- Workshop วางแผนเกษียณ (หน้า /workshop) — ว่างไว้สำหรับคำขอข้อเสนอ PVD
+  workshop_participants    INTEGER,         -- จำนวนผู้เข้าร่วมโดยประมาณ
+  workshop_format          TEXT
+                             CHECK (workshop_format IN ('onsite', 'online', 'undecided')),
+  workshop_preferred_period TEXT,           -- ช่วงเวลาที่สะดวก
+
   message                  TEXT,            -- ข้อมูลเพิ่มเติม
-  interest                 TEXT DEFAULT 'provident_fund',
+  interest                 TEXT DEFAULT 'provident_fund',  -- provident_fund | retirement_workshop
   status                   TEXT DEFAULT 'new'
                              CHECK (status IN ('new', 'contacted', 'converted', 'closed')),
   created_at               TIMESTAMPTZ DEFAULT NOW()
@@ -48,3 +54,10 @@ CREATE TABLE IF NOT EXISTS leads (
 
 CREATE INDEX IF NOT EXISTS leads_created_at_idx ON leads (created_at DESC);
 CREATE INDEX IF NOT EXISTS leads_status_idx ON leads (status);
+
+-- 2026-10 — เพิ่มฟอร์มขอจัด workshop วางแผนเกษียณ
+-- CREATE TABLE IF NOT EXISTS ข้ามตารางที่มีอยู่แล้ว จึงต้องเติมคอลัมน์ให้ฐานข้อมูลเดิมแยกต่างหาก
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS workshop_participants INTEGER;
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS workshop_format TEXT
+  CHECK (workshop_format IN ('onsite', 'online', 'undecided'));
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS workshop_preferred_period TEXT;

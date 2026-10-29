@@ -11,11 +11,25 @@ import {
 import type { Lead, LeadStatus } from "@/types/lead";
 import {
   leadFields,
+  interestLabels,
   statusLabels,
   formatThaiDateTime,
   text,
   fmt,
 } from "@/lib/lead-fields";
+
+function InterestBadge({ lead }: { lead: Lead }) {
+  const workshop = lead.interest === "retirement_workshop";
+  return (
+    <span
+      className={`inline-block rounded-full px-2 py-0.5 text-xs whitespace-nowrap ${
+        workshop ? "bg-[#F7EBC6] text-[#856A2E]" : "bg-[#0A192C]/5 text-[#0A192C]"
+      }`}
+    >
+      {interestLabels[lead.interest] ?? lead.interest}
+    </span>
+  );
+}
 
 const statusColors: Record<LeadStatus, string> = {
   new: "bg-blue-100 text-blue-800",
@@ -139,6 +153,7 @@ export default function AdminLeadsTable({
                   {[
                     "",
                     "บริษัท",
+                    "ประเภท",
                     "ผู้ติดต่อ",
                     "โทร",
                     "อีเมล",
@@ -252,6 +267,9 @@ function LeadCard({
           <span className="block font-semibold break-words text-[#0A192C]">
             {lead.company_name}
           </span>
+          <span className="mt-1 block">
+            <InterestBadge lead={lead} />
+          </span>
           <span className="mt-0.5 block text-sm text-gray-600">
             {lead.contact_person}
             {lead.position && (
@@ -340,6 +358,9 @@ function FragmentRow({
             {lead.company_name}
           </button>
         </td>
+        <td className="px-4 py-3">
+          <InterestBadge lead={lead} />
+        </td>
         <td className="px-4 py-3 whitespace-nowrap text-gray-700">
           {lead.contact_person}
           {lead.position && (
@@ -391,7 +412,7 @@ function FragmentRow({
 
       {expanded && (
         <tr id={detailId} className="bg-gray-50/80">
-          <td colSpan={9} className="px-6 py-5">
+          <td colSpan={10} className="px-6 py-5">
             <LeadDetail lead={lead} />
           </td>
         </tr>

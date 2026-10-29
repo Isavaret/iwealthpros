@@ -1,6 +1,7 @@
 import { absoluteUrl, site } from "@/lib/site";
 import type { Article } from "@/lib/articles";
 import { faqs } from "@/lib/faqs";
+import { workshop, workshopModules } from "@/lib/workshop";
 
 const ORG_ID = absoluteUrl("/#organization");
 const WEBSITE_ID = absoluteUrl("/#website");
@@ -196,3 +197,59 @@ export const articleListSchema = (list: Article[]) => ({
     },
   ],
 });
+
+export const workshopPageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": absoluteUrl("/workshop#webpage"),
+      url: absoluteUrl("/workshop"),
+      name: workshop.name,
+      description: workshop.description,
+      inLanguage: site.language,
+      isPartOf: { "@id": WEBSITE_ID },
+      about: { "@id": absoluteUrl("/workshop#service") },
+    },
+    {
+      "@type": "Service",
+      "@id": absoluteUrl("/workshop#service"),
+      name: workshop.name,
+      alternateName: "Retirement Planning Workshop",
+      description: workshop.description,
+      serviceType: "Financial education workshop",
+      provider: { "@id": ORG_ID },
+      areaServed: { "@type": "Country", name: "Thailand" },
+      audience: { "@type": "BusinessAudience", name: "องค์กรและพนักงานในประเทศไทย" },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "THB",
+        url: absoluteUrl("/workshop"),
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "หัวข้อใน Workshop",
+        itemListElement: workshopModules.map((m, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: m.title,
+          description: m.description,
+        })),
+      },
+    },
+    organizationSchema,
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "หน้าแรก", item: site.url },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: workshop.shortName,
+          item: absoluteUrl("/workshop"),
+        },
+      ],
+    },
+  ],
+};

@@ -8,12 +8,18 @@ import { Menu, X } from "lucide-react";
 const links = [
   { label: "กองทุนสำรองเลี้ยงชีพ", href: "/#pvd" },
   { label: "บริการของเรา", href: "/#services" },
+  { label: "Workshop ฟรี", href: "/workshop" },
   { label: "คำถามที่พบบ่อย", href: "/#faq" },
   { label: "บทความ", href: "/articles" },
   { label: "ติดต่อ", href: "/#contact-form" },
 ];
 
-export default function Navbar() {
+type Cta = { label: string; href: string };
+
+const defaultCta: Cta = { label: "ขอข้อเสนอ PVD", href: "/#contact-form" };
+
+/** cta — ปุ่มทองมุมขวา หน้าที่มีฟอร์มของตัวเอง (เช่น /workshop) ส่งปุ่มของหน้านั้นมาแทน */
+export default function Navbar({ cta = defaultCta }: { cta?: Cta }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -57,7 +63,7 @@ export default function Navbar() {
               className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-xl ring-1 ring-[#CBAE6B]/45 shadow-lg shadow-black/30"
             />
             <span className="leading-none">
-              <span className="block text-lg sm:text-xl font-bold tracking-[0.12em] text-gold-metallic">
+              <span className="block whitespace-nowrap text-lg sm:text-xl font-bold tracking-[0.12em] text-gold-metallic">
                 I WEALTH
               </span>
               <span className="block text-xs font-semibold tracking-[0.3em] text-[#CBAE6B]/70">
@@ -67,18 +73,21 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop */}
-          <div className="hidden lg:flex items-center gap-7">
+          <div className="hidden lg:flex items-center gap-5 xl:gap-7">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="flex min-h-11 items-center text-sm text-white/75 transition-colors hover:text-[#F0DA8F]"
+                className={`min-h-11 items-center whitespace-nowrap text-sm text-white/75 transition-colors hover:text-[#F0DA8F] ${
+                  // จอ lg แคบเกินจะใส่ครบทุกลิงก์ — "ติดต่อ" ไปที่เดียวกับปุ่มทองอยู่แล้ว
+                  l.href === "/#contact-form" ? "hidden xl:flex" : "flex"
+                }`}
               >
                 {l.label}
               </Link>
             ))}
-            <Link href="/#contact-form" className="btn btn-gold text-sm !min-h-11 !py-2.5">
-              ขอข้อเสนอ PVD
+            <Link href={cta.href} className="btn btn-gold whitespace-nowrap text-sm !min-h-11 !py-2.5 !px-5">
+              {cta.label}
             </Link>
           </div>
 
@@ -113,11 +122,11 @@ export default function Navbar() {
                 </Link>
               ))}
               <Link
-                href="/#contact-form"
+                href={cta.href}
                 onClick={() => setOpen(false)}
                 className="btn btn-gold mt-2 w-full"
               >
-                ขอข้อเสนอ PVD
+                {cta.label}
               </Link>
             </div>
           </div>

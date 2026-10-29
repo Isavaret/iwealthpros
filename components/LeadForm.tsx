@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Clock, CheckCircle2, Loader2, FileText } from "lucide-react";
+import { Field, SectionTitle, choiceClass, inputClass } from "@/components/FormFields";
 
 /** แบบฟอร์มนี้อ้างอิงจาก "รายละเอียดลูกค้าสำหรับการออกข้อเสนอกองทุนสำรองเลี้ยงชีพ"
  *  (Requisition for Provident Fund Proposal) */
@@ -42,57 +43,6 @@ const schema = z.object({
 });
 
 type FormData = z.infer<typeof schema>;
-
-const inputClass =
-  "w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#CBAE6B] focus:ring-2 focus:ring-[#CBAE6B]/20 text-[#0A192C] placeholder:text-gray-400 transition";
-
-function Field({
-  label,
-  en,
-  required,
-  error,
-  children,
-}: {
-  label: string;
-  en?: string;
-  required?: boolean;
-  error?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <label className="block text-sm font-medium text-[#0A192C] mb-1.5">
-        {label}
-        {en && <span className="text-gray-400 font-normal"> / {en}</span>}
-        {required && <span className="text-red-500"> *</span>}
-      </label>
-      {children}
-      {error && <p className="mt-1 text-red-500 text-xs">{error}</p>}
-    </div>
-  );
-}
-
-function SectionTitle({
-  step,
-  label,
-  en,
-}: {
-  step: number;
-  label: string;
-  en: string;
-}) {
-  return (
-    <div className="flex items-center gap-3 pt-2">
-      <span className="w-7 h-7 rounded-lg bg-[#0A192C] text-[#F0DA8F] text-sm font-bold flex items-center justify-center flex-shrink-0">
-        {step}
-      </span>
-      <div>
-        <p className="font-bold text-[#0A192C] leading-tight">{label}</p>
-        <p className="text-gray-400 text-xs">{en}</p>
-      </div>
-    </div>
-  );
-}
 
 export default function LeadForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -208,7 +158,7 @@ export default function LeadForm() {
                 ].map((opt) => (
                   <label
                     key={opt.value}
-                    className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-gray-200 cursor-pointer hover:border-[#CBAE6B] transition has-[:checked]:border-[#CBAE6B] has-[:checked]:bg-[#F7EBC6]/30"
+                    className={choiceClass}
                   >
                     <input
                       type="radio"
@@ -351,7 +301,7 @@ export default function LeadForm() {
               en="With an existing provident fund"
             />
 
-            <label className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-gray-200 cursor-pointer hover:border-[#CBAE6B] transition has-[:checked]:border-[#CBAE6B] has-[:checked]:bg-[#F7EBC6]/30">
+            <label className={choiceClass}>
               <input
                 type="checkbox"
                 className="accent-[#856A2E] w-4 h-4"
@@ -455,7 +405,7 @@ export default function LeadForm() {
               en="Group Insurance provided to employees"
             />
 
-            <label className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-gray-200 cursor-pointer hover:border-[#CBAE6B] transition has-[:checked]:border-[#CBAE6B] has-[:checked]:bg-[#F7EBC6]/30">
+            <label className={choiceClass}>
               <input
                 type="checkbox"
                 className="accent-[#856A2E] w-4 h-4"

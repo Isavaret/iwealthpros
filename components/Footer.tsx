@@ -203,9 +203,15 @@ export default function Footer() {
             <div className="mb-8">
               <Link
                 href="/articles"
-                className="inline-flex min-h-11 items-center text-sm text-white/60 transition-colors hover:text-[#CBAE6B]"
+                className="flex min-h-11 items-center text-sm text-white/60 transition-colors hover:text-[#CBAE6B]"
               >
                 บทความความรู้เรื่อง PVD →
+              </Link>
+              <Link
+                href="/workshop"
+                className="flex min-h-11 items-center text-sm text-white/60 transition-colors hover:text-[#CBAE6B]"
+              >
+                Workshop วางแผนเกษียณสำหรับองค์กร (ฟรี) →
               </Link>
             </div>
 

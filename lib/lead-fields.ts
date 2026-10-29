@@ -1,4 +1,9 @@
-import type { Lead, LeadStatus } from "@/types/lead";
+import type {
+  Lead,
+  LeadInterest,
+  LeadStatus,
+  WorkshopFormat,
+} from "@/types/lead";
 
 export const statusLabels: Record<LeadStatus, string> = {
   new: "ใหม่",
@@ -6,6 +11,19 @@ export const statusLabels: Record<LeadStatus, string> = {
   converted: "ปิดการขาย",
   closed: "ปิด",
 };
+
+export const interestLabels: Record<LeadInterest, string> = {
+  provident_fund: "ขอข้อเสนอ PVD",
+  retirement_workshop: "Workshop เกษียณ",
+};
+
+export const workshopFormatLabels: Record<WorkshopFormat, string> = {
+  onsite: "จัดที่บริษัท (Onsite)",
+  online: "ออนไลน์",
+  undecided: "ยังไม่แน่ใจ / ขอคำแนะนำ",
+};
+
+const isWorkshop = (l: Lead) => l.interest === "retirement_workshop";
 
 /**
  * ระบุ timeZone ตายตัว — ถ้าปล่อยให้ใช้โซนเวลาของเครื่อง ฝั่ง server (UTC บน Vercel)
@@ -50,9 +68,17 @@ export type LeadField = {
   width?: number;
 };
 
-/** ทุกฟิลด์ตามแบบฟอร์มขอข้อเสนอ — ใช้ร่วมกันทั้งแถวรายละเอียด, CSV และ Excel */
+/**
+ * ทุกฟิลด์ของทั้งสองฟอร์ม — ใช้ร่วมกันทั้งแถวรายละเอียด, CSV และ Excel
+ * ช่องที่ฟอร์ม workshop ไม่ได้ถาม (ภาษาข้อเสนอ, ประกันกลุ่ม) คืนค่าว่าง จะได้ไม่ขึ้นว่า "ไม่มี" ผิด ๆ
+ */
 export const leadFields: LeadField[] = [
   { label: "ชื่อบริษัท", get: (l) => l.company_name, width: 30 },
+  {
+    label: "ประเภทคำขอ",
+    get: (l) => interestLabels[l.interest] ?? l.interest,
+    width: 16,
+  },
   { label: "ชื่อผู้ติดต่อ", get: (l) => l.contact_person, width: 22 },
   { label: "ตำแหน่ง", get: (l) => l.position ?? "", width: 18 },
   { label: "เบอร์โทร", get: (l) => l.phone, width: 14 },
@@ -74,8 +100,26 @@ export const leadFields: LeadField[] = [
     width: 22,
   },
   {
+    label: "ผู้เข้าร่วม Workshop",
+    get: (l) => fmt(l.workshop_participants),
+    raw: (l) => num(l.workshop_participants),
+    numFmt: "#,##0",
+    width: 18,
+  },
+  {
+    label: "รูปแบบ Workshop",
+    get: (l) => (l.workshop_format ? workshopFormatLabels[l.workshop_format] : ""),
+    width: 22,
+  },
+  {
+    label: "ช่วงเวลาที่สะดวก",
+    get: (l) => l.workshop_preferred_period ?? "",
+    width: 24,
+  },
+  {
     label: "ภาษาข้อเสนอ",
-    get: (l) => (l.proposal_language === "en" ? "English" : "ไทย"),
+    get: (l) =>
+      isWorkshop(l) ? "" : l.proposal_language === "en" ? "English" : "ไทย",
     width: 12,
   },
   { label: "มี PVD แล้ว", get: (l) => (l.has_existing_pvd ? "มี" : "ไม่มี"), width: 11 },
@@ -117,7 +161,11 @@ export const leadFields: LeadField[] = [
     numFmt: "0.000",
     width: 18,
   },
-  { label: "ประกันกลุ่ม", get: (l) => (l.has_group_insurance ? "มี" : "ไม่มี"), width: 12 },
+  {
+    label: "ประกันกลุ่ม",
+    get: (l) => (isWorkshop(l) ? "" : l.has_group_insurance ? "มี" : "ไม่มี"),
+    width: 12,
+  },
   { label: "ประกันกลุ่มกับ", get: (l) => l.group_insurance_company ?? "", width: 20 },
   { label: "ข้อมูลเพิ่มเติม", get: (l) => l.message ?? "", width: 40 },
 ];

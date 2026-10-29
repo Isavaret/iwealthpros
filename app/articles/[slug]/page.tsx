@@ -35,6 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       publishedTime: article.publishedAt,
       modifiedTime: article.updatedAt,
       section: article.category,
+      // การกำหนด openGraph ระดับหน้าจะแทนที่ของ layout ทั้งก้อน — ต้องใส่ภาพแชร์ซ้ำเอง
+      images: "/opengraph-image.jpg",
     },
     twitter: {
       card: "summary_large_image",

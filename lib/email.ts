@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import type { LeadInsert } from "@/types/lead";
+import { workshopFormatLabels } from "@/lib/lead-fields";
 
 const NAVY = "#0A192C";
 const NAVY_SOFT = "#132845";
@@ -48,6 +49,21 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
   const appUrl =
     process.env.NEXT_PUBLIC_APP_URL || "https://iwealthpros.vercel.app";
 
+  const isWorkshop = lead.interest === "retirement_workshop";
+
+  const workshopSection =
+    sectionTitle("รายละเอียด Workshop") +
+    row("จำนวนผู้เข้าร่วมโดยประมาณ", num(lead.workshop_participants, " คน")) +
+    row(
+      "รูปแบบที่สะดวก",
+      lead.workshop_format ? workshopFormatLabels[lead.workshop_format] : null
+    ) +
+    row("ช่วงเวลาที่สะดวก", lead.workshop_preferred_period) +
+    row(
+      "กองทุนสำรองเลี้ยงชีพ",
+      lead.has_existing_pvd ? "มีอยู่แล้ว" : "ยังไม่มี"
+    );
+
   const pvdSection = lead.has_existing_pvd
     ? sectionTitle("กองทุนสำรองเลี้ยงชีพปัจจุบัน") +
       row("ข้อมูล ณ วันที่", lead.pvd_data_as_of) +
@@ -70,13 +86,19 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
     from: "I Wealth Pros <noreply@iwealthpros.com>",
     to: recipients,
     replyTo: lead.email,
-    subject: `ขอข้อเสนอ PVD: ${lead.company_name} — I Wealth Pros`,
+    subject: isWorkshop
+      ? `ขอจัด Workshop เกษียณ: ${lead.company_name} — I Wealth Pros`
+      : `ขอข้อเสนอ PVD: ${lead.company_name} — I Wealth Pros`,
     html: `
       <div style="font-family: Arial, 'Helvetica Neue', sans-serif; max-width: 640px; margin: 0 auto;">
         <div style="background: ${NAVY}; padding: 24px; border-radius: 12px 12px 0 0; border-bottom: 2px solid ${GOLD};">
           <h1 style="color: ${GOLD_LIGHT}; margin: 0; font-size: 22px; letter-spacing: 2px;">I WEALTH PROS</h1>
           <p style="color: rgba(255,255,255,0.6); margin: 6px 0 0; font-size: 13px;">
-            คำขอข้อเสนอกองทุนสำรองเลี้ยงชีพใหม่จากเว็บไซต์
+            ${
+              isWorkshop
+                ? "คำขอจัด Workshop วางแผนเกษียณใหม่จากเว็บไซต์"
+                : "คำขอข้อเสนอกองทุนสำรองเลี้ยงชีพใหม่จากเว็บไซต์"
+            }
           </p>
         </div>
         <div style="background: #ffffff; padding: 24px; border-radius: 0 0 12px 12px; border: 1px solid #e5e7eb; border-top: none;">
@@ -86,7 +108,7 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
             ${row("ชื่อผู้ติดต่อ", lead.contact_person)}
             ${row("ตำแหน่ง", lead.position)}
             ${row("เบอร์โทร", lead.phone)}
-            ${row("อีเมลรับข้อเสนอ", lead.email)}
+            ${row(isWorkshop ? "อีเมล" : "อีเมลรับข้อเสนอ", lead.email)}
             ${row("ที่อยู่บริษัท", lead.company_address)}
             ${row("ประเภทธุรกิจ", lead.business_type)}
             ${row("จำนวนพนักงาน", num(lead.employees_count, " คน"))}
@@ -94,12 +116,16 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
               "เงินเดือนพื้นฐานรวม/เดือน",
               num(lead.total_basic_salary, " บาท")
             )}
-            ${row(
-              "ภาษาข้อเสนอที่ต้องการ",
-              lead.proposal_language === "en" ? "English" : "ภาษาไทย"
-            )}
-            ${pvdSection}
-            ${insuranceSection}
+            ${
+              isWorkshop
+                ? workshopSection
+                : row(
+                    "ภาษาข้อเสนอที่ต้องการ",
+                    lead.proposal_language === "en" ? "English" : "ภาษาไทย"
+                  ) +
+                  pvdSection +
+                  insuranceSection
+            }
             ${lead.message ? sectionTitle("ข้อมูลเพิ่มเติม") + row("ข้อความ", lead.message) : ""}
           </table>
 

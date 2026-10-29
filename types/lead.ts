@@ -3,8 +3,15 @@ export type LeadStatus = "new" | "contacted" | "converted" | "closed";
 /** ภาษาของข้อเสนอที่ลูกค้าต้องการ — ตามหัวแบบฟอร์ม Requisition for Provident Fund Proposal */
 export type ProposalLanguage = "th" | "en";
 
+/** ประเภทคำขอ — ฟอร์มขอข้อเสนอ PVD (หน้าแรก) หรือฟอร์มขอจัด workshop (/workshop) */
+export type LeadInterest = "provident_fund" | "retirement_workshop";
+
+/** รูปแบบการจัด workshop ที่องค์กรสะดวก */
+export type WorkshopFormat = "onsite" | "online" | "undecided";
+
 /** ฟิลด์ที่รับจากฟอร์ม (ตรงตามแบบฟอร์มขอข้อเสนอกองทุนสำรองเลี้ยงชีพ) */
 export interface LeadInsert {
+  interest: LeadInterest;
   proposal_language: ProposalLanguage;
 
   // ข้อมูลบริษัท / Company information
@@ -32,6 +39,11 @@ export interface LeadInsert {
   // ประกันชีวิตกลุ่ม / Group insurance
   has_group_insurance: boolean;
   group_insurance_company?: string;
+
+  // Workshop วางแผนเกษียณ — กรอกเฉพาะ interest = retirement_workshop
+  workshop_participants?: number;
+  workshop_format?: WorkshopFormat;
+  workshop_preferred_period?: string;
 
   message?: string;
 }
@@ -63,8 +75,12 @@ export interface Lead {
   has_group_insurance: boolean;
   group_insurance_company: string | null;
 
+  workshop_participants: number | null;
+  workshop_format: WorkshopFormat | null;
+  workshop_preferred_period: string | null;
+
   message: string | null;
-  interest: string;
+  interest: LeadInterest;
   status: LeadStatus;
   created_at: string;
 }

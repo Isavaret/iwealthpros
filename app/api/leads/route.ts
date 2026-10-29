@@ -15,6 +15,8 @@ const optionalText = z.preprocess(
 );
 
 const schema = z.object({
+  /** ไม่ส่งมา = ฟอร์มขอข้อเสนอ PVD บนหน้าแรก */
+  interest: z.enum(["provident_fund", "retirement_workshop"]).default("provident_fund"),
   proposal_language: z.enum(["th", "en"]).default("th"),
 
   company_name: z.string().min(2).max(300),
@@ -42,6 +44,13 @@ const schema = z.object({
 
   has_group_insurance: z.boolean().default(false),
   group_insurance_company: optionalText,
+
+  workshop_participants: optionalNumber,
+  workshop_format: z.preprocess(
+    (v) => (v === "" || v === null ? undefined : v),
+    z.enum(["onsite", "online", "undecided"]).optional()
+  ),
+  workshop_preferred_period: optionalText,
 
   message: optionalText,
   /** honeypot — บอทมักกรอกทุกช่อง คนจริงจะไม่เห็นช่องนี้ */
@@ -78,19 +87,28 @@ export async function POST(req: NextRequest) {
             pvd_ytd_yield: undefined,
           }),
       ...(lead.has_group_insurance ? {} : { group_insurance_company: undefined }),
+      ...(lead.interest === "retirement_workshop"
+        ? {}
+        : {
+            workshop_participants: undefined,
+            workshop_format: undefined,
+            workshop_preferred_period: undefined,
+          }),
     };
 
     const [inserted] = await sql`
       INSERT INTO leads (
-        proposal_language, company_name, contact_person, position,
+        interest, proposal_language, company_name, contact_person, position,
         company_address, phone, business_type, employees_count,
         total_basic_salary, email,
         has_existing_pvd, pvd_data_as_of, pvd_fund_size,
         pvd_monthly_contribution, pvd_members_count, pvd_current_manager,
         pvd_investment_policy, pvd_management_fee, pvd_ytd_yield,
-        has_group_insurance, group_insurance_company, message
+        has_group_insurance, group_insurance_company,
+        workshop_participants, workshop_format, workshop_preferred_period,
+        message
       ) VALUES (
-        ${record.proposal_language}, ${record.company_name},
+        ${record.interest}, ${record.proposal_language}, ${record.company_name},
         ${record.contact_person}, ${record.position ?? null},
         ${record.company_address ?? null}, ${record.phone},
         ${record.business_type ?? null}, ${record.employees_count ?? null},
@@ -100,7 +118,9 @@ export async function POST(req: NextRequest) {
         ${record.pvd_members_count ?? null}, ${record.pvd_current_manager ?? null},
         ${record.pvd_investment_policy ?? null}, ${record.pvd_management_fee ?? null},
         ${record.pvd_ytd_yield ?? null}, ${record.has_group_insurance},
-        ${record.group_insurance_company ?? null}, ${record.message ?? null}
+        ${record.group_insurance_company ?? null},
+        ${record.workshop_participants ?? null}, ${record.workshop_format ?? null},
+        ${record.workshop_preferred_period ?? null}, ${record.message ?? null}
       )
       RETURNING id
     `;
