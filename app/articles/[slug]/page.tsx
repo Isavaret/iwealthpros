@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, Info } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
-import { articles, getArticle } from "@/lib/articles";
+import RichText from "@/components/RichText";
+import { articles, articleSeries, articlesInSeries, getArticle } from "@/lib/articles";
 import JsonLd from "@/components/JsonLd";
 import { articleSchema } from "@/lib/schema";
 
@@ -21,13 +22,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!article) return { title: "ไม่พบบทความ | I Wealth Pros" };
 
   const url = `/articles/${article.slug}`;
+  const title = article.seoTitle ?? article.title;
 
   return {
-    title: article.title,
+    title,
     description: article.excerpt,
+    keywords: article.keywords,
     alternates: { canonical: url },
     openGraph: {
-      title: article.title,
+      title,
       description: article.excerpt,
       type: "article",
       url,
@@ -40,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: article.title,
+      title,
       description: article.excerpt,
     },
   };
@@ -51,7 +54,14 @@ export default async function ArticlePage({ params }: Props) {
   const article = getArticle(slug);
   if (!article) notFound();
 
-  const others = articles.filter((a) => a.slug !== article.slug).slice(0, 3);
+  // บทความถัดไปในชุดเดียวกัน วนกลับไปต้นชุด — พาผู้อ่านเดินตามลำดับที่ชุดออกแบบไว้
+  const inSeries = articlesInSeries(article.series);
+  const at = inSeries.findIndex((a) => a.slug === article.slug);
+  const others = [1, 2, 3]
+    .map((step) => inSeries[(at + step) % inSeries.length])
+    .filter((a) => a.slug !== article.slug);
+  const series = articleSeries[article.series];
+  const cta = article.ctaButton ?? { label: "ขอข้อเสนอ PVD ฟรี", href: "/#contact-form" };
 
   return (
     <>
@@ -71,7 +81,7 @@ export default async function ArticlePage({ params }: Props) {
             </Link>
 
             <p className="text-[#CBAE6B] text-xs font-semibold uppercase tracking-widest mb-4">
-              บทความที่ {article.order} · {article.category}
+              ชุดที่ {article.series} · บทความที่ {article.order} · {article.category}
             </p>
             <h1 className="h2-fluid font-bold text-white mb-5 text-balance">
               {article.title}
@@ -109,7 +119,7 @@ export default async function ArticlePage({ params }: Props) {
                       key={i}
                       className="text-gray-700 leading-[1.9] mb-5 text-[15px] sm:text-base"
                     >
-                      {block.text}
+                      <RichText text={block.text} />
                     </p>
                   );
 
@@ -128,7 +138,7 @@ export default async function ArticlePage({ params }: Props) {
                             {item.title}
                           </h3>
                           <p className="text-gray-700 leading-[1.9] text-[15px] sm:text-base">
-                            {item.text}
+                            <RichText text={item.text} />
                           </p>
                         </li>
                       ))}
@@ -145,6 +155,43 @@ export default async function ArticlePage({ params }: Props) {
                         {block.text}
                       </p>
                     </blockquote>
+                  );
+
+                case "list":
+                  return (
+                    <ul key={i} className="my-6 space-y-3">
+                      {block.items.map((item) => (
+                        <li
+                          key={item.text}
+                          className="relative pl-6 text-gray-700 leading-[1.9] text-[15px] sm:text-base"
+                        >
+                          <span
+                            className="absolute left-0 top-[0.8em] h-2 w-2 rounded-full bg-[#CBAE6B]"
+                            aria-hidden="true"
+                          />
+                          {item.title && (
+                            <strong className="font-semibold text-[#0A192C]">
+                              {item.title}{" "}
+                            </strong>
+                          )}
+                          <RichText text={item.text} />
+                        </li>
+                      ))}
+                    </ul>
+                  );
+
+                case "note":
+                  return (
+                    <aside
+                      key={i}
+                      className="my-6 flex gap-3 rounded-xl border border-gray-200 bg-gray-50 px-5 py-4"
+                    >
+                      <Info size={18} className="mt-1 shrink-0 text-[#856A2E]" />
+                      <p className="text-sm leading-[1.8] text-gray-600">
+                        <span className="font-semibold text-[#0A192C]">หมายเหตุ </span>
+                        <RichText text={block.text} />
+                      </p>
+                    </aside>
                   );
 
                 case "table":
@@ -178,7 +225,7 @@ export default async function ArticlePage({ params }: Props) {
                                       : "text-gray-700"
                                   }`}
                                 >
-                                  {cell}
+                                  <RichText text={cell} />
                                 </td>
                               ))}
                             </tr>
@@ -194,21 +241,59 @@ export default async function ArticlePage({ params }: Props) {
             <div className="mt-12 bg-[#0A192C] rounded-2xl p-7 sm:p-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-40 h-40 bg-[#CBAE6B]/10 rounded-full blur-2xl" />
               <div className="relative">
+                {article.ctaTitle && (
+                  <p className="text-[#F0DA8F] font-bold text-lg sm:text-xl mb-2">
+                    {article.ctaTitle}
+                  </p>
+                )}
                 <p className="text-white/80 leading-[1.9] text-[15px] sm:text-base mb-6">
                   {article.cta}
                 </p>
-                <Link
-                  href="/#contact-form"
-                  className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-gold-metallic text-[#0A192C] font-bold text-sm transition-all hover:scale-105"
-                >
-                  ขอข้อเสนอ PVD ฟรี
-                </Link>
+                {cta.href.startsWith("/") ? (
+                  <Link
+                    href={cta.href}
+                    className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-gold-metallic text-[#0A192C] font-bold text-sm transition-all hover:scale-105"
+                  >
+                    {cta.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={cta.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-gold-metallic text-[#0A192C] font-bold text-sm transition-all hover:scale-105"
+                  >
+                    {cta.label}
+                  </a>
+                )}
               </div>
             </div>
 
+            {article.sources && (
+              <div className="mt-10 border-t border-gray-100 pt-6">
+                <h2 className="mb-3 text-sm font-semibold text-[#0A192C]">
+                  แหล่งอ้างอิง
+                </h2>
+                <ul className="space-y-1.5">
+                  {article.sources.map((src) => (
+                    <li key={src.url} className="text-xs leading-relaxed text-gray-500">
+                      <a
+                        href={src.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-start gap-1 hover:text-[#856A2E]"
+                      >
+                        <ArrowRight size={12} className="mt-0.5 shrink-0" />
+                        {src.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <p className="mt-8 text-gray-400 text-xs leading-relaxed">
-              บทความนี้จัดทำเพื่อเป็นความรู้ทั่วไป อ้างอิงกฎหมายและอัตราภาษี ณ ปี 2569
-              ไม่ถือเป็นคำแนะนำการลงทุน
+              {series.disclaimer}
             </p>
           </div>
         </article>
@@ -217,7 +302,7 @@ export default async function ArticlePage({ params }: Props) {
         <section className="bg-gray-50 py-14 sm:py-16">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <h2 className="font-sans text-2xl font-bold text-[#0A192C] mb-8">
-              บทความอื่นในชุดนี้
+              อ่านต่อในชุด “{series.title}”
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {others.map((a) => (

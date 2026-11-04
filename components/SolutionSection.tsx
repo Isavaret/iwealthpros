@@ -114,7 +114,7 @@ export default function SolutionSection() {
               <p className="text-lg font-medium leading-relaxed text-white sm:text-xl">
                 บริษัทที่{" "}
                 <span className="font-bold text-gold-metallic">
-                  จัดตั้ง PVD ก่อน 1 ต.ค. 2569
+                  จัดตั้ง PVD ก่อน 1 ม.ค. 2570
                 </span>{" "}
                 จะได้รับการ
                 <span className="font-bold text-gold-metallic"> ยกเว้นโดยอัตโนมัติ</span>{" "}

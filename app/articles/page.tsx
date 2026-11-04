@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
-import { articles } from "@/lib/articles";
+import { articles, articleSeries, articlesInSeries, seriesOrder } from "@/lib/articles";
 import JsonLd from "@/components/JsonLd";
 import { articleListSchema } from "@/lib/schema";
 import Link from "next/link";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "บทความความรู้ PVD",
   alternates: { canonical: "/articles" },
   description:
-    "ชุดบทความให้ความรู้ “กองทุนสำรองเลี้ยงชีพ (PVD) เพื่อธุรกิจยุคใหม่” โดยทีม I Wealth Pros — ข้อดีของ PVD, การเลือกผู้บริหารกองทุน, การรักษาพนักงาน และการวางแผนภาษีนิติบุคคล",
+    "บทความความรู้เรื่องกองทุนสำรองเลี้ยงชีพ (PVD) สำหรับเจ้าของธุรกิจและฝ่าย HR โดยทีม I Wealth Pros — กองทุนสงเคราะห์ลูกจ้าง ต้นทุนการตั้ง PVD ขั้นตอนจัดตั้ง การออกแบบอัตราสมทบ ภาษี และการรักษาพนักงาน",
 };
 
 export default function ArticlesPage() {
@@ -27,16 +27,16 @@ export default function ArticlesPage() {
           <div className="container-page relative text-center">
             <div className="eyebrow mb-6 border border-[#CBAE6B]/30 bg-[#CBAE6B]/10 text-[#F0DA8F]">
               <BookOpen size={16} className="shrink-0 text-[#CBAE6B]" />
-              ชุดบทความให้ความรู้
+              {seriesOrder.length} ชุด · {articles.length} บทความ
             </div>
             <h1 className="h1-fluid font-bold text-white mb-5 text-balance">
-              กองทุนสำรองเลี้ยงชีพ (PVD)
+              บทความความรู้ PVD
               <br />
-              <span className="text-gold-metallic">เพื่อธุรกิจยุคใหม่</span>
+              <span className="text-gold-metallic">สำหรับเจ้าของธุรกิจ</span>
             </h1>
             <p className="lead text-white/60 max-w-2xl mx-auto text-pretty">
               รวมบทความที่เจ้าของกิจการและฝ่าย HR ควรรู้ ก่อนตัดสินใจจัดตั้งกองทุนสำรองเลี้ยงชีพ
-              พร้อมอัปเดตกฎหมายที่จะมีผลบังคับใช้ 1 ตุลาคม 2569
+              พร้อมอัปเดตกฎหมายกองทุนสงเคราะห์ลูกจ้างล่าสุด
             </p>
             <div className="rule-gold max-w-xs mx-auto mt-8" />
             <p className="text-white/30 text-xs mt-5">
@@ -48,9 +48,26 @@ export default function ArticlesPage() {
         {/* Article grid */}
         <section className="bg-light-gradient section-y">
           <div className="container-page">
-            <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
-              {articles.map((article) => (
-                <ArticleCard key={article.slug} article={article} />
+            <div className="space-y-16 sm:space-y-20">
+              {seriesOrder.map((id) => (
+                <div key={id}>
+                  <div className="mb-8 sm:mb-10">
+                    <p className="mb-2 text-xs font-semibold tracking-[0.3em] text-[#856A2E] uppercase">
+                      ชุดที่ {id}
+                    </p>
+                    <h2 className="h3-fluid font-bold text-[#0A192C] mb-2 text-balance">
+                      {articleSeries[id].title}
+                    </h2>
+                    <p className="text-gray-600 text-sm sm:text-base max-w-3xl text-pretty">
+                      {articleSeries[id].description}
+                    </p>
+                  </div>
+                  <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
+                    {articlesInSeries(id).map((article) => (
+                      <ArticleCard key={article.slug} article={article} />
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
 

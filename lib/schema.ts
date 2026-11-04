@@ -126,13 +126,16 @@ export function articleSchema(article: Article) {
         "@id": `${url}#article`,
         headline: article.title,
         description: article.excerpt,
+        ...(article.keywords && { keywords: article.keywords.join(", ") }),
         articleSection: article.category,
         inLanguage: site.language,
         datePublished: article.publishedAt,
         dateModified: article.updatedAt,
         wordCount: article.blocks.reduce((n, b) => {
-          if (b.type === "p" || b.type === "h2" || b.type === "quote")
+          if (b.type === "p" || b.type === "h2" || b.type === "quote" || b.type === "note")
             return n + b.text.length;
+          if (b.type === "list")
+            return n + b.items.reduce((m, i) => m + (i.title?.length ?? 0) + i.text.length, 0);
           if (b.type === "steps")
             return (
               n + b.items.reduce((m, i) => m + i.title.length + i.text.length, 0)
@@ -169,7 +172,7 @@ export const articleListSchema = (list: Article[]) => ({
       "@type": "CollectionPage",
       "@id": absoluteUrl("/articles#webpage"),
       url: absoluteUrl("/articles"),
-      name: "บทความความรู้ PVD",
+      name: "บทความความรู้ PVD สำหรับเจ้าของธุรกิจ",
       inLanguage: site.language,
       isPartOf: { "@id": WEBSITE_ID },
       mainEntity: {

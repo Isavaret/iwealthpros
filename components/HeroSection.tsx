@@ -50,8 +50,8 @@ export default function HeroSection() {
             <p className="lead text-white/70 mb-4 max-w-xl">
               กฎหมายกำหนดให้บริษัทที่มีพนักงาน{" "}
               <span className="text-white font-semibold">ตั้งแต่ 10 คนขึ้นไป</span>{" "}
-              ต้องเข้าร่วมกองทุนสงเคราะห์ลูกจ้างภายใน{" "}
-              <span className="text-[#F0DA8F] font-semibold">1 ตุลาคม 2569</span>
+              ต้องนำส่งเงินเข้ากองทุนสงเคราะห์ลูกจ้าง ตั้งแต่{" "}
+              <span className="text-[#F0DA8F] font-semibold">1 มกราคม 2570</span>
             </p>
             <p className="lead text-white/70 mb-9 max-w-xl">
               แต่มีทางออกที่{" "}

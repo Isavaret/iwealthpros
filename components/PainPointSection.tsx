@@ -13,11 +13,11 @@ export default function PainPointSection() {
           <h2 className="h2-fluid font-bold text-[#0A192C] mb-4 text-balance">
             กองทุนสงเคราะห์ลูกจ้าง
             <br />
-            <span className="text-[#856A2E]">เริ่ม 1 ตุลาคม 2569</span>
+            <span className="text-[#856A2E]">เริ่ม 1 มกราคม 2570</span>
           </h2>
           <p className="lead text-gray-600 max-w-2xl mx-auto text-pretty">
-            ครม. อนุมัติแล้ว — บริษัทที่ยังไม่เตรียมพร้อมอาจต้องแบกรับภาระที่
-            ไม่จำเป็น ในขณะที่มีทางเลือกที่ดีกว่าอยู่แล้ว
+            ครม. มีมติเมื่อ 14 ต.ค. 2569 เลื่อนจากเดิม 1 ต.ค. 2569 — เลื่อน ไม่ใช่ยกเลิก
+            บริษัทที่ยังไม่เตรียมพร้อมอาจต้องแบกรับภาระที่ไม่จำเป็น ในขณะที่มีทางเลือกที่ดีกว่าอยู่แล้ว
           </p>
         </div>
 
@@ -30,13 +30,13 @@ export default function PainPointSection() {
             <div className="space-y-6">
               {[
                 {
-                  date: "1 ต.ค. 2569",
+                  date: "1 ม.ค. 2570",
                   detail: "เริ่มหักเงินสะสมและสมทบ",
                   rate: "0.25% ของค่าจ้าง (ทั้งนายจ้างและลูกจ้าง)",
                   highlight: true,
                 },
                 {
-                  date: "1 ต.ค. 2574",
+                  date: "1 ม.ค. 2575",
                   detail: "ปรับอัตราเพิ่มขึ้น",
                   rate: "0.5% ของค่าจ้าง (ทั้งนายจ้างและลูกจ้าง)",
                   highlight: false,

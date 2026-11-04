@@ -1,0 +1,51 @@
+# TODO — I Wealth Pros web app
+
+อัปเดตล่าสุด: 5 พ.ย. 2569 · ติ๊ก `[x]` เมื่อทำเสร็จ หรือลบทิ้งเมื่อไม่ต้องทำแล้ว
+
+## ควรทำก่อน
+
+- [ ] **ทดสอบส่งฟอร์ม `/workshop` บนเว็บจริง 1 ครั้ง** — ณ 4 พ.ย. ในฐานข้อมูลยังไม่มีคำขอ workshop เลย
+      เช็กว่า lead ขึ้นใน `/admin` พร้อมป้าย "Workshop เกษียณ" และอีเมลแจ้งเตือนเข้า แล้วเปลี่ยนสถานะเป็น "ปิด"
+- [ ] **เปิด `/admin` ดูว่าวันที่และเวลาแสดงในคอลัมน์แรก** (commit `29a3da6`) — ต้องล็อกอินแอดมิน
+
+## เนื้อหาที่รอเจ้าของยืนยัน
+
+- [ ] **ทบทวนเรื่องกองทุนสงเคราะห์ลูกจ้างเมื่อกฎหมายประกาศฉบับสมบูรณ์** — ตอนนี้ทั้งเว็บใช้ 1 ม.ค. 2570 ตามมติ ครม. 14 ต.ค. 2569
+      ซึ่งยังเป็นร่าง เมื่อประกาศใช้จริง (กำหนดนำส่งงวดแรก บทลงโทษ ข้อยกเว้น) ให้ตรวจ:
+      `HeroSection`, `PainPointSection`, `SolutionSection`, `lib/faqs.ts`, `public/llms.txt`,
+      บทความชุด 1 บทความที่ 1, ชุด 2 บทความที่ 1, 2, 7 และ `marketing/google-ads/build_ads.py` — แล้ว bump `updatedAt` ของบทความที่แก้
+- [ ] **Lead magnet ของบทความชุดที่ 2** — เช็กลิสต์ 1 หน้า, เครื่องคิดเลขต้นทุน PVD (Excel), SOP งาน HR, เทมเพลตคู่มือพนักงาน
+      ยังไม่มีไฟล์ จึงตัดออกจากบทความไว้ก่อน
+
+- [ ] **นิยาม "เงิน 3 ถัง"** — ตอนนี้บนเว็บยังเขียนไว้กว้าง ๆ แก้ที่ `lib/workshop.ts` (module `buckets`)
+- [ ] **ยืนยันข้อความในหน้า workshop** — จัดแบบออนไลน์ได้จริงหรือไม่ (ตัวเลือกในฟอร์ม)
+      และทีมเตรียมวิทยากรให้จริงหรือไม่ (`WorkshopHero`, `WorkshopBenefits`, `WorkshopProcess`)
+- [ ] **รูปที่ปรึกษาจริง** — `public/profile.png` ยังเป็นรูปชั่วคราว ใช้อยู่ใน hero หน้าแรก
+- [ ] **ปีรางวัลเขียนไม่ตรงกัน** — ต้องเลือกแบบเดียวก่อนนำไปใช้ในโฆษณา
+  - `HeroSection.tsx` และ `lib/awards.ts` (ป้ายรางวัล) เขียน **2022** = ปีที่จัดงาน
+  - `lib/site.ts`, `lib/faqs.ts`, `public/llms.txt` เขียน **2021** = ปีที่สลักบนถ้วย
+
+## การวัดผลและ SEO
+
+- [ ] **ติดตั้ง analytics และ conversion tracking** — ณ 4 พ.ย. เว็บจริงยังไม่มี tag อะไรเลย (ทั้ง Google tag และ Vercel Analytics)
+  - จำเป็นก่อนเปิด Google Ads
+  - ยิง conversion event เมื่อส่งฟอร์มสำเร็จ ทั้ง `components/LeadForm.tsx` และ `components/WorkshopForm.tsx`
+- [ ] **ยืนยันเว็บกับ Google Search Console / Bing** — บนเว็บยังไม่มี verification meta
+  - ตั้งค่า `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` ใน Vercel (และ `NEXT_PUBLIC_BING_SITE_VERIFICATION` ถ้าใช้ Bing)
+  - จากนั้นส่ง `https://iwealthpros.com/sitemap.xml`
+- [ ] **Google Ads** — ทำ checklist "ก่อนเปิดแคมเปญ" ใน `marketing/google-ads/README.md` ให้ครบ
+      (งบรายวัน, financial services verification, ตรวจข้อความโฆษณากับกฎของ AIA)
+  - แคมเปญตอนนี้ยังไม่มีกลุ่มโฆษณาสำหรับ workshop ฟรี
+
+## งานเทคนิคและเอกสาร
+
+- [ ] **README ล้าสมัย** — ยังเขียนว่า Neon Auth เปิดให้สมัครเองได้ (ปิดไปแล้ว) และยังไม่มีหน้า `/workshop`
+- [ ] **เช็กว่าตั้ง `NEXT_PUBLIC_APP_URL` ใน Vercel แล้ว** — ถ้าไม่ได้ตั้ง ลิงก์ในอีเมลแจ้งเตือน (`lib/email.ts`)
+      จะชี้ไป `iwealthpros.vercel.app` แทนโดเมนจริง
+- [ ] **ให้สิทธิ์ Vercel MCP เข้าทีม `iw-ealth-pros-projects`** (ไม่บังคับ) — เพื่อดูสถานะ deploy และ log error ได้โดยตรง
+- [ ] **อัปเดต Vercel CLI (60 → 65)** — `npm i -g vercel@latest`
+
+## ไอเดียเพิ่ม (ไม่เร่ง)
+
+- [ ] เครื่องคำนวณเงินเกษียณเบื้องต้นในหน้า workshop เพื่อดึงคนกรอกฟอร์ม — ต้องแสดงสมมติฐานให้ชัด
+- [ ] ภาพแชร์ลงโซเชียลแยกสำหรับหน้า workshop (ตอนนี้ใช้ภาพเดียวกับหน้าแรก)

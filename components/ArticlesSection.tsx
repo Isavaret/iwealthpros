@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { BookOpen, ArrowRight } from "lucide-react";
 import ArticleCard from "@/components/ArticleCard";
-import { articles } from "@/lib/articles";
+import { articleSeries, articlesInSeries, seriesOrder } from "@/lib/articles";
+
+// หน้าแรกโชว์แค่ 4 บทความแรกของชุดล่าสุด ที่เหลืออยู่ในหน้า /articles
+const latest = seriesOrder[0];
+const featured = articlesInSeries(latest).slice(0, 4);
 
 export default function ArticlesSection() {
   return (
@@ -18,13 +22,13 @@ export default function ArticlesSection() {
             บทความ<span className="text-gold-metallic">ที่เจ้าของธุรกิจควรอ่าน</span>
           </h2>
           <p className="lead text-white/60 max-w-2xl mx-auto text-pretty">
-            ชุดบทความ “กองทุนสำรองเลี้ยงชีพ (PVD) เพื่อธุรกิจยุคใหม่”
+            ชุดบทความล่าสุด “{articleSeries[latest].title}”
             สรุปสั้น อ่านจบได้ใน 4–6 นาที
           </p>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
-          {articles.map((article) => (
+          {featured.map((article) => (
             <ArticleCard key={article.slug} article={article} variant="dark" />
           ))}
         </div>
