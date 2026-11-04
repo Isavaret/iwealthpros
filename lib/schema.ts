@@ -1,6 +1,6 @@
 import { absoluteUrl, site } from "@/lib/site";
 import type { Article } from "@/lib/articles";
-import { faqs } from "@/lib/faqs";
+import { faqs, type Faq } from "@/lib/faqs";
 import { workshop, workshopModules } from "@/lib/workshop";
 
 const ORG_ID = absoluteUrl("/#organization");
@@ -85,15 +85,17 @@ export const servicesSchema = services.map((s) => ({
 }));
 
 /** FAQPage — ตัวที่ AI หยิบไปตอบคำถามตรง ๆ ได้มากที่สุด */
-export const faqSchema = {
+const faqPage = (id: string, list: Faq[]) => ({
   "@type": "FAQPage",
-  "@id": absoluteUrl("/#faq"),
-  mainEntity: faqs.map((f) => ({
+  "@id": id,
+  mainEntity: list.map((f) => ({
     "@type": "Question",
     name: f.question,
     acceptedAnswer: { "@type": "Answer", text: f.answer },
   })),
-};
+});
+
+export const faqSchema = faqPage(absoluteUrl("/#faq"), faqs);
 
 export const homePageSchema = {
   "@context": "https://schema.org",
@@ -148,6 +150,7 @@ export function articleSchema(article: Article) {
         image: absoluteUrl("/opengraph-image.jpg"),
       },
       organizationSchema,
+      ...(article.faqs ? [faqPage(`${url}#faq`, article.faqs)] : []),
       {
         "@type": "BreadcrumbList",
         itemListElement: [

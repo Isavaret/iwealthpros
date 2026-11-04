@@ -1,4 +1,5 @@
 import { series2 } from "@/lib/articles-series-2";
+import type { Faq } from "@/lib/faqs";
 
 /**
  * ข้อความในบล็อกรองรับลิงก์แบบ [ชื่อ](/ลิงก์) — แสดงผลผ่าน components/RichText.tsx
@@ -38,6 +39,11 @@ export interface Article {
   /** ไม่ระบุ = "ขอข้อเสนอ PVD ฟรี" ไปที่ฟอร์มหน้าแรก */
   ctaButton?: { label: string; href: string };
   sources?: { label: string; url: string }[];
+  /**
+   * คำถามท้ายบทความ — แสดงบนหน้าและสร้าง FAQPage schema
+   * ทุกคำตอบต้องมาจากเนื้อหาในบทความนั้นเอง ห้ามเพิ่มข้อมูลที่บทความไม่ได้พูดถึง
+   */
+  faqs?: Faq[];
 }
 
 export const articleSeries: Record<

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Clock, Info } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Clock, Info } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ArticleCard from "@/components/ArticleCard";
@@ -236,6 +236,35 @@ export default async function ArticlePage({ params }: Props) {
                   );
               }
             })}
+
+            {/* FAQ — เนื้อหาชุดเดียวกับ FAQPage schema ใน articleSchema */}
+            {article.faqs && (
+              <section id="faq" className="mt-12 scroll-mt-24">
+                <h2 className="font-sans text-xl sm:text-2xl font-bold text-[#0A192C] mb-5">
+                  คำถามที่พบบ่อย
+                </h2>
+                <div className="space-y-3">
+                  {article.faqs.map((faq) => (
+                    <details
+                      key={faq.question}
+                      name="article-faq"
+                      className="card-light group overflow-hidden px-5 py-1 sm:px-6"
+                    >
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left font-semibold text-[#0A192C] [&::-webkit-details-marker]:hidden">
+                        <h3 className="text-sm sm:text-base">{faq.question}</h3>
+                        <ChevronDown
+                          size={18}
+                          className="shrink-0 text-[#856A2E] transition-transform duration-200 group-open:rotate-180"
+                        />
+                      </summary>
+                      <p className="border-t border-[#0A192C]/8 pt-4 pb-5 text-sm leading-relaxed text-gray-600">
+                        {faq.answer}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* CTA */}
             <div className="mt-12 bg-[#0A192C] rounded-2xl p-7 sm:p-8 relative overflow-hidden">
