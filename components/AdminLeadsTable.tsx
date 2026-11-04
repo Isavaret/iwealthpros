@@ -14,6 +14,8 @@ import {
   interestLabels,
   statusLabels,
   formatThaiDateTime,
+  formatThaiDate,
+  formatThaiTime,
   text,
   fmt,
 } from "@/lib/lead-fields";
@@ -152,15 +154,14 @@ export default function AdminLeadsTable({
                 <tr>
                   {[
                     "",
+                    "รับข้อมูลเมื่อ",
                     "บริษัท",
                     "ประเภท",
                     "ผู้ติดต่อ",
-                    "โทร",
-                    "อีเมล",
+                    "โทร / อีเมล",
                     "พนักงาน",
                     "PVD เดิม",
                     "สถานะ",
-                    "วันที่",
                   ].map((h, i) => (
                     <th
                       key={i}
@@ -195,6 +196,12 @@ export default function AdminLeadsTable({
 function LeadDetail({ lead }: { lead: Lead }) {
   return (
     <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div>
+        <dt className="text-xs text-gray-400">รับข้อมูลเมื่อ</dt>
+        <dd className="text-sm text-[#0A192C]">
+          {formatThaiDateTime(lead.created_at)} น.
+        </dd>
+      </div>
       {leadFields
         .map((f) => ({ label: f.label, value: text(f.get(lead)) }))
         .filter((f) => f.value !== "")
@@ -264,8 +271,19 @@ function LeadCard({
           {expanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-semibold break-words text-[#0A192C]">
-            {lead.company_name}
+          <span className="flex items-start justify-between gap-3">
+            <span className="font-semibold break-words text-[#0A192C]">
+              {lead.company_name}
+            </span>
+            <time
+              dateTime={lead.created_at}
+              className="shrink-0 text-right text-xs leading-tight text-gray-500"
+            >
+              {formatThaiDate(lead.created_at)}
+              <span className="block text-gray-400">
+                {formatThaiTime(lead.created_at)}
+              </span>
+            </time>
           </span>
           <span className="mt-1 block">
             <InterestBadge lead={lead} />
@@ -277,7 +295,7 @@ function LeadCard({
             )}
           </span>
           <span className="mt-1 block text-xs text-gray-400">
-            {formatThaiDateTime(lead.created_at)} · พนักงาน{" "}
+            พนักงาน{" "}
             {fmt(lead.employees_count) || "—"} คน ·{" "}
             {lead.has_existing_pvd ? "มี PVD เดิม" : "ยังไม่มี PVD"}
           </span>
@@ -347,6 +365,16 @@ function FragmentRow({
           </button>
         </td>
         <td className="px-4 py-3 whitespace-nowrap">
+          <time dateTime={lead.created_at} className="block leading-tight">
+            <span className="block text-[#0A192C]">
+              {formatThaiDate(lead.created_at)}
+            </span>
+            <span className="block text-xs text-gray-400">
+              {formatThaiTime(lead.created_at)}
+            </span>
+          </time>
+        </td>
+        <td className="px-4 py-3 whitespace-nowrap">
           {/* กดที่ชื่อบริษัทเพื่อกาง/ปิดรายละเอียดได้เหมือนปุ่มลูกศร */}
           <button
             type="button"
@@ -370,15 +398,13 @@ function FragmentRow({
         <td className="px-4 py-3 whitespace-nowrap text-gray-700">
           <a
             href={`tel:${lead.phone}`}
-            className="inline-flex items-center py-2.5 hover:text-[#856A2E]"
+            className="block py-0.5 hover:text-[#856A2E]"
           >
             {lead.phone}
           </a>
-        </td>
-        <td className="px-4 py-3 whitespace-nowrap text-gray-700">
           <a
             href={`mailto:${lead.email}`}
-            className="inline-flex items-center py-2.5 hover:text-[#856A2E]"
+            className="block py-0.5 text-xs text-gray-500 hover:text-[#856A2E]"
           >
             {lead.email}
           </a>
@@ -405,14 +431,11 @@ function FragmentRow({
             className="min-h-10 px-2.5"
           />
         </td>
-        <td className="px-4 py-3 text-xs whitespace-nowrap text-gray-500">
-          {formatThaiDateTime(lead.created_at)}
-        </td>
       </tr>
 
       {expanded && (
         <tr id={detailId} className="bg-gray-50/80">
-          <td colSpan={10} className="px-6 py-5">
+          <td colSpan={9} className="px-6 py-5">
             <LeadDetail lead={lead} />
           </td>
         </tr>

@@ -31,10 +31,27 @@ const isWorkshop = (l: Lead) => l.interest === "retirement_workshop";
  */
 export function formatThaiDateTime(value: string): string {
   return new Date(value).toLocaleString("th-TH", {
-    dateStyle: "short",
+    dateStyle: "medium",
     timeStyle: "short",
     timeZone: "Asia/Bangkok",
   });
+}
+
+/** เช่น "27 ต.ค. 2569" — ปี พ.ศ. เต็ม 4 หลัก ไม่กำกวมแบบ 27/10/69 */
+export function formatThaiDate(value: string): string {
+  return new Date(value).toLocaleDateString("th-TH", {
+    dateStyle: "medium",
+    timeZone: "Asia/Bangkok",
+  });
+}
+
+/** เช่น "05:43 น." */
+export function formatThaiTime(value: string): string {
+  const time = new Date(value).toLocaleTimeString("th-TH", {
+    timeStyle: "short",
+    timeZone: "Asia/Bangkok",
+  });
+  return `${time} น.`;
 }
 
 /** กันค่าที่ไม่ใช่ string (เช่น Date) ไม่ให้ถูกส่งเข้า JSX ตรง ๆ จนหน้าพังทั้งหน้า */
