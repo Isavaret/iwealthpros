@@ -236,6 +236,12 @@ export default function Footer() {
         <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-center sm:flex-row sm:text-left">
           <p className="flex flex-wrap items-center justify-center gap-x-4 text-white/30 text-xs sm:justify-start">
             <span>© 2569 I Wealth Pros. All rights reserved.</span>
+            <Link
+              href="/privacy"
+              className="inline-flex min-h-11 items-center text-xs text-white/40 underline-offset-4 transition-colors hover:text-[#CBAE6B] hover:underline"
+            >
+              นโยบายความเป็นส่วนตัว
+            </Link>
             <CookieSettingsButton />
           </p>
           <p className="text-white/20 text-xs">

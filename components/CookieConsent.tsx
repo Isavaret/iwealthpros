@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
+import Link from "next/link";
 import { Cookie } from "lucide-react";
 import {
   CONSENT_KEY,
@@ -96,7 +97,13 @@ export default function CookieConsent() {
               <p id="cookie-consent-desc" className="text-sm leading-relaxed text-white/65">
                 เราใช้คุกกี้ที่จำเป็นต่อการทำงานของเว็บไซต์ และขอความยินยอมใช้คุกกี้เพื่อวิเคราะห์การใช้งาน
                 และวัดผลโฆษณา (Google Analytics / Google Ads) เปลี่ยนการตั้งค่าได้ทุกเมื่อที่
-                “ตั้งค่าคุกกี้” ท้ายเว็บไซต์
+                “ตั้งค่าคุกกี้” ท้ายเว็บไซต์ ·{" "}
+                <Link
+                  href="/privacy#cookies"
+                  className="text-[#F0DA8F] underline underline-offset-4 hover:text-white"
+                >
+                  นโยบายความเป็นส่วนตัว
+                </Link>
                 {choice && (
                   <span className="mt-1 block text-white/45">
                     ตอนนี้คุณเลือก: {choice === "granted" ? "ยอมรับทั้งหมด" : "ใช้เฉพาะที่จำเป็น"}

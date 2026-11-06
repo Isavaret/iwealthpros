@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -459,7 +460,13 @@ export default function LeadForm() {
 
             <p className="text-center text-gray-400 text-xs leading-relaxed">
               ข้อมูลของคุณจะถูกใช้เพื่อจัดทำข้อเสนอกองทุนสำรองเลี้ยงชีพเท่านั้น
-              และไม่ถูกเปิดเผยต่อบุคคลภายนอก
+              และไม่ถูกเปิดเผยต่อบุคคลภายนอก ·{" "}
+              <Link
+                href="/privacy"
+                className="text-[#856A2E] underline underline-offset-4 hover:text-[#0A192C]"
+              >
+                นโยบายความเป็นส่วนตัว
+              </Link>
             </p>
           </form>
         )}

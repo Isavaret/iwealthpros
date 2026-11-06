@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { articles } from "@/lib/articles";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const articlesUpdatedAt = articles
@@ -20,6 +20,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
+    },
+    {
+      url: absoluteUrl("/privacy"),
+      lastModified: new Date(site.privacyPolicyUpdatedAt),
+      changeFrequency: "yearly",
+      priority: 0.2,
     },
     {
       url: absoluteUrl("/articles"),

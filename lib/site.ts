@@ -20,6 +20,16 @@ export const site = {
   phone: "+66989391466",
   phoneDisplay: "098-939-1466",
   areaServed: "TH",
+  /**
+   * ผู้ควบคุมข้อมูลส่วนบุคคลตาม PDPA (บุคคลธรรมดา) — แสดงในหน้า /privacy
+   * ใส่ชื่อ-นามสกุลและที่อยู่ติดต่อตามกฎหมาย; ปล่อย null ไว้หน้าเว็บจะแสดงเฉพาะช่องทางติดต่อ
+   */
+  dataController: {
+    name: null as string | null,
+    address: null as string | null,
+  },
+  /** วันที่มีผลของนโยบายความเป็นส่วนตัว — แก้ทุกครั้งที่เนื้อหาในหน้า /privacy เปลี่ยน */
+  privacyPolicyUpdatedAt: "2026-11-06",
   /** Google Tag Manager container — tag ทั้งหมด (GA4, Google Ads conversion ฯลฯ) ตั้งค่าใน GTM */
   gtmId: "GTM-PJ7V4VGP",
   social: [
