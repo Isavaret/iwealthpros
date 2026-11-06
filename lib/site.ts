@@ -25,7 +25,7 @@ export const site = {
    * ใส่ชื่อ-นามสกุลและที่อยู่ติดต่อตามกฎหมาย; ปล่อย null ไว้หน้าเว็บจะแสดงเฉพาะช่องทางติดต่อ
    */
   dataController: {
-    name: null as string | null,
+    name: "อิศวเรศ ตโมนุท" as string | null,
     address: null as string | null,
   },
   /** วันที่มีผลของนโยบายความเป็นส่วนตัว — แก้ทุกครั้งที่เนื้อหาในหน้า /privacy เปลี่ยน */
