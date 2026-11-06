@@ -68,6 +68,8 @@ API routes:
 - `public/llms.txt` — plain-text brief for AI crawlers. Keep the facts in sync with `lib/faqs.ts`.
 - Articles carry `publishedAt` / `updatedAt`; bump `updatedAt` when the content changes so the sitemap and `BlogPosting` stay honest.
 - `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` / `NEXT_PUBLIC_BING_SITE_VERIFICATION` are read by the layout when set — that is all Search Console verification needs.
+- Google Tag Manager (`site.gtmId` in `lib/site.ts`) loads from the root layout through `@next/third-parties/google`. Tags (GA4, Ads conversions) live in the GTM container, not in code. `LeadForm` and `WorkshopForm` push `{ event: "generate_lead", lead_type }` with `sendGTMEvent` after a successful submit — keep that on any new lead form.
+- Cookie consent (PDPA) uses Google Consent Mode v2: `lib/consent.ts` builds the inline `beforeInteractive` script in the root layout that sets every analytics/ads storage to `denied` **before** GTM loads, and re-grants it for returning visitors who accepted. `CookieConsent.tsx` is the banner; `CookieSettingsButton.tsx` in the footer reopens it. Bump `CONSENT_KEY` when the purposes change so everyone is asked again.
 
 ## Database
 

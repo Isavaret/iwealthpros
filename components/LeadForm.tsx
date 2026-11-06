@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { sendGTMEvent } from "@next/third-parties/google";
 import { Clock, CheckCircle2, Loader2, FileText } from "lucide-react";
 import { Field, SectionTitle, choiceClass, inputClass } from "@/components/FormFields";
 
@@ -78,6 +79,8 @@ export default function LeadForm() {
         const body = await res.json().catch(() => ({}));
         throw new Error(body.error || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
       }
+      // conversion สำหรับ GTM — ตั้ง trigger แบบ Custom Event ชื่อ generate_lead
+      sendGTMEvent({ event: "generate_lead", lead_type: "provident_fund" });
       setSubmitted(true);
       reset();
     } catch (err) {

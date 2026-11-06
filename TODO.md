@@ -27,9 +27,15 @@
 
 ## การวัดผลและ SEO
 
-- [ ] **ติดตั้ง analytics และ conversion tracking** — ณ 4 พ.ย. เว็บจริงยังไม่มี tag อะไรเลย (ทั้ง Google tag และ Vercel Analytics)
-  - จำเป็นก่อนเปิด Google Ads
-  - ยิง conversion event เมื่อส่งฟอร์มสำเร็จ ทั้ง `components/LeadForm.tsx` และ `components/WorkshopForm.tsx`
+- [x] **ติดตั้ง Google Tag Manager** (`GTM-PJ7V4VGP`) — ฟอร์มทั้งสองยิง event `generate_lead` (พร้อม `lead_type`) เข้า dataLayer เมื่อส่งสำเร็จ
+- [ ] **ตั้งค่า tag ในหน้า GTM** — ฝั่งเว็บพร้อมแล้ว เหลือสร้างใน GTM แล้วกด Publish
+  - GA4 Configuration tag (trigger: All Pages)
+  - GA4 Event / Google Ads Conversion tag (trigger: Custom Event `generate_lead`) — จำเป็นก่อนเปิด Google Ads
+  - ทดสอบด้วย GTM Preview / Tag Assistant
+- [x] **แบนเนอร์ขอความยินยอมคุกกี้ (PDPA)** — Google Consent Mode v2 ค่าเริ่มต้นปฏิเสธ เปลี่ยนได้ที่ "ตั้งค่าคุกกี้" ท้ายเว็บ
+  - ใน GTM: เปิด consent check ของ tag (GA4 / Ads ใช้ built-in consent อยู่แล้ว) และใช้ Custom Event `consent_update` เป็น trigger ได้
+- [ ] **หน้านโยบายความเป็นส่วนตัว (Privacy Policy)** — ยังไม่มี ควรมีตาม PDPA ทั้งเรื่องคุกกี้และข้อมูลที่เก็บจากฟอร์ม
+      แล้วลิงก์จากแบนเนอร์คุกกี้และใต้ฟอร์ม — เนื้อหาควรให้ฝ่ายกฎหมาย/เจ้าของตรวจ
 - [ ] **ยืนยันเว็บกับ Google Search Console / Bing** — บนเว็บยังไม่มี verification meta
   - ตั้งค่า `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` ใน Vercel (และ `NEXT_PUBLIC_BING_SITE_VERIFICATION` ถ้าใช้ Bing)
   - จากนั้นส่ง `https://iwealthpros.com/sitemap.xml`

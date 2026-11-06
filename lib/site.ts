@@ -20,6 +20,8 @@ export const site = {
   phone: "+66989391466",
   phoneDisplay: "098-939-1466",
   areaServed: "TH",
+  /** Google Tag Manager container — tag ทั้งหมด (GA4, Google Ads conversion ฯลฯ) ตั้งค่าใน GTM */
+  gtmId: "GTM-PJ7V4VGP",
   social: [
     "https://www.facebook.com/profile.php?id=61589894085994",
     "https://www.tiktok.com/@i.wealth.pros",

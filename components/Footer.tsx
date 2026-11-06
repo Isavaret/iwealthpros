@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MessageCircle, Trophy } from "lucide-react";
+import CookieSettingsButton from "@/components/CookieSettingsButton";
 
 const contactLinks = [
   {
@@ -233,8 +234,9 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="relative border-t border-white/10">
         <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-center sm:flex-row sm:text-left">
-          <p className="text-white/30 text-xs">
-            © 2569 I Wealth Pros. All rights reserved.
+          <p className="flex flex-wrap items-center justify-center gap-x-4 text-white/30 text-xs sm:justify-start">
+            <span>© 2569 I Wealth Pros. All rights reserved.</span>
+            <CookieSettingsButton />
           </p>
           <p className="text-white/20 text-xs">
             ข้อมูลนี้จัดทำเพื่อเป็นความรู้ทั่วไป ไม่ถือเป็นคำแนะนำการลงทุน

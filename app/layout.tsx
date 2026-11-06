@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Prompt } from "next/font/google";
+import Script from "next/script";
+import { GoogleTagManager } from "@next/third-parties/google";
+import CookieConsent from "@/components/CookieConsent";
+import { consentDefaultScript } from "@/lib/consent";
 import "./globals.css";
 import { site, siteUrl } from "@/lib/site";
 
@@ -78,7 +82,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th" className={prompt.variable}>
-      <body className="antialiased">{children}</body>
+      {/* ค่า consent ต้องถูกตั้งก่อน GTM โหลด ไม่งั้น tag อาจยิงก่อนได้รับความยินยอม */}
+      <Script id="consent-default" strategy="beforeInteractive">
+        {consentDefaultScript}
+      </Script>
+      <GoogleTagManager gtmId={site.gtmId} />
+      <body className="antialiased">
+        {children}
+        <CookieConsent />
+      </body>
     </html>
   );
 }
