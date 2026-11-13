@@ -43,7 +43,15 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
     .split(",")
     .map((e) => e.trim())
     .filter(Boolean);
-  if (recipients.length === 0 || !process.env.RESEND_API_KEY) return;
+  if (recipients.length === 0 || !process.env.RESEND_API_KEY) {
+    // ไม่ throw — แค่เตือนใน log ว่าอีเมลแจ้งเตือนถูกข้ามเพราะตั้งค่าไม่ครบ
+    console.warn(
+      `Lead notification skipped for ${lead.id}: ${
+        recipients.length === 0 ? "ADMIN_EMAIL" : "RESEND_API_KEY"
+      } is not set`
+    );
+    return;
+  }
 
   const resend = new Resend(process.env.RESEND_API_KEY);
   const appUrl =
@@ -82,7 +90,8 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
     row("มีประกันกลุ่มหรือไม่", lead.has_group_insurance ? "มี" : "ไม่มี") +
     row("ทำอยู่กับบริษัท", lead.group_insurance_company);
 
-  await resend.emails.send({
+  // Resend ไม่ throw เมื่อส่งไม่ผ่าน แต่คืน { error } — ต้องเช็กเอง
+  const { error } = await resend.emails.send({
     from: "I Wealth Pros <noreply@iwealthpros.com>",
     to: recipients,
     replyTo: lead.email,
@@ -139,4 +148,11 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
       </div>
     `,
   });
+
+  if (error) {
+    // route จับไว้แล้ว log เป็น "Notification error:" — ลูกค้ายังเห็นว่าส่งสำเร็จ
+    throw new Error(
+      `Resend rejected lead notification ${lead.id}: ${error.name} — ${error.message}`
+    );
+  }
 }
