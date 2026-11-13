@@ -77,7 +77,7 @@ API routes:
 
 ## Admin access
 
-Public email/password sign-up is off (`allow_sign_up: false`) and no OAuth provider is configured, so the only way in is an account created deliberately. The allowlist still stands as the second gate: **a session alone does not mean admin**. `lib/auth/admins.ts` gates `/admin` and `PATCH /api/leads/[id]` against the `ADMIN_EMAILS` allowlist; a signed-in address outside it is bounced to `/admin/login?denied=1`. Keep that check in place on any new admin surface, and add the address to `ADMIN_EMAILS` when onboarding someone.
+Public email/password sign-up is off (`allow_sign_up: false`). Google sign-in is on (`signIn.social` in `AdminLoginForm.tsx`, currently on Neon's **shared** Google credentials — swap in our own client ID/secret before relying on it long-term). Google verifies the email, so a Google account whose address matches an existing user is linked to that user automatically. Because any Google account can complete the OAuth flow, the allowlist is the gate that matters: **a session alone does not mean admin**. `lib/auth/admins.ts` gates `/admin` and `PATCH /api/leads/[id]` against the `ADMIN_EMAILS` allowlist; a signed-in address outside it is bounced to `/admin/login?denied=1`. Keep that check in place on any new admin surface, and add the address to `ADMIN_EMAILS` when onboarding someone.
 
 `scripts/create-admin.mjs` creates accounts through the sign-up endpoint, so it now needs sign-up temporarily re-enabled:
 
