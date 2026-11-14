@@ -39,7 +39,9 @@ function oauthErrorMessage(code: string): string {
     case "signup_disabled":
       return "ไม่พบบัญชีผู้ดูแลที่ใช้อีเมล Google นี้";
     case "account_not_linked":
-      return "เชื่อมบัญชี Google กับผู้ใช้เดิมไม่ได้ เพราะ Google ไม่ยืนยันอีเมลนี้";
+      // ผู้ใช้เดิมที่อีเมลตรงกันยังไม่ได้ยืนยันอีเมล (emailVerified = false)
+      // Neon Auth จึงไม่ยอมผูกบัญชี Google เข้าไป — กันการยึดบัญชี
+      return "บัญชีเดิมของอีเมลนี้ยังไม่ได้ยืนยันอีเมล จึงยังผูกกับ Google ไม่ได้ กรุณาติดต่อผู้ดูแลระบบ";
     case "access_denied":
       return "ยกเลิกการเข้าสู่ระบบด้วย Google";
     default:
