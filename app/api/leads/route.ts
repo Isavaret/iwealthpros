@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
     try {
       await sendLeadNotification({ ...record, id: inserted.id });
     } catch (err) {
-      console.error("Notification error:", err);
+      console.error(`Notification error for lead ${inserted.id}:`, err);
     }
 
     return NextResponse.json({ success: true, id: inserted.id }, { status: 200 });

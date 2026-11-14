@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import type { LeadInsert } from "@/types/lead";
 import { workshopFormatLabels } from "@/lib/lead-fields";
 
@@ -43,17 +43,30 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
     .split(",")
     .map((e) => e.trim())
     .filter(Boolean);
-  if (recipients.length === 0 || !process.env.RESEND_API_KEY) {
+  // ส่งผ่าน Gmail SMTP ด้วย App Password ของกล่องเมลที่ใช้ส่ง
+  // (ต้องเปิด 2-Step Verification ก่อนถึงจะสร้าง App Password ได้)
+  const gmailUser = process.env.GMAIL_USER?.trim();
+  // Google แสดง App Password เป็น 4 กลุ่มคั่นด้วยช่องว่าง — ตัดช่องว่างออกเผื่อวางมาทั้งแบบนั้น
+  const gmailPass = process.env.GMAIL_APP_PASSWORD?.replace(/\s+/g, "");
+  const missing = [
+    recipients.length === 0 && "ADMIN_EMAIL",
+    !gmailUser && "GMAIL_USER",
+    !gmailPass && "GMAIL_APP_PASSWORD",
+  ].filter(Boolean);
+  if (missing.length > 0) {
     // ไม่ throw — แค่เตือนใน log ว่าอีเมลแจ้งเตือนถูกข้ามเพราะตั้งค่าไม่ครบ
     console.warn(
-      `Lead notification skipped for ${lead.id}: ${
-        recipients.length === 0 ? "ADMIN_EMAIL" : "RESEND_API_KEY"
-      } is not set`
+      `Lead notification skipped for ${lead.id}: ${missing.join(", ")} not set`
     );
     return;
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: { user: gmailUser, pass: gmailPass },
+  });
   const appUrl =
     process.env.NEXT_PUBLIC_APP_URL || "https://iwealthpros.vercel.app";
 
@@ -90,9 +103,11 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
     row("มีประกันกลุ่มหรือไม่", lead.has_group_insurance ? "มี" : "ไม่มี") +
     row("ทำอยู่กับบริษัท", lead.group_insurance_company);
 
-  // Resend ไม่ throw เมื่อส่งไม่ผ่าน แต่คืน { error } — ต้องเช็กเอง
-  const { error } = await resend.emails.send({
-    from: "I Wealth Pros <noreply@iwealthpros.com>",
+  // sendMail throw เองเมื่อส่งไม่ผ่าน — route จับไว้แล้ว log เป็น "Notification error:"
+  // ลูกค้ายังเห็นว่าส่งฟอร์มสำเร็จ
+  // Gmail บังคับให้ผู้ส่งเป็นกล่องที่ล็อกอิน เปลี่ยนได้แค่ชื่อที่แสดง
+  await transporter.sendMail({
+    from: { name: "I Wealth Pros", address: gmailUser! },
     to: recipients,
     replyTo: lead.email,
     subject: isWorkshop
@@ -148,11 +163,4 @@ export async function sendLeadNotification(lead: LeadInsert & { id: string }) {
       </div>
     `,
   });
-
-  if (error) {
-    // route จับไว้แล้ว log เป็น "Notification error:" — ลูกค้ายังเห็นว่าส่งสำเร็จ
-    throw new Error(
-      `Resend rejected lead notification ${lead.id}: ${error.name} — ${error.message}`
-    );
-  }
 }

@@ -5,7 +5,7 @@
 
 ## Stack
 
-Next.js 16 (App Router) · Tailwind CSS v4 · Neon (Postgres + Neon Auth) · Resend · Vercel
+Next.js 16 (App Router) · Tailwind CSS v4 · Neon (Postgres + Neon Auth) · Gmail SMTP (nodemailer) · Vercel
 
 ## เริ่มต้นใช้งาน
 
@@ -22,7 +22,8 @@ npm run dev                        # http://localhost:3000
 | `DATABASE_URL` | เชื่อมต่อ Neon Postgres (ใช้ connection string แบบ pooled) | Neon Console → Project → Connect |
 | `NEON_AUTH_BASE_URL` | Neon Auth endpoint สำหรับหน้า `/admin` | Neon Console → Branch → Auth → Configuration |
 | `NEON_AUTH_COOKIE_SECRET` | เข้ารหัส session cookie (≥32 ตัวอักษร) | สร้างเอง: `openssl rand -base64 32` |
-| `RESEND_API_KEY` | ส่งอีเมลแจ้งเตือน lead ใหม่ | resend.com/api-keys |
+| `GMAIL_USER` | กล่อง Gmail / Google Workspace ที่ใช้ส่งอีเมลแจ้งเตือน lead ใหม่ | กำหนดเอง (แนะนำกล่องแยกสำหรับส่งอย่างเดียว) |
+| `GMAIL_APP_PASSWORD` | App Password ของกล่องนั้น | myaccount.google.com/apppasswords (ต้องเปิด 2-Step Verification) |
 | `ADMIN_EMAILS` | อีเมลที่เข้าหน้า `/admin` ได้ (คั่นด้วย comma) | กำหนดเอง |
 | `ADMIN_EMAIL` | ปลายทางอีเมลแจ้งเตือน lead ใหม่ | — |
 | `NEXT_PUBLIC_APP_URL` | ใช้ทำ absolute URL ตอน redirect | — |

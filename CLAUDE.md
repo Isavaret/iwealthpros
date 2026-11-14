@@ -11,7 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Next.js 16** (App Router, Turbopack) — see `AGENTS.md`: read `node_modules/next/dist/docs/` before relying on older Next.js conventions
 - **Tailwind CSS v4** (theme tokens live in `app/globals.css`, no `tailwind.config`)
 - **Neon** — serverless Postgres (`leads` table) via `@neondatabase/serverless`, plus Neon Auth (Managed Better Auth) for the admin login
-- **Resend** — email notifications for new leads
+- **Gmail SMTP** (nodemailer, App Password in `GMAIL_USER` / `GMAIL_APP_PASSWORD`) — email notifications for new leads
 - **Vercel** — deployment target
 
 ## Brand Colors
