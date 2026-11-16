@@ -50,7 +50,7 @@ export default function FaqSection() {
             href="#contact-form"
             className="font-semibold text-[#856A2E] underline underline-offset-4 hover:text-[#0A192C]"
           >
-            ขอคำปรึกษาฟรี ทีมงานตอบกลับภายใน 24 ชั่วโมง
+            ขอคำปรึกษาฟรี ทีมงานตอบกลับภายใน 24 ชั่วโมงทำการ
           </Link>
         </p>
       </div>

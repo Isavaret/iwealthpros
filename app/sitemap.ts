@@ -22,6 +22,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: absoluteUrl("/pvd-review"),
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: absoluteUrl("/privacy"),
       lastModified: new Date(site.privacyPolicyUpdatedAt),
       changeFrequency: "yearly",

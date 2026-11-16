@@ -2,6 +2,7 @@ import { absoluteUrl, site } from "@/lib/site";
 import type { Article } from "@/lib/articles";
 import { faqs, type Faq } from "@/lib/faqs";
 import { workshop, workshopModules } from "@/lib/workshop";
+import { comparePoints, pvdReview } from "@/lib/pvd-review";
 
 const ORG_ID = absoluteUrl("/#organization");
 const WEBSITE_ID = absoluteUrl("/#website");
@@ -254,6 +255,63 @@ export const workshopPageSchema = {
           position: 2,
           name: workshop.shortName,
           item: absoluteUrl("/workshop"),
+        },
+      ],
+    },
+  ],
+};
+
+/** หน้า /pvd-review — ข้อเสนอเปรียบเทียบสำหรับบริษัทที่มีกองทุนสำรองเลี้ยงชีพแล้ว */
+export const pvdReviewPageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": absoluteUrl(`${pvdReview.path}#webpage`),
+      url: absoluteUrl(pvdReview.path),
+      name: pvdReview.name,
+      description: pvdReview.description,
+      inLanguage: site.language,
+      isPartOf: { "@id": WEBSITE_ID },
+      about: { "@id": absoluteUrl(`${pvdReview.path}#service`) },
+    },
+    {
+      "@type": "Service",
+      "@id": absoluteUrl(`${pvdReview.path}#service`),
+      name: pvdReview.name,
+      alternateName: "Provident Fund comparison proposal",
+      description: pvdReview.description,
+      serviceType: "Provident fund review",
+      provider: { "@id": ORG_ID },
+      areaServed: { "@type": "Country", name: "Thailand" },
+      audience: { "@type": "BusinessAudience", name: "บริษัทที่มีกองทุนสำรองเลี้ยงชีพอยู่แล้ว" },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "THB",
+        url: absoluteUrl(pvdReview.path),
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "เรื่องที่ข้อเสนอเปรียบเทียบ",
+        itemListElement: comparePoints.map((p, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: p.title,
+          description: p.description,
+        })),
+      },
+    },
+    organizationSchema,
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "หน้าแรก", item: site.url },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "ขอข้อเสนอเปรียบเทียบ PVD",
+          item: absoluteUrl(pvdReview.path),
         },
       ],
     },

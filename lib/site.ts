@@ -13,12 +13,15 @@ export const site = {
   shortName: "I Wealth Pros",
   tagline: "ที่ปรึกษาการเงินและกองทุนสำรองเลี้ยงชีพ",
   description:
-    "ที่ปรึกษาด้านการเงินและการลงทุนสำหรับองค์กร ผู้เชี่ยวชาญการจัดตั้งกองทุนสำรองเลี้ยงชีพ (PVD) ประกันกลุ่ม และ Key Man Insurance รับคำปรึกษาฟรี ตอบกลับภายใน 24 ชั่วโมง",
+    "ที่ปรึกษาด้านการเงินและการลงทุนสำหรับองค์กร ผู้เชี่ยวชาญการจัดตั้งกองทุนสำรองเลี้ยงชีพ (PVD) ประกันกลุ่ม และ Key Man Insurance รับคำปรึกษาฟรี ตอบกลับภายใน 24 ชั่วโมงทำการ",
   locale: "th_TH",
   language: "th",
   email: "Info@iwealthpros.com",
   phone: "+66989391466",
   phoneDisplay: "098-939-1466",
+  /** LINE OA — ลิงก์รูปแบบเดียวกับใน Footer เพื่อให้ trigger "LINE OA Click" ใน GTM จับได้ทุกปุ่ม */
+  lineId: "@iwealthpros",
+  lineUrl: "https://line.me/R/ti/p/@iwealthpros",
   areaServed: "TH",
   /**
    * ผู้ควบคุมข้อมูลส่วนบุคคลตาม PDPA (บุคคลธรรมดา) — แสดงในหน้า /privacy

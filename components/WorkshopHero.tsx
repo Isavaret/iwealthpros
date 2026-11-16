@@ -6,7 +6,7 @@ import { workshopModules } from "@/lib/workshop";
 const trustPoints = [
   { icon: Gift, label: "ไม่มีค่าใช้จ่ายสำหรับองค์กร" },
   { icon: BadgeCheck, label: "ไม่มีข้อผูกมัด" },
-  { icon: Clock3, label: "ตอบกลับภายใน 24 ชม." },
+  { icon: Clock3, label: "ตอบกลับภายใน 24 ชม. ทำการ" },
 ];
 
 export default function WorkshopHero() {

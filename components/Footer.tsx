@@ -2,19 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MessageCircle, Trophy } from "lucide-react";
 import CookieSettingsButton from "@/components/CookieSettingsButton";
+import { site } from "@/lib/site";
 
 const contactLinks = [
   {
     icon: MessageCircle,
     label: "Line",
-    value: "@iwealthpros",
-    href: "https://line.me/R/ti/p/@iwealthpros",
+    value: site.lineId,
+    href: site.lineUrl,
   },
   {
     icon: Phone,
     label: "โทรศัพท์",
-    value: "098-939-1466",
-    href: "tel:+66989391466",
+    value: site.phoneDisplay,
+    href: `tel:${site.phone}`,
   },
   {
     icon: Mail,
@@ -142,7 +143,7 @@ export default function Footer() {
             </p>
             {/* Awards */}
             <div className="space-y-2">
-              {["Provident Fund Of the Year 2025", "Provident Fund Of the Year 2022"].map(
+              {["Provident Fund Of the Year 2025", "Provident Fund Of the Year 2021"].map(
                 (award) => (
                   <div
                     key={award}
@@ -213,6 +214,12 @@ export default function Footer() {
                 className="flex min-h-11 items-center text-sm text-white/60 transition-colors hover:text-[#CBAE6B]"
               >
                 Workshop วางแผนเกษียณสำหรับองค์กร (ฟรี) →
+              </Link>
+              <Link
+                href="/pvd-review"
+                className="flex min-h-11 items-center text-sm text-white/60 transition-colors hover:text-[#CBAE6B]"
+              >
+                มี PVD แล้ว? ขอข้อเสนอเปรียบเทียบ →
               </Link>
             </div>
 

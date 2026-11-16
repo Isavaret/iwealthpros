@@ -1,11 +1,12 @@
 import { Trophy, ChevronDown, ShieldCheck, Clock3 } from "lucide-react";
 import Image from "next/image";
 import AwardBadges from "@/components/AwardBadges";
+import QuickContact from "@/components/QuickContact";
 
 const trustPoints = [
   { icon: ShieldCheck, label: "ที่ปรึกษาที่ได้รับใบอนุญาต" },
-  { icon: Clock3, label: "ตอบกลับภายใน 24 ชม." },
-  { icon: Trophy, label: "รางวัลระดับประเทศ 2 ปี Provident Fund of the Year 2022 และ 2025" },
+  { icon: Clock3, label: "ตอบกลับภายใน 24 ชม. ทำการ" },
+  { icon: Trophy, label: "รางวัลระดับประเทศ 2 ปี Provident Fund of the Year 2021 และ 2025" },
 ];
 
 export default function HeroSection() {
@@ -71,6 +72,8 @@ export default function HeroSection() {
                 ดูรายละเอียด
               </a>
             </div>
+
+            <QuickContact className="mt-5" />
 
             <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3">
               {trustPoints.map((point) => (

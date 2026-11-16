@@ -62,6 +62,8 @@ export default function CookieConsent() {
   // ฝั่ง server ไม่รู้ว่าเคยเลือกไว้หรือยัง — ตอบ "granted" เพื่อไม่ render แบนเนอร์จน client อ่านค่าจริง
   const choice = useSyncExternalStore(subscribe, readChoice, () => "granted" as const);
   const [reopened, setReopened] = useState(false);
+  // มือถือแสดงสรุปสั้นก่อน (แบนเนอร์เต็มบังจอเกือบครึ่ง) — กดอ่านรายละเอียดเต็มได้; จอ sm ขึ้นไปเห็นเต็มเสมอ
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const open = () => setReopened(true);
@@ -82,19 +84,36 @@ export default function CookieConsent() {
       aria-modal="false"
       aria-labelledby="cookie-consent-title"
       aria-describedby="cookie-consent-desc"
-      className="fixed inset-x-0 bottom-0 z-[60] p-4 sm:p-5"
+      className="fixed inset-x-0 bottom-0 z-[60] p-3 sm:p-5"
     >
-      <div className="mx-auto max-w-4xl rounded-2xl border border-[#CBAE6B]/30 bg-[#0A192C]/95 p-5 shadow-2xl shadow-black/50 backdrop-blur-xl sm:p-6">
-        <div className="flex flex-col gap-5 md:flex-row md:items-center md:gap-8">
+      <div className="mx-auto max-w-4xl rounded-2xl border border-[#CBAE6B]/30 bg-[#0A192C]/95 p-4 shadow-2xl shadow-black/50 backdrop-blur-xl sm:p-6">
+        <div className="flex flex-col gap-3 sm:gap-5 md:flex-row md:items-center md:gap-8">
           <div className="flex gap-4">
             <div className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#CBAE6B]/15 sm:flex">
               <Cookie size={22} className="text-[#CBAE6B]" />
             </div>
             <div>
-              <p id="cookie-consent-title" className="mb-1 font-bold text-white">
+              <p id="cookie-consent-title" className="mb-1 text-sm font-bold text-white sm:text-base">
                 เว็บไซต์นี้ใช้คุกกี้
               </p>
-              <p id="cookie-consent-desc" className="text-sm leading-relaxed text-white/65">
+              {/* สรุปบนมือถือ — ยังบอกครบว่าใช้ทำอะไร รวมถึงข้อมูลติดต่อที่เข้ารหัสจากฟอร์ม */}
+              <p
+                className={`text-xs leading-relaxed text-white/65 sm:hidden ${expanded ? "hidden" : ""}`}
+              >
+                ขอความยินยอมใช้คุกกี้วิเคราะห์และวัดผลโฆษณา (Google Analytics / Google Ads)
+                รวมถึงอีเมลและเบอร์โทรแบบเข้ารหัสเมื่อส่งฟอร์ม{" "}
+                <button
+                  type="button"
+                  onClick={() => setExpanded(true)}
+                  className="text-[#F0DA8F] underline underline-offset-4"
+                >
+                  รายละเอียด
+                </button>
+              </p>
+              <p
+                id="cookie-consent-desc"
+                className={`text-xs leading-relaxed text-white/65 sm:block sm:text-sm ${expanded ? "block" : "hidden"}`}
+              >
                 เราใช้คุกกี้ที่จำเป็นต่อการทำงานของเว็บไซต์ และขอความยินยอมใช้คุกกี้เพื่อวิเคราะห์การใช้งาน
                 และวัดผลโฆษณา (Google Analytics / Google Ads รวมถึงส่งอีเมลและเบอร์โทรที่เข้ารหัสเมื่อท่านส่งแบบฟอร์ม) เปลี่ยนการตั้งค่าได้ทุกเมื่อที่
                 “ตั้งค่าคุกกี้” ท้ายเว็บไซต์ ·{" "}
@@ -118,14 +137,14 @@ export default function CookieConsent() {
             <button
               type="button"
               onClick={() => choose("denied")}
-              className="btn btn-ghost-light !px-4 text-sm"
+              className="btn btn-ghost-light !min-h-11 !px-4 !py-2 text-sm"
             >
               ใช้เฉพาะที่จำเป็น
             </button>
             <button
               type="button"
               onClick={() => choose("granted")}
-              className="btn btn-gold !px-4 text-sm"
+              className="btn btn-gold !min-h-11 !px-4 !py-2 text-sm"
             >
               ยอมรับทั้งหมด
             </button>

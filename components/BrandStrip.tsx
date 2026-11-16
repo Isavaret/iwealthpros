@@ -46,7 +46,7 @@ export default function BrandStrip() {
             </p>
 
             <div className="mt-7 flex flex-wrap justify-center gap-2.5 lg:justify-start">
-              {["Provident Fund Of the Year 2025", "Provident Fund Of the Year 2022"].map(
+              {["Provident Fund Of the Year 2025", "Provident Fund Of the Year 2021"].map(
                 (award) => (
                   <span
                     key={award}

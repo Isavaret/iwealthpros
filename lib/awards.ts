@@ -57,8 +57,8 @@ export const awardAlbums: AwardAlbum[] = [
     ],
   },
   {
-    year: "2022",
-    badge: "Provident Fund Of the Year 2022",
+    year: "2021",
+    badge: "Provident Fund Of the Year 2021",
     event: "AIA Annual Agency Awards Presentation 2020 & 2021",
     award: "Provident Fund Top Producer Awards Of The Year 2021",
     photos: [
