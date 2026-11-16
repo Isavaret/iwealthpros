@@ -68,7 +68,9 @@ API routes:
 - `public/llms.txt` — plain-text brief for AI crawlers. Keep the facts in sync with `lib/faqs.ts`.
 - Articles carry `publishedAt` / `updatedAt`; bump `updatedAt` when the content changes so the sitemap and `BlogPosting` stay honest.
 - `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` / `NEXT_PUBLIC_BING_SITE_VERIFICATION` are read by the layout when set — that is all Search Console verification needs.
-- Google Tag Manager (`site.gtmId` in `lib/site.ts`) loads from the root layout through `@next/third-parties/google`. Tags (GA4, Ads conversions) live in the GTM container, not in code. `LeadForm` and `WorkshopForm` push `{ event: "generate_lead", lead_type }` with `sendGTMEvent` after a successful submit — keep that on any new lead form.
+- Google Tag Manager (`site.gtmId` in `lib/site.ts`) loads from the root layout through `@next/third-parties/google`. Tags (GA4, Ads conversions) live in the GTM container, not in code. `LeadForm` and `WorkshopForm` call `trackLead()` from `lib/lead-tracking.ts` after a successful submit — keep that on any new lead form. It pushes `{ event: "generate_lead", lead_type, user_data: { email, phone_number } }`; `lead_type` (`provident_fund` / `retirement_workshop`) is what splits the Ads conversions, and `user_data` (phone in E.164) feeds Enhanced Conversions.
+- GTM container layout: GA4 Google tag `G-KHWDXPK7Q8` on Initialization, plus a GA4 `generate_lead` event tag (param `lead_type`) on trigger `CE - generate_lead`. Google Ads (`AW-18471295480`) has one conversion tag per action — PVD and Workshop on `CE - generate_lead - PVD` / `- Workshop` (filtered by `DLV - lead_type`), LINE OA click, and website click-to-call. The `tel:` trigger excludes `Page Path` starting with `/admin`, because the admin leads table renders phone links. In Google Ads only the two form conversions are **Primary**; LINE, click-to-call and "Calls from ads" are Secondary.
+- Enhanced Conversions: hashed email/phone go to Google Ads only after consent (`ad_user_data`). The container's "user-provided data" setting must stay on **without** automatic page scanning — only the explicit `user_data` from `trackLead()`. `/privacy` (section 4) describes exactly this; change both together.
 - Cookie consent (PDPA) uses Google Consent Mode v2: `lib/consent.ts` builds the inline `beforeInteractive` script in the root layout that sets every analytics/ads storage to `denied` **before** GTM loads, and re-grants it for returning visitors who accepted. `CookieConsent.tsx` is the banner; `CookieSettingsButton.tsx` in the footer reopens it. Bump `CONSENT_KEY` when the purposes change so everyone is asked again.
 
 ## Database
@@ -93,6 +95,7 @@ The Neon Auth endpoints reject requests without an `Origin` header, and the orig
 
 ## Known Configuration
 
+- Google Ads account `270-488-3535`, conversion ID `AW-18471295480`. GA4 account "I Wealth Pros", property `iwealthpros.com`, stream measurement ID `G-KHWDXPK7Q8`, linked to that Ads account.
 - Neon project: `iwealthpros` / `green-band-83884962`, branch `main` (`br-withered-heart-azb7u5r5`), region ap-southeast-1. Migrated off Supabase (`jzfegdghcdavncayeybf`) — nothing was carried over, the old `leads` table was empty.
 - `@neondatabase/auth` is currently a beta release (0.5.0-beta); pin deliberately when upgrading.
 - Vercel project: `iwealthpros` under team `iw-ealth-pros-projects`, connected to the GitHub repo: pushing to `main` deploys to production on its own, so prefer pushing over running `vercel --prod` by hand. The CLI stays as a fallback and needs `vercel login` as `isavaret` — the account that owns the team.

@@ -32,7 +32,7 @@ export const site = {
         | null,
   },
   /** วันที่มีผลของนโยบายความเป็นส่วนตัว — แก้ทุกครั้งที่เนื้อหาในหน้า /privacy เปลี่ยน */
-  privacyPolicyUpdatedAt: "2026-11-14",
+  privacyPolicyUpdatedAt: "2026-11-16",
   /** Google Tag Manager container — tag ทั้งหมด (GA4, Google Ads conversion ฯลฯ) ตั้งค่าใน GTM */
   gtmId: "GTM-PJ7V4VGP",
   social: [

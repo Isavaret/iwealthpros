@@ -96,7 +96,7 @@ export default function CookieConsent() {
               </p>
               <p id="cookie-consent-desc" className="text-sm leading-relaxed text-white/65">
                 เราใช้คุกกี้ที่จำเป็นต่อการทำงานของเว็บไซต์ และขอความยินยอมใช้คุกกี้เพื่อวิเคราะห์การใช้งาน
-                และวัดผลโฆษณา (Google Analytics / Google Ads) เปลี่ยนการตั้งค่าได้ทุกเมื่อที่
+                และวัดผลโฆษณา (Google Analytics / Google Ads รวมถึงส่งอีเมลและเบอร์โทรที่เข้ารหัสเมื่อท่านส่งแบบฟอร์ม) เปลี่ยนการตั้งค่าได้ทุกเมื่อที่
                 “ตั้งค่าคุกกี้” ท้ายเว็บไซต์ ·{" "}
                 <Link
                   href="/privacy#cookies"

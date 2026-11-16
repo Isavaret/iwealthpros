@@ -8,7 +8,7 @@
 export type ConsentChoice = "granted" | "denied";
 
 /** เปลี่ยนเลขเวอร์ชันเมื่อเปลี่ยนวัตถุประสงค์การใช้คุกกี้ — ทุกคนจะถูกถามใหม่ */
-export const CONSENT_KEY = "iwp-cookie-consent-v1";
+export const CONSENT_KEY = "iwp-cookie-consent-v2";
 
 /** อีเวนต์บน window สำหรับเปิดแบนเนอร์อีกครั้งจากลิงก์ "ตั้งค่าคุกกี้" */
 export const OPEN_CONSENT_EVENT = "iwp:open-cookie-settings";

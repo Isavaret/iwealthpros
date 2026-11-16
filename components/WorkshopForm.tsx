@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { trackLead } from "@/lib/lead-tracking";
 import { Clock, CheckCircle2, Loader2, Presentation } from "lucide-react";
 import { Field, SectionTitle, choiceClass, inputClass } from "@/components/FormFields";
 
@@ -68,8 +68,8 @@ export default function WorkshopForm() {
         const body = await res.json().catch(() => ({}));
         throw new Error(body.error || "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
       }
-      // conversion สำหรับ GTM — ตั้ง trigger แบบ Custom Event ชื่อ generate_lead
-      sendGTMEvent({ event: "generate_lead", lead_type: "retirement_workshop" });
+      // conversion สำหรับ GTM (Custom Event generate_lead) + Enhanced Conversions
+      trackLead("retirement_workshop", { email: data.email, phone: data.phone });
       setSubmitted(true);
       reset();
     } catch (err) {
