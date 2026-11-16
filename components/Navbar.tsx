@@ -62,7 +62,8 @@ export default function Navbar({ cta = defaultCta }: { cta?: Cta }) {
               sizes="(max-width: 640px) 48px, 56px"
               className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-xl ring-1 ring-[#CBAE6B]/45 shadow-lg shadow-black/30"
             />
-            <span className="leading-none">
+            {/* จอแคบกว่า 480px ซ่อนตัวอักษร (ในโลโก้มีชื่อแบรนด์อยู่แล้ว) เพื่อเว้นที่ให้ปุ่มทอง */}
+            <span className="hidden min-[480px]:block leading-none">
               <span className="block whitespace-nowrap text-lg sm:text-xl font-bold tracking-[0.12em] text-gold-metallic">
                 I WEALTH
               </span>
@@ -91,17 +92,27 @@ export default function Navbar({ cta = defaultCta }: { cta?: Cta }) {
             </Link>
           </div>
 
-          {/* Mobile toggle — 44x44 ขั้นต่ำ */}
-          <button
-            type="button"
-            className="lg:hidden flex items-center justify-center w-11 h-11 rounded-xl text-white hover:bg-white/10 transition-colors cursor-pointer"
-            onClick={() => setOpen(!open)}
-            aria-label={open ? "ปิดเมนู" : "เปิดเมนู"}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-          >
-            {open ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          {/* Mobile: ปุ่มทองค้างบน navbar ที่ fixed อยู่แล้ว — กดขอข้อเสนอได้จากทุกจุดของหน้า */}
+          <div className="lg:hidden flex items-center gap-1.5">
+            <Link
+              href={cta.href}
+              onClick={() => setOpen(false)}
+              className="btn btn-gold whitespace-nowrap text-sm !min-h-11 !py-2 !px-3.5"
+            >
+              {cta.label}
+            </Link>
+            {/* Mobile toggle — 44x44 ขั้นต่ำ */}
+            <button
+              type="button"
+              className="lg:hidden flex items-center justify-center w-11 h-11 rounded-xl text-white hover:bg-white/10 transition-colors cursor-pointer"
+              onClick={() => setOpen(!open)}
+              aria-label={open ? "ปิดเมนู" : "เปิดเมนู"}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+            >
+              {open ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </nav>
 
         {/* Mobile menu */}

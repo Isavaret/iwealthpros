@@ -34,7 +34,8 @@ export default function HeroSection() {
       <div className="container-page relative w-full">
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* เนื้อหา */}
-          <div className="order-2 lg:order-1">
+          {/* มือถือ: หัวข้อและปุ่มขึ้นก่อนภาพ ให้คนที่คลิกโฆษณาเห็น CTA ทันที */}
+          <div className="order-1">
             <AwardBadges />
 
             <h1 className="h1-fluid font-bold text-white mb-6 text-balance">
@@ -88,7 +89,7 @@ export default function HeroSection() {
           </div>
 
           {/* ภาพที่ปรึกษา + ตราโลโก้ */}
-          <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+          <div className="order-2 flex justify-center lg:justify-end">
             <div className="relative w-[min(20rem,82vw)] sm:w-[22rem]">
               <div
                 className="absolute -inset-3 rounded-[2rem] border border-[#CBAE6B]/25 rotate-3"
